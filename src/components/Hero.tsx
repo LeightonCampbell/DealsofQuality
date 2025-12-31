@@ -224,7 +224,7 @@ const Hero = () => {
     document.addEventListener("mousedown", handleClickOutside);
     return () => document.removeEventListener("mousedown", handleClickOutside);
   }, []);
-  return <section className="relative pt-32 pb-20 md:pt-40 md:pb-28">
+  return <section className="relative pt-32 pb-20 md:pt-40 md:pb-28 mb-8 md:mb-0">
       {/* Light gray background */}
       <div className="absolute inset-0 bg-secondary/50" />
 
@@ -240,8 +240,8 @@ const Hero = () => {
           <p className="text-lg md:text-xl text-muted-foreground mb-10 max-w-2xl mx-auto animate-fade-in-up animation-delay-100">Carefully vetted, local professionals for homeowners who demand quality service.</p>
 
           {/* Search Bar */}
-          <div className="max-w-3xl mx-auto animate-fade-in-up animation-delay-200">
-            <div className="bg-background rounded-lg shadow-xl p-2 flex flex-col md:flex-row gap-2 relative">
+          <div className="max-w-3xl mx-auto animate-fade-in-up animation-delay-200 mb-4">
+            <div className="bg-background rounded-lg shadow-xl p-2 flex flex-col md:flex-row gap-2 relative z-40">
               {/* Project Description Input with Auto-complete */}
               <div className="flex-1 relative">
                 <input 

@@ -48,7 +48,7 @@ const Services = () => {
       <div className="container-max">
         {/* Section Header */}
         <div className="flex flex-col md:flex-row md:items-end md:justify-between mb-10">
-          <div>
+          <div className="text-center md:text-left">
             <h2 className="font-display text-2xl md:text-3xl font-bold text-primary mb-2">
               Top Service Requests
             </h2>

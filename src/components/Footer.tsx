@@ -60,7 +60,7 @@ const Footer = () => {
         <div className="container-max">
           <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-10 lg:gap-8">
             {/* Brand Column */}
-            <div className="lg:col-span-1">
+            <div className="lg:col-span-1 text-center md:text-left">
               <Link to="/" className="inline-block mb-6">
                 <img src={logo} alt="DoQuality" className="h-10 w-auto brightness-0 invert" />
               </Link>
@@ -69,7 +69,7 @@ const Footer = () => {
               </p>
               
               {/* Social Links */}
-              <div className="flex gap-3">
+              <div className="flex gap-3 justify-center md:justify-start">
                 {socialLinks.map((social) => (
                   <a
                     key={social.label}
@@ -86,7 +86,7 @@ const Footer = () => {
             </div>
 
             {/* Services Column */}
-            <nav aria-label="Services">
+            <nav aria-label="Services" className="text-center md:text-left">
               <h3 className="font-display font-bold text-lg mb-5">Our Services</h3>
               <ul className="space-y-3">
                 {services.map((service) => (
@@ -103,7 +103,7 @@ const Footer = () => {
             </nav>
 
             {/* Quick Links Column */}
-            <nav aria-label="Quick links">
+            <nav aria-label="Quick links" className="text-center md:text-left">
               <h3 className="font-display font-bold text-lg mb-5">Quick Links</h3>
               <ul className="space-y-3">
                 {quickLinks.map((link) => (
@@ -139,13 +139,13 @@ const Footer = () => {
             </nav>
 
             {/* Contact Column */}
-            <div>
+            <div className="text-center md:text-left">
               <h3 className="font-display font-bold text-lg mb-5">Contact Us</h3>
               <ul className="space-y-4">
                 <li>
                   <a
                     href="tel:+18185847389"
-                    className="flex items-center gap-3 text-background/70 hover:text-accent transition-colors"
+                    className="flex items-center gap-3 text-background/70 hover:text-accent transition-colors justify-center md:justify-start"
                   >
                     <Phone className="w-5 h-5 text-accent" />
                     (818) 584-7389
@@ -154,13 +154,13 @@ const Footer = () => {
                 <li>
                   <Link
                     to="/contact"
-                    className="flex items-center gap-3 text-background/70 hover:text-accent transition-colors"
+                    className="flex items-center gap-3 text-background/70 hover:text-accent transition-colors justify-center md:justify-start"
                   >
                     <MessageSquare className="w-5 h-5 text-accent" />
                     Send us a message
                   </Link>
                 </li>
-                <li className="flex items-start gap-3 text-background/70">
+                <li className="flex items-start gap-3 text-background/70 justify-center md:justify-start">
                   <MapPin className="w-5 h-5 text-accent flex-shrink-0 mt-0.5" />
                   <span>Serving Customers Nationwide</span>
                 </li>
