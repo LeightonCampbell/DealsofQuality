@@ -178,15 +178,18 @@ const ApplicationForm = () => {
           <SelectTrigger>
             <SelectValue placeholder="Select your primary expertise" />
           </SelectTrigger>
-          <SelectContent>
-            <SelectItem value="tv-mounting">TV Mounting & Installation</SelectItem>
-            <SelectItem value="smart-home">Smart Home Devices</SelectItem>
-            <SelectItem value="audio-video">Audio & Video Systems</SelectItem>
-            <SelectItem value="networking">WiFi & Networking</SelectItem>
-            <SelectItem value="security">Home Security</SelectItem>
-            <SelectItem value="computer">Computer Repair & Support</SelectItem>
-            <SelectItem value="multiple">Multiple Areas</SelectItem>
-          </SelectContent>
+              <SelectContent>
+                <SelectItem value="home-services">Home Services (Plumbing, Electrical, HVAC, etc.)</SelectItem>
+                <SelectItem value="tv-mounting">TV Mounting & Installation</SelectItem>
+                <SelectItem value="smart-home">Smart Home Devices</SelectItem>
+                <SelectItem value="audio-video">Audio & Video Systems</SelectItem>
+                <SelectItem value="networking">WiFi & Networking</SelectItem>
+                <SelectItem value="security">Home Security</SelectItem>
+                <SelectItem value="computer">Computer Repair & Support</SelectItem>
+                <SelectItem value="cleaning">Cleaning Services</SelectItem>
+                <SelectItem value="landscaping">Landscaping & Outdoor Services</SelectItem>
+                <SelectItem value="multiple">Multiple Areas</SelectItem>
+              </SelectContent>
         </Select>
       </div>
       
@@ -241,12 +244,12 @@ const JoinAsPro = () => {
   return (
     <div className="min-h-screen bg-background">
       <Helmet>
-        <title>Join as a Pro | Become a Tech Installer | Deals Of Quality</title>
+        <title>Join as a Pro | Prequalified Leads for Service Contractors | Deals Of Quality</title>
         <meta 
           name="description" 
-          content="Join our nationwide network of tech professionals. Flexible hours, competitive pay, and steady work. TV mounting, smart home installation, computer repair jobs available." 
+          content="Join our network of Professional Service Contractors. Get prequalified leads, grow your business, and escape unreliable lead generation platforms. Quality customers, not spam leads." 
         />
-        <meta name="keywords" content="tech jobs, installer jobs, TV mounting jobs, smart home installer, freelance tech work, become a technician" />
+        <meta name="keywords" content="service contractor jobs, prequalified leads, home service professionals, contractor network, Angi alternative, Thumbtack alternative, quality leads" />
       </Helmet>
       
       <Header />
@@ -258,10 +261,10 @@ const JoinAsPro = () => {
           <div className="grid lg:grid-cols-2 gap-12 items-center">
             <div>
               <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold text-foreground leading-tight mb-6">
-                Join Our Network of <span className="text-primary">Tech Professionals</span>
+                Grow Your Business with <span className="text-primary">Prequalified Leads</span>
               </h1>
               <p className="text-lg md:text-xl text-muted-foreground mb-8 max-w-xl">
-                Earn great money doing what you love. Set your own schedule, work in your area, and get paid quickly. We provide the customers, you provide the expertise.
+                Join our network of Professional Service Contractors and escape the uncertainty of Angi, Thumbtack, and other spammy lead generation tools. We provide quality, prequalified leads that convert—not endless spam calls and wasted time.
               </p>
               <div className="flex flex-col sm:flex-row gap-4">
                 <Button size="lg" className="text-lg px-8" asChild>
@@ -280,8 +283,8 @@ const JoinAsPro = () => {
               <div className="aspect-[4/3] rounded-2xl overflow-hidden shadow-2xl bg-gradient-to-br from-primary/20 to-primary/5 flex items-center justify-center">
                 <div className="text-center p-8">
                   <Users className="w-24 h-24 text-primary mx-auto mb-4" />
-                  <p className="text-2xl font-semibold text-foreground">Join 1000+ Technicians</p>
-                  <p className="text-muted-foreground">Across the nation</p>
+                  <p className="text-2xl font-semibold text-foreground">1000+ Contractors</p>
+                  <p className="text-muted-foreground">Growing their businesses</p>
                 </div>
               </div>
             </div>
@@ -293,20 +296,20 @@ const JoinAsPro = () => {
       <section className="py-16 bg-muted/30 border-y border-border">
         <div className="container mx-auto px-4">
           <p className="text-center text-lg text-muted-foreground mb-8 font-medium">
-            Trusted by homeowners and businesses nationwide
+            Helping contractors build sustainable, growing businesses
           </p>
           <div className="grid grid-cols-2 md:grid-cols-4 gap-8 max-w-4xl mx-auto">
             <div className="text-center">
-              <div className="text-3xl md:text-4xl font-bold text-primary mb-2">50K+</div>
-              <div className="text-sm text-muted-foreground">Jobs Completed</div>
+              <div className="text-3xl md:text-4xl font-bold text-primary mb-2">85%+</div>
+              <div className="text-sm text-muted-foreground">Lead Conversion Rate</div>
             </div>
             <div className="text-center">
               <div className="text-3xl md:text-4xl font-bold text-primary mb-2">1000+</div>
-              <div className="text-sm text-muted-foreground">Active Technicians</div>
+              <div className="text-sm text-muted-foreground">Active Contractors</div>
             </div>
             <div className="text-center">
-              <div className="text-3xl md:text-4xl font-bold text-primary mb-2">4.9★</div>
-              <div className="text-sm text-muted-foreground">Average Rating</div>
+              <div className="text-3xl md:text-4xl font-bold text-primary mb-2">Prequalified</div>
+              <div className="text-sm text-muted-foreground">Quality Leads Only</div>
             </div>
             <div className="text-center">
               <div className="text-3xl md:text-4xl font-bold text-primary mb-2">48hrs</div>
@@ -323,19 +326,19 @@ const JoinAsPro = () => {
             <div className="order-2 lg:order-1">
               <div className="aspect-square rounded-2xl bg-gradient-to-br from-primary/10 to-primary/5 flex items-center justify-center">
                 <div className="p-8 text-center">
-                  <DollarSign className="w-20 h-20 text-primary mx-auto mb-4" />
-                  <p className="text-xl font-semibold text-foreground">Competitive Pay</p>
-                  <p className="text-muted-foreground">Earn what you deserve</p>
+                  <Users className="w-20 h-20 text-primary mx-auto mb-4" />
+                  <p className="text-xl font-semibold text-foreground">Quality Over Quantity</p>
+                  <p className="text-muted-foreground">Prequalified leads that convert</p>
                 </div>
               </div>
             </div>
             <div className="order-1 lg:order-2">
               <p className="text-primary font-semibold mb-3 uppercase tracking-wide text-sm">Why Join Us?</p>
               <h2 className="text-3xl md:text-4xl font-bold text-foreground mb-6">
-                Your Skills Deserve Better Opportunities
+                Grow Your Business, Not Your Spam Folder
               </h2>
               <p className="text-lg text-muted-foreground mb-8">
-                We connect skilled technicians with customers who need quality tech support. No more hunting for clients – we bring the work to you.
+                Tired of paying for leads that never convert? We vet every customer before they reach you. No more competing with 5 other contractors for the same job. No more spam calls. Just quality, prequalified leads ready to hire.
               </p>
               <div className="space-y-4">
                 <div className="flex items-start gap-3">
@@ -343,8 +346,8 @@ const JoinAsPro = () => {
                     <Check className="w-4 h-4 text-primary" />
                   </div>
                   <div>
-                    <p className="font-semibold text-foreground">Competitive Compensation</p>
-                    <p className="text-muted-foreground text-sm">Earn top rates for your expertise</p>
+                    <p className="font-semibold text-foreground">Prequalified Leads</p>
+                    <p className="text-muted-foreground text-sm">Every lead is vetted and ready to hire</p>
                   </div>
                 </div>
                 <div className="flex items-start gap-3">
@@ -352,8 +355,8 @@ const JoinAsPro = () => {
                     <Check className="w-4 h-4 text-primary" />
                   </div>
                   <div>
-                    <p className="font-semibold text-foreground">Flexible Schedule</p>
-                    <p className="text-muted-foreground text-sm">Work when it suits you</p>
+                    <p className="font-semibold text-foreground">No Competition</p>
+                    <p className="text-muted-foreground text-sm">You're the only contractor they'll contact</p>
                   </div>
                 </div>
                 <div className="flex items-start gap-3">
@@ -361,8 +364,8 @@ const JoinAsPro = () => {
                     <Check className="w-4 h-4 text-primary" />
                   </div>
                   <div>
-                    <p className="font-semibold text-foreground">Steady Work Flow</p>
-                    <p className="text-muted-foreground text-sm">Consistent jobs in your area</p>
+                    <p className="font-semibold text-foreground">Higher Conversion</p>
+                    <p className="text-muted-foreground text-sm">85%+ conversion rate vs. 10-15% on other platforms</p>
                   </div>
                 </div>
                 <div className="flex items-start gap-3">
@@ -370,8 +373,8 @@ const JoinAsPro = () => {
                     <Check className="w-4 h-4 text-primary" />
                   </div>
                   <div>
-                    <p className="font-semibold text-foreground">Quick Payments</p>
-                    <p className="text-muted-foreground text-sm">Get paid within 48 hours</p>
+                    <p className="font-semibold text-foreground">Fast Payments</p>
+                    <p className="text-muted-foreground text-sm">Get paid within 48 hours of job completion</p>
                   </div>
                 </div>
               </div>
@@ -386,10 +389,10 @@ const JoinAsPro = () => {
           <div className="text-center mb-16">
             <p className="text-primary font-semibold mb-3 uppercase tracking-wide text-sm">What We Offer</p>
             <h2 className="text-3xl md:text-4xl font-bold text-foreground mb-4">
-              Everything You Need to Succeed
+              Everything You Need to Grow Your Business
             </h2>
             <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
-              We provide the tools, support, and customers – you bring the skills.
+              Unlike Angi and Thumbtack, we don't sell your information to multiple contractors. You get exclusive, prequalified leads that are ready to hire.
             </p>
           </div>
           
@@ -398,29 +401,9 @@ const JoinAsPro = () => {
               <div className="w-12 h-12 rounded-lg bg-primary/10 flex items-center justify-center mb-4">
                 <Users className="w-6 h-6 text-primary" />
               </div>
-              <h3 className="font-semibold text-foreground mb-2">Customer Leads</h3>
+              <h3 className="font-semibold text-foreground mb-2">Prequalified Leads</h3>
               <p className="text-sm text-muted-foreground">
-                We handle marketing and customer acquisition. Jobs come directly to you.
-              </p>
-            </div>
-            
-            <div className="bg-background rounded-xl p-6 shadow-sm border border-border hover:shadow-md transition-shadow">
-              <div className="w-12 h-12 rounded-lg bg-primary/10 flex items-center justify-center mb-4">
-                <Calendar className="w-6 h-6 text-primary" />
-              </div>
-              <h3 className="font-semibold text-foreground mb-2">Flexible Scheduling</h3>
-              <p className="text-sm text-muted-foreground">
-                Accept jobs that fit your schedule. Full-time, part-time, or weekends only.
-              </p>
-            </div>
-            
-            <div className="bg-background rounded-xl p-6 shadow-sm border border-border hover:shadow-md transition-shadow">
-              <div className="w-12 h-12 rounded-lg bg-primary/10 flex items-center justify-center mb-4">
-                <MapPin className="w-6 h-6 text-primary" />
-              </div>
-              <h3 className="font-semibold text-foreground mb-2">Work Locally</h3>
-              <p className="text-sm text-muted-foreground">
-                Get matched with jobs in your preferred service area.
+                Every lead is vetted and ready to hire. No spam, no tire-kickers—just quality customers.
               </p>
             </div>
             
@@ -428,9 +411,29 @@ const JoinAsPro = () => {
               <div className="w-12 h-12 rounded-lg bg-primary/10 flex items-center justify-center mb-4">
                 <Shield className="w-6 h-6 text-primary" />
               </div>
-              <h3 className="font-semibold text-foreground mb-2">Insurance Coverage</h3>
+              <h3 className="font-semibold text-foreground mb-2">Exclusive Leads</h3>
               <p className="text-sm text-muted-foreground">
-                Work with peace of mind knowing you're covered.
+                You're the only contractor they contact. No competing with 5 other pros for the same job.
+              </p>
+            </div>
+            
+            <div className="bg-background rounded-xl p-6 shadow-sm border border-border hover:shadow-md transition-shadow">
+              <div className="w-12 h-12 rounded-lg bg-primary/10 flex items-center justify-center mb-4">
+                <DollarSign className="w-6 h-6 text-primary" />
+              </div>
+              <h3 className="font-semibold text-foreground mb-2">Better ROI</h3>
+              <p className="text-sm text-muted-foreground">
+                Higher conversion rates mean better return on your investment. Grow your business, not your expenses.
+              </p>
+            </div>
+            
+            <div className="bg-background rounded-xl p-6 shadow-sm border border-border hover:shadow-md transition-shadow">
+              <div className="w-12 h-12 rounded-lg bg-primary/10 flex items-center justify-center mb-4">
+                <Calendar className="w-6 h-6 text-primary" />
+              </div>
+              <h3 className="font-semibold text-foreground mb-2">Flexible Schedule</h3>
+              <p className="text-sm text-muted-foreground">
+                Accept leads that fit your schedule. Build your business on your terms.
               </p>
             </div>
           </div>
@@ -443,21 +446,24 @@ const JoinAsPro = () => {
           <div className="text-center mb-16">
             <p className="text-primary font-semibold mb-3 uppercase tracking-wide text-sm">Service Categories</p>
             <h2 className="text-3xl md:text-4xl font-bold text-foreground mb-4">
-              Jobs Available in Your Area
+              Service Categories We Cover
             </h2>
             <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
-              We have opportunities across multiple tech service categories.
+              From home services to smart technology, we connect you with quality customers across multiple categories.
             </p>
           </div>
           
           <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6 max-w-5xl mx-auto">
             {[
+              { title: "Home Services", desc: "Plumbing, electrical, HVAC, remodeling" },
               { title: "TV Mounting", desc: "Wall mounting for all TV sizes" },
               { title: "Smart Home", desc: "Thermostats, doorbells, locks" },
               { title: "Audio & Video", desc: "Home theater, surround sound" },
               { title: "WiFi & Networking", desc: "Router setup, optimization" },
               { title: "Home Security", desc: "Cameras, sensors, monitoring" },
               { title: "Computer Repair", desc: "Repairs, virus removal, backup" },
+              { title: "Cleaning Services", desc: "House cleaning, carpet, pressure washing" },
+              { title: "Landscaping", desc: "Lawn care, snow removal, maintenance" },
             ].map((service, index) => (
               <div key={index} className="flex items-center gap-4 p-4 rounded-lg border border-border hover:bg-muted/50 transition-colors">
                 <div className="w-10 h-10 rounded-full bg-primary/10 flex items-center justify-center flex-shrink-0">
@@ -551,7 +557,7 @@ const JoinAsPro = () => {
             Ready to Start Earning?
           </h2>
           <p className="text-xl opacity-90 mb-8 max-w-2xl mx-auto">
-            Join our growing network of tech professionals and start getting paid for your expertise.
+            Join our growing network of Professional Service Contractors and escape the uncertainty of Angi, Thumbtack, and other spammy lead generation tools. Get prequalified leads that convert into real business growth.
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
             <Button size="lg" variant="secondary" className="text-lg px-8" asChild>
