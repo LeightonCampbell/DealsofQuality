@@ -219,59 +219,39 @@ const Services = () => {
         <div className="container-max">
           <div className="text-center mb-12">
             <h2 className="font-display text-3xl md:text-4xl font-bold text-foreground mb-4">
-              Browse Our Services by Category
+              Our Services
             </h2>
             <p className="text-muted-foreground text-lg max-w-2xl mx-auto">
-              Click on any service to view details and book an appointment
+              Select a service to view details and book an appointment
             </p>
           </div>
 
           <div className="space-y-16">
-            {serviceCategories.map((category, categoryIndex) => (
-              <div key={category.title} className="animate-fade-in-up" style={{ animationDelay: `${categoryIndex * 100}ms` }}>
-                {/* Category Header */}
-                <div className="flex items-center gap-4 mb-8 pb-4 border-b border-border">
-                  <div className="w-16 h-16 bg-accent/10 rounded-2xl flex items-center justify-center">
-                    <category.icon className="w-8 h-8 text-accent" />
-                  </div>
-                  <div>
-                    <h3 className="font-display text-2xl md:text-3xl font-bold text-foreground">
-                      {category.title}
-                    </h3>
-                    <p className="text-muted-foreground mt-1">
-                      {category.description}
-                    </p>
-                  </div>
-                </div>
-
-                {/* Services List */}
-                {category.title === "Home Services" ? (
-                  // Home Services: 3 columns with 10 services each
-                  <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-                    {[0, 1, 2].map((colIndex) => (
-                      <div key={colIndex} className="space-y-1">
-                        {category.services.slice(colIndex * 10, (colIndex + 1) * 10).map((service) => (
-                          <Link
-                            key={service.href}
-                            to={service.href}
-                            className="block py-2 px-1 text-foreground hover:text-accent transition-colors duration-200 border-b border-transparent hover:border-accent/20"
-                          >
-                            {service.title}
-                          </Link>
-                        ))}
+            {serviceCategories.map((category, categoryIndex) => {
+              // Home Services: Keep the special 3-column layout with 10 services per column
+              if (category.title === "Home Services") {
+                return (
+                  <div key={category.title} className="animate-fade-in-up" style={{ animationDelay: `${categoryIndex * 100}ms` }}>
+                    {/* Category Header */}
+                    <div className="flex items-center gap-4 mb-8 pb-4 border-b border-border">
+                      <div className="w-16 h-16 bg-accent/10 rounded-2xl flex items-center justify-center">
+                        <category.icon className="w-8 h-8 text-accent" />
                       </div>
-                    ))}
-                  </div>
-                ) : category.services.length >= 6 ? (
-                  // Other categories with 6+ services: 3 columns
-                  <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-                    {[0, 1, 2].map((colIndex) => {
-                      const servicesPerColumn = Math.ceil(category.services.length / 3);
-                      const startIndex = colIndex * servicesPerColumn;
-                      const endIndex = Math.min(startIndex + servicesPerColumn, category.services.length);
-                      return (
+                      <div>
+                        <h3 className="font-display text-2xl md:text-3xl font-bold text-foreground">
+                          {category.title}
+                        </h3>
+                        <p className="text-muted-foreground mt-1">
+                          {category.description}
+                        </p>
+                      </div>
+                    </div>
+
+                    {/* Home Services: 3 columns with 10 services each */}
+                    <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+                      {[0, 1, 2].map((colIndex) => (
                         <div key={colIndex} className="space-y-1">
-                          {category.services.slice(startIndex, endIndex).map((service) => (
+                          {category.services.slice(colIndex * 10, (colIndex + 1) * 10).map((service) => (
                             <Link
                               key={service.href}
                               to={service.href}
@@ -281,25 +261,61 @@ const Services = () => {
                             </Link>
                           ))}
                         </div>
-                      );
-                    })}
+                      ))}
+                    </div>
                   </div>
-                ) : (
-                  // Categories with fewer services: single column
-                  <div className="space-y-1">
-                    {category.services.map((service) => (
-                      <Link
-                        key={service.href}
-                        to={service.href}
-                        className="block py-2 px-1 text-foreground hover:text-accent transition-colors duration-200 border-b border-transparent hover:border-accent/20"
-                      >
-                        {service.title}
-                      </Link>
-                    ))}
-                  </div>
-                )}
-              </div>
-            ))}
+                );
+              }
+              return null;
+            })}
+
+            {/* Other Categories: Display in 3-column grid */}
+            {(() => {
+              const otherCategories = serviceCategories.filter(cat => cat.title !== "Home Services");
+              const rows = [];
+              for (let i = 0; i < otherCategories.length; i += 3) {
+                rows.push(otherCategories.slice(i, i + 3));
+              }
+              return rows.map((row, rowIndex) => (
+                <div key={rowIndex} className="grid grid-cols-1 md:grid-cols-3 gap-8">
+                  {row.map((category, colIndex) => (
+                    <div 
+                      key={category.title} 
+                      className="animate-fade-in-up" 
+                      style={{ animationDelay: `${(serviceCategories.findIndex(c => c.title === category.title)) * 100}ms` }}
+                    >
+                      {/* Category Header */}
+                      <div className="flex items-center gap-4 mb-6 pb-4 border-b border-border">
+                        <div className="w-12 h-12 bg-accent/10 rounded-xl flex items-center justify-center">
+                          <category.icon className="w-6 h-6 text-accent" />
+                        </div>
+                        <div>
+                          <h3 className="font-display text-xl md:text-2xl font-bold text-foreground">
+                            {category.title}
+                          </h3>
+                          <p className="text-muted-foreground text-sm mt-1">
+                            {category.description}
+                          </p>
+                        </div>
+                      </div>
+
+                      {/* Services List */}
+                      <div className="space-y-1">
+                        {category.services.map((service) => (
+                          <Link
+                            key={service.href}
+                            to={service.href}
+                            className="block py-2 px-1 text-foreground hover:text-accent transition-colors duration-200 border-b border-transparent hover:border-accent/20"
+                          >
+                            {service.title}
+                          </Link>
+                        ))}
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              ));
+            })()}
           </div>
         </div>
       </section>
