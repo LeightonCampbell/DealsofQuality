@@ -59,6 +59,7 @@ interface ServiceCategory {
   icon: any;
   title: string;
   description: string;
+  href: string;
   services: Service[];
 }
 
@@ -67,6 +68,7 @@ const serviceCategories: ServiceCategory[] = [
     icon: Wrench,
     title: "Home Services",
     description: "Comprehensive home maintenance, repair, and improvement services.",
+    href: "/services/home-services",
     services: [
       { title: "Handyman Services", href: "/handyman-services" },
       { title: "Painting", href: "/painting" },
@@ -104,6 +106,7 @@ const serviceCategories: ServiceCategory[] = [
     icon: Tv,
     title: "TV Mounting",
     description: "Professional TV installation and setup services for all screen sizes.",
+    href: "/services/tv-mounting",
     services: [
       { title: "TV Mounting (Up to 50\")", href: "/tv-mounting-up-to-50" },
       { title: "TV Mounting (51\"-65\")", href: "/tv-mounting-51-to-65" },
@@ -117,6 +120,7 @@ const serviceCategories: ServiceCategory[] = [
     icon: Home,
     title: "Smart Home",
     description: "Complete smart home automation and device installation.",
+    href: "/services/smart-home",
     services: [
       { title: "Smart Thermostats", href: "/smart-thermostats" },
       { title: "Video Doorbells", href: "/video-doorbells" },
@@ -128,6 +132,7 @@ const serviceCategories: ServiceCategory[] = [
     icon: Speaker,
     title: "Audio & Video",
     description: "Home theater and entertainment system setup and installation.",
+    href: "/services/audio-video",
     services: [
       { title: "Home Theater", href: "/home-theater" },
       { title: "Surround Sound", href: "/surround-sound" },
@@ -139,6 +144,7 @@ const serviceCategories: ServiceCategory[] = [
     icon: Wifi,
     title: "WiFi & Network",
     description: "Network setup, optimization, and troubleshooting services.",
+    href: "/services/wifi-network",
     services: [
       { title: "Router Setup", href: "/router-setup" },
       { title: "Network Optimization", href: "/network-optimization" },
@@ -150,6 +156,7 @@ const serviceCategories: ServiceCategory[] = [
     icon: Shield,
     title: "Home Security",
     description: "Security camera installation and smart security system setup.",
+    href: "/services/home-security",
     services: [
       { title: "Security Cameras", href: "/security-cameras" },
       { title: "Video Doorbells", href: "/video-doorbells" },
@@ -161,6 +168,7 @@ const serviceCategories: ServiceCategory[] = [
     icon: Monitor,
     title: "Computers & Printers",
     description: "Computer repair, maintenance, and printer setup services.",
+    href: "/services/computers-printers",
     services: [
       { title: "Computer Repair", href: "/computer-repair" },
       { title: "Virus Removal", href: "/virus-removal" },
@@ -172,6 +180,7 @@ const serviceCategories: ServiceCategory[] = [
     icon: Briefcase,
     title: "Business Services",
     description: "Professional business technology solutions and support.",
+    href: "/services/business",
     services: [
       { title: "Website Design", href: "/website-design" },
       { title: "Remote Support", href: "/remote-support-service" },
@@ -214,19 +223,21 @@ const Services = () => {
                 return (
                   <div key={category.title} className="animate-fade-in-up" style={{ animationDelay: `${categoryIndex * 100}ms` }}>
                     {/* Category Header */}
-                    <div className="flex items-center gap-4 mb-8 pb-4 border-b border-border">
-                      <div className="w-16 h-16 bg-accent/10 rounded-2xl flex items-center justify-center">
-                        <category.icon className="w-8 h-8 text-accent" />
+                    <Link to={category.href} className="group">
+                      <div className="flex items-center gap-4 mb-8 pb-4 border-b border-border">
+                        <div className="w-16 h-16 bg-accent/10 rounded-2xl flex items-center justify-center group-hover:bg-accent/20 transition-colors">
+                          <category.icon className="w-8 h-8 text-accent" />
+                        </div>
+                        <div>
+                          <h3 className="font-display text-2xl md:text-3xl font-bold text-foreground group-hover:text-accent transition-colors">
+                            {category.title}
+                          </h3>
+                          <p className="text-muted-foreground mt-1">
+                            {category.description}
+                          </p>
+                        </div>
                       </div>
-                      <div>
-                        <h3 className="font-display text-2xl md:text-3xl font-bold text-foreground">
-                          {category.title}
-                        </h3>
-                        <p className="text-muted-foreground mt-1">
-                          {category.description}
-                        </p>
-                      </div>
-                    </div>
+                    </Link>
 
                     {/* Home Services: 3 columns with 10 services each */}
                     <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
@@ -266,19 +277,21 @@ const Services = () => {
                       style={{ animationDelay: `${(serviceCategories.findIndex(c => c.title === category.title)) * 100}ms` }}
                     >
                       {/* Category Header */}
-                      <div className="flex items-center gap-4 mb-6 pb-4 border-b border-border">
-                        <div className="w-12 h-12 bg-accent/10 rounded-xl flex items-center justify-center">
-                          <category.icon className="w-6 h-6 text-accent" />
+                      <Link to={category.href} className="group">
+                        <div className="flex items-center gap-4 mb-6 pb-4 border-b border-border">
+                          <div className="w-12 h-12 bg-accent/10 rounded-xl flex items-center justify-center group-hover:bg-accent/20 transition-colors">
+                            <category.icon className="w-6 h-6 text-accent" />
+                          </div>
+                          <div>
+                            <h3 className="font-display text-xl md:text-2xl font-bold text-foreground group-hover:text-accent transition-colors">
+                              {category.title}
+                            </h3>
+                            <p className="text-muted-foreground text-sm mt-1">
+                              {category.description}
+                            </p>
+                          </div>
                         </div>
-                        <div>
-                          <h3 className="font-display text-xl md:text-2xl font-bold text-foreground">
-                            {category.title}
-                          </h3>
-                          <p className="text-muted-foreground text-sm mt-1">
-                            {category.description}
-                          </p>
-                        </div>
-                      </div>
+                      </Link>
 
                       {/* Services List */}
                       <div className="space-y-1">

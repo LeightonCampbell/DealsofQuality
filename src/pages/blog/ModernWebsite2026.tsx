@@ -75,7 +75,7 @@ const ModernWebsite2026 = () => {
                   It's not just about aesthetics anymore; it's about core business performance. Consumers are more impatient and tech-savvy than ever. They're searching for you on their phones while on the go, and they are quick to judge. A compelling statistic highlights this urgency: <strong className="text-foreground">76% of people who conduct a local search on their smartphone visit a physical place within 24 hours, and 28% of those searches result in a purchase.</strong> If your site is slow, clunky, or hard to use on a phone, you are literally handing that high-intent customer—and their money—directly to your competitor.
                 </p>
                 <p className="text-lg text-foreground leading-relaxed mb-4">
-                  To compete in the digital landscape of tomorrow, you need a powerful, modern platform. Ignoring this is not "saving money," it's guaranteeing stagnation. In the following guide, we lay out the seven definitive reasons why investing in a modern <Link to="/website-design" className="text-accent hover:underline font-semibold">Local Business Website 2026</Link> framework is non-negotiable for your future success, turning your digital presence from a liability into your most valuable asset.
+                  To compete in the digital landscape of tomorrow, you need a powerful, modern platform. Ignoring this is not "saving money," it's guaranteeing stagnation. In the following guide, we lay out the seven definitive reasons why investing in <Link to="/website-design" className="text-accent hover:underline font-semibold">a modern website</Link> is non-negotiable for your future success, turning your digital presence from a liability into your most valuable asset.
                 </p>
               </div>
 
@@ -85,7 +85,7 @@ const ModernWebsite2026 = () => {
                   1. The Absolute Necessity of Mobile-First Design
                 </h2>
                 <p className="text-lg text-foreground leading-relaxed mb-4">
-                  For a modern <Link to="/website-design" className="text-accent hover:underline">Local Business Website 2026</Link>, "mobile-friendly" is a relic of the past. Today, the foundation must be mobile-first.
+                  For <Link to="/website-design" className="text-accent hover:underline">your business website</Link>, "mobile-friendly" is a relic of the past. Today, the foundation must be mobile-first.
                 </p>
                 <p className="text-lg text-foreground leading-relaxed mb-4">
                   <strong className="text-foreground">Google has fully embraced mobile-first indexing</strong>, meaning the search engine primarily uses the mobile version of your content for ranking and indexing. An older site that simply shrinks to fit a phone screen, rather than adapting for a mobile user, is severely handicapped in search results.
@@ -124,7 +124,7 @@ const ModernWebsite2026 = () => {
                   Slow websites irritate users and, critically, they are flagged by Google as a poor experience. <strong className="text-foreground">Core Web Vitals (CWV) are a set of metrics measuring real-world user experience for loading speed, interactivity, and visual stability.</strong> They are a confirmed, vital ranking factor.
                 </p>
                 <p className="text-lg text-foreground leading-relaxed mb-6">
-                  A slow site doesn't just frustrate a customer; it creates a financial leakage. A mere one-second delay in page load time can lead to a <strong className="text-foreground">7% loss in conversions</strong> and significantly increase your bounce rate. Your competitor with a fast-loading <Link to="/website-design" className="text-accent hover:underline">Local Business Website 2026</Link> is capturing the customers who abandon your slow site.
+                  A slow site doesn't just frustrate a customer; it creates a financial leakage. A mere one-second delay in page load time can lead to a <strong className="text-foreground">7% loss in conversions</strong> and significantly increase your bounce rate. Your competitor with a fast-loading website is capturing the customers who abandon your slow site.
                 </p>
                 <Card className="mb-6">
                   <CardContent className="p-6">
@@ -159,7 +159,7 @@ const ModernWebsite2026 = () => {
                   Your website is the hub of your entire digital ecosystem. An outdated site often operates in a silo, missing out on crucial data and connectivity that defines modern local marketing.
                 </p>
                 <p className="text-lg text-foreground leading-relaxed mb-4">
-                  A modern <Link to="/website-design" className="text-accent hover:underline">Local Business Website 2026</Link> is built for integration:
+                  <Link to="/website-design" className="text-accent hover:underline">A modern website</Link> is built for integration:
                 </p>
                 <ul className="space-y-3 mb-6">
                   <li className="flex items-start gap-3">
@@ -228,7 +228,7 @@ const ModernWebsite2026 = () => {
                   Website accessibility (often referenced in the US as ADA compliance) is no longer an optional ethical consideration; it is becoming a mandatory legal and business requirement.
                 </p>
                 <p className="text-lg text-foreground leading-relaxed mb-4">
-                  A modern website must be usable by people with disabilities, including those using screen readers, keyboard navigation, or voice commands. Ignoring accessibility creates a legal liability risk. Furthermore, by excluding this demographic, you are cutting off a significant portion of your potential market. A modern <Link to="/website-design" className="text-accent hover:underline">Local Business Website 2026</Link> ensures:
+                  A modern website must be usable by people with disabilities, including those using screen readers, keyboard navigation, or voice commands. Ignoring accessibility creates a legal liability risk. Furthermore, by excluding this demographic, you are cutting off a significant portion of your potential market. <Link to="/website-design" className="text-accent hover:underline">Your business website</Link> should ensure:
                 </p>
                 <ul className="space-y-2 mb-6">
                   <li className="flex items-start gap-3">
@@ -291,7 +291,7 @@ const ModernWebsite2026 = () => {
                   7. Preparing for Future Web Technology & AI
                 </h2>
                 <p className="text-lg text-foreground leading-relaxed mb-4">
-                  The web is on the cusp of an AI-driven revolution. Voice search, generative AI search results, and advanced personalization will define the user journey of tomorrow. Your modern <Link to="/website-design" className="text-accent hover:underline">Local Business Website 2026</Link> needs to be built with a forward-looking structure to capitalize on these shifts.
+                  The web is on the cusp of an AI-driven revolution. Voice search, generative AI search results, and advanced personalization will define the user journey of tomorrow. <Link to="/website-design" className="text-accent hover:underline">Your website</Link> needs to be built with a forward-looking structure to capitalize on these shifts.
                 </p>
                 <p className="text-lg text-foreground leading-relaxed mb-4">
                   The foundation for future-proofing is <strong className="text-foreground">Schema Markup</strong>, a type of micro-data that tells search engines exactly what your content means (e.g., "This is an address," "This is a product price," "This is an opening hour").
@@ -335,7 +335,7 @@ const ModernWebsite2026 = () => {
                       <strong className="text-foreground">The time for action is now.</strong>
                     </p>
                     <p className="text-lg text-foreground leading-relaxed mb-6">
-                      Audit your existing digital presence today. Reach out to a professional web development partner to get a comprehensive analysis of your site's Core Web Vitals, mobile performance, and current SEO standing. The small investment in a modern, optimized <Link to="/website-design" className="text-accent hover:underline font-semibold">Local Business Website 2026</Link> platform will pay for itself many times over in increased conversions, better talent, and undeniable future security.
+                      Audit your existing digital presence today. Reach out to a professional web development partner to get a comprehensive analysis of your site's Core Web Vitals, mobile performance, and current SEO standing. The small investment in <Link to="/website-design" className="text-accent hover:underline font-semibold">a modern, optimized website</Link> will pay for itself many times over in increased conversions, better talent, and undeniable future security.
                     </p>
                     <div className="mt-8">
                       <Button size="lg" asChild>
