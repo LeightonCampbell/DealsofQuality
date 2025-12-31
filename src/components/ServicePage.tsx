@@ -130,7 +130,7 @@ const ServicePage = ({
             <div className="flex flex-wrap items-center justify-center gap-8 md:gap-16">
               <div className="flex items-center gap-2 text-primary-foreground">
                 <Users className="w-5 h-5" />
-                <span className="text-sm font-medium">Thousands of Techs Nationwide</span>
+                <span className="text-sm font-medium">Vetted Professionals Nationwide</span>
               </div>
               <div className="flex items-center gap-2 text-primary-foreground">
                 <Clock className="w-5 h-5" />

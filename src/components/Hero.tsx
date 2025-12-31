@@ -167,6 +167,24 @@ const Hero = () => {
   };
 
   const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
+    if (e.key === "Enter") {
+      e.preventDefault();
+      // If suggestions are shown and a suggestion is selected, use that
+      if (showSuggestions && selectedIndex >= 0 && suggestions[selectedIndex]) {
+        const selectedService = suggestions[selectedIndex];
+        setProjectDescription(selectedService);
+        setShowSuggestions(false);
+        if (serviceToRoute[selectedService]) {
+          navigate(serviceToRoute[selectedService]);
+        }
+      } else {
+        // Otherwise, trigger regular search
+        handleSearch();
+      }
+      return;
+    }
+
+    // Arrow keys and Escape only work when suggestions are shown
     if (!showSuggestions) return;
 
     if (e.key === "ArrowDown") {
@@ -177,19 +195,8 @@ const Hero = () => {
     } else if (e.key === "ArrowUp") {
       e.preventDefault();
       setSelectedIndex(prev => prev > 0 ? prev - 1 : -1);
-    } else if (e.key === "Enter") {
-      e.preventDefault();
-      if (selectedIndex >= 0 && suggestions[selectedIndex]) {
-        const selectedService = suggestions[selectedIndex];
-        setProjectDescription(selectedService);
-        setShowSuggestions(false);
-        if (serviceToRoute[selectedService]) {
-          navigate(serviceToRoute[selectedService]);
-        }
-      } else {
-        handleSearch();
-      }
     } else if (e.key === "Escape") {
+      e.preventDefault();
       setShowSuggestions(false);
     }
   };

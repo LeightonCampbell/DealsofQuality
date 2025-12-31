@@ -13,11 +13,11 @@ const CTA = () => {
       <div className="container-max relative z-10">
         <div className="max-w-3xl mx-auto text-center">
           <h2 className="font-display text-3xl md:text-4xl lg:text-5xl font-bold text-primary-foreground mb-6">
-            Ready to Solve Your Tech Problems?
+            Ready to Transform Your Home?
           </h2>
           <p className="text-xl text-primary-foreground/80 mb-10 leading-relaxed">
-            Schedule your service today and experience stress-free tech support. 
-            Our expert technicians are standing by to help.
+            Schedule your service today and experience premium home services from carefully vetted professionals. 
+            Our expert team is standing by to help with all your home service needs.
           </p>
 
           {/* CTAs */}

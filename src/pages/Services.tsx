@@ -11,65 +11,173 @@ import {
   Monitor, 
   Briefcase,
   Wrench,
+  Hammer,
+  Droplet,
+  Zap,
+  Wind,
+  Square,
+  Package,
+  Grid3x3,
+  DoorOpen,
+  Trees,
+  Fence,
+  ChefHat,
+  Refrigerator,
+  Droplets,
+  DoorClosed,
+  Sun,
+  Sparkles,
+  SquareStack,
+  Trash2,
+  Bug,
+  Boxes,
+  TreePine,
+  Snowflake,
+  Film,
+  Play,
+  Gamepad2,
+  Thermometer,
+  Lock,
+  Zap as ZapIcon,
+  Camera,
+  Activity,
+  Router,
+  Signal,
+  Building2,
+  Globe,
+  Headphones,
+  Server,
   ArrowRight
 } from "lucide-react";
 
-const serviceCategories = [
+interface Service {
+  title: string;
+  href: string;
+}
+
+interface ServiceCategory {
+  icon: any;
+  title: string;
+  description: string;
+  services: Service[];
+}
+
+const serviceCategories: ServiceCategory[] = [
+  {
+    icon: Wrench,
+    title: "Home Services",
+    description: "Comprehensive home maintenance, repair, and improvement services.",
+    services: [
+      { title: "Handyman Services", href: "/handyman-services" },
+      { title: "Painting", href: "/painting" },
+      { title: "Flooring Installation", href: "/flooring-installation" },
+      { title: "Drywall Installation", href: "/drywall-installation" },
+      { title: "Cabinet Installation", href: "/cabinet-installation" },
+      { title: "Tile Work", href: "/tile-work" },
+      { title: "Window and Door Replacement", href: "/window-door-replacement" },
+      { title: "Deck and Patio Building", href: "/deck-patio-building" },
+      { title: "Fence Installation", href: "/fence-installation" },
+      { title: "Bathroom Remodeling", href: "/bathroom-remodeling" },
+      { title: "Kitchen Remodeling", href: "/kitchen-remodeling" },
+      { title: "Plumbing", href: "/plumbing" },
+      { title: "Electrical", href: "/electrical" },
+      { title: "HVAC", href: "/hvac" },
+      { title: "Roofing", href: "/roofing" },
+      { title: "Appliance Repair", href: "/appliance-repair" },
+      { title: "Water Heater Installation", href: "/water-heater-installation" },
+      { title: "Gutter Installation", href: "/gutter-installation" },
+      { title: "Siding Installation", href: "/siding-installation" },
+      { title: "Garage Door Installation", href: "/garage-door-installation" },
+      { title: "Solar Panel Installation", href: "/solar-panel-installation" },
+      { title: "House Cleaning", href: "/house-cleaning" },
+      { title: "Carpet Cleaning", href: "/carpet-cleaning" },
+      { title: "Junk Removal", href: "/junk-removal" },
+      { title: "Pressure Washing", href: "/pressure-washing" },
+      { title: "Gutter Cleaning", href: "/gutter-cleaning" },
+      { title: "Pest Control", href: "/pest-control" },
+      { title: "Organization Services", href: "/organization-services" },
+      { title: "Landscaping", href: "/landscaping" },
+      { title: "Snow Removal", href: "/snow-removal" },
+    ],
+  },
   {
     icon: Tv,
     title: "TV Mounting",
-    description: "Professional TV wall mounting, cable concealment, and soundbar installation for any TV size.",
-    href: "/services/tv-mounting",
-    services: ["TV Mounting (Up to 50\") - $95", "TV Mounting (51\"-65\") - $120", "TV Mounting (Over 65\") - $180", "TV Wire Concealment", "Soundbar Installation"]
+    description: "Professional TV installation and setup services for all screen sizes.",
+    services: [
+      { title: "TV Mounting (Up to 50\")", href: "/tv-mounting-up-to-50" },
+      { title: "TV Mounting (51\"-65\")", href: "/tv-mounting-51-to-65" },
+      { title: "TV Mounting (Over 65\")", href: "/tv-mounting-over-65" },
+      { title: "TV Cable Concealment", href: "/tv-cable-concealment" },
+      { title: "Soundbar Installation", href: "/soundbar-installation" },
+      { title: "TV Dismount/Remount", href: "/tv-dismount-remount" },
+    ],
   },
   {
     icon: Home,
     title: "Smart Home",
-    description: "Complete smart home setup including thermostats, doorbells, locks, and home automation integration.",
-    href: "/services/smart-home",
-    services: ["Smart Thermostats", "Video Doorbells", "Smart Locks", "Smart Home Integration"]
+    description: "Complete smart home automation and device installation.",
+    services: [
+      { title: "Smart Thermostats", href: "/smart-thermostats" },
+      { title: "Video Doorbells", href: "/video-doorbells" },
+      { title: "Smart Locks", href: "/smart-locks" },
+      { title: "Smart Home Integration", href: "/smart-home-integration" },
+    ],
   },
   {
     icon: Speaker,
     title: "Audio & Video",
-    description: "Home theater, surround sound, streaming setup, and gaming console configuration.",
-    href: "/services/audio-video",
-    services: ["Home Theater", "Surround Sound", "Streaming Setup", "Gaming Console Setup"]
+    description: "Home theater and entertainment system setup and installation.",
+    services: [
+      { title: "Home Theater", href: "/home-theater" },
+      { title: "Surround Sound", href: "/surround-sound" },
+      { title: "Streaming Setup", href: "/streaming-setup" },
+      { title: "Gaming Setup", href: "/gaming-setup" },
+    ],
   },
   {
     icon: Wifi,
     title: "WiFi & Network",
-    description: "Router setup, network optimization, dead zone elimination, and business network solutions.",
-    href: "/services/wifi-network",
-    services: ["Router Setup", "Network Optimization", "Dead Zone Elimination", "Business Networks"]
+    description: "Network setup, optimization, and troubleshooting services.",
+    services: [
+      { title: "Router Setup", href: "/router-setup" },
+      { title: "Network Optimization", href: "/network-optimization" },
+      { title: "Dead Zone Elimination", href: "/dead-zone-elimination" },
+      { title: "Business Networks", href: "/business-networks" },
+    ],
   },
   {
     icon: Shield,
     title: "Home Security",
-    description: "Security camera installation, video doorbells, smart locks, and motion sensor setup.",
-    href: "/services/home-security",
-    services: ["Security Cameras", "Video Doorbells", "Smart Locks", "Motion Sensors"]
+    description: "Security camera installation and smart security system setup.",
+    services: [
+      { title: "Security Cameras", href: "/security-cameras" },
+      { title: "Video Doorbells", href: "/video-doorbells" },
+      { title: "Smart Locks", href: "/smart-locks" },
+      { title: "Motion Sensors", href: "/motion-sensors" },
+    ],
   },
   {
     icon: Monitor,
     title: "Computers & Printers",
-    description: "Computer repair, virus removal, printer setup, and data backup services.",
-    href: "/services/computers-printers",
-    services: ["Computer Repair", "Virus Removal", "Printer Setup", "Data Backup"]
+    description: "Computer repair, maintenance, and printer setup services.",
+    services: [
+      { title: "Computer Repair", href: "/computer-repair" },
+      { title: "Virus Removal", href: "/virus-removal" },
+      { title: "Printer Setup", href: "/printer-setup" },
+      { title: "Data Backup", href: "/data-backup" },
+    ],
   },
   {
     icon: Briefcase,
     title: "Business Services",
-    description: "Website design, remote support, business IT solutions, and custom tech services.",
-    href: "/services/business",
-    services: ["Website Design", "Remote Support", "Business IT Solutions", "Custom Solutions"]
-  },
-  {
-    icon: Wrench,
-    title: "General Home Services",
-    description: "Professional home maintenance and repair services for your everyday needs.",
-    href: "#",
-    services: ["House Cleaning", "Handyman", "Heating & Air Conditioning", "Electrician", "Plumber"]
+    description: "Professional business technology solutions and support.",
+    services: [
+      { title: "Website Design", href: "/website-design" },
+      { title: "Remote Support", href: "/remote-support-service" },
+      { title: "Business IT Solutions", href: "/business-it-solutions" },
+      { title: "Custom Solutions", href: "/custom-solutions" },
+    ],
   },
 ];
 
@@ -97,7 +205,7 @@ const Services = () => {
         <div className="container-max px-4 md:px-8 lg:px-16 relative z-10">
           <div className="max-w-4xl mx-auto text-center">
             <h1 className="font-display text-4xl md:text-5xl font-bold text-primary-foreground mb-6">
-              Our Services
+              Our Premium Home Services
             </h1>
             <p className="text-primary-foreground/80 text-lg max-w-2xl mx-auto">
               Carefully vetted, local professionals for all your home service needs. From plumbing and electrical to remodeling and smart home installation.
@@ -106,51 +214,53 @@ const Services = () => {
         </div>
       </section>
 
-      {/* Service Categories Grid */}
+      {/* Service Categories */}
       <section className="section-padding bg-background">
         <div className="container-max">
           <div className="text-center mb-12">
             <h2 className="font-display text-3xl md:text-4xl font-bold text-foreground mb-4">
-              What kind of help do you need?
+              Browse Our Services by Category
             </h2>
             <p className="text-muted-foreground text-lg max-w-2xl mx-auto">
-              Select a service category to explore our offerings
+              Click on any service to view details and book an appointment
             </p>
           </div>
 
-          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
-            {serviceCategories.map((category, index) => (
-              <Link
-                key={index}
-                to={category.href}
-                className="group bg-card border border-border rounded-2xl p-8 card-hover block"
-              >
-                <div className="w-16 h-16 bg-accent/10 rounded-2xl flex items-center justify-center mb-6 group-hover:bg-accent/20 transition-colors">
-                  <category.icon className="w-8 h-8 text-accent" />
+          <div className="space-y-16">
+            {serviceCategories.map((category, categoryIndex) => (
+              <div key={category.title} className="animate-fade-in-up" style={{ animationDelay: `${categoryIndex * 100}ms` }}>
+                {/* Category Header */}
+                <div className="flex items-center gap-4 mb-8 pb-4 border-b border-border">
+                  <div className="w-16 h-16 bg-accent/10 rounded-2xl flex items-center justify-center">
+                    <category.icon className="w-8 h-8 text-accent" />
+                  </div>
+                  <div>
+                    <h3 className="font-display text-2xl md:text-3xl font-bold text-foreground">
+                      {category.title}
+                    </h3>
+                    <p className="text-muted-foreground mt-1">
+                      {category.description}
+                    </p>
+                  </div>
                 </div>
-                
-                <h3 className="font-display text-2xl font-bold text-foreground mb-3 group-hover:text-accent transition-colors">
-                  {category.title}
-                </h3>
-                
-                <p className="text-muted-foreground mb-6">
-                  {category.description}
-                </p>
 
-                <ul className="space-y-2 mb-6">
-                  {category.services.map((service, sIndex) => (
-                    <li key={sIndex} className="text-sm text-muted-foreground flex items-center gap-2">
-                      <span className="w-1.5 h-1.5 bg-accent rounded-full" />
-                      {service}
-                    </li>
+                {/* Services Grid */}
+                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
+                  {category.services.map((service, serviceIndex) => (
+                    <Link
+                      key={service.href}
+                      to={service.href}
+                      className="group bg-card border border-border rounded-xl p-4 hover:shadow-lg hover:border-accent/30 transition-all duration-300 flex items-center gap-3"
+                    >
+                      <div className="w-2 h-2 rounded-full bg-accent group-hover:scale-150 transition-transform" />
+                      <span className="text-foreground font-medium group-hover:text-accent transition-colors flex-1">
+                        {service.title}
+                      </span>
+                      <ArrowRight className="w-4 h-4 text-muted-foreground group-hover:text-accent group-hover:translate-x-1 transition-all" />
+                    </Link>
                   ))}
-                </ul>
-
-                <div className="flex items-center gap-2 text-accent font-semibold group-hover:gap-3 transition-all">
-                  View Services
-                  <ArrowRight className="w-4 h-4" />
                 </div>
-              </Link>
+              </div>
             ))}
           </div>
         </div>
