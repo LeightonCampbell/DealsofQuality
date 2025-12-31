@@ -15,6 +15,8 @@ import Terms from "./pages/Terms";
 import Privacy from "./pages/Privacy";
 import RemoteSupportPage from "./pages/RemoteSupport";
 import NotFound from "./pages/NotFound";
+import Blog from "./pages/Blog";
+import ModernWebsite2026 from "./pages/blog/ModernWebsite2026";
 
 // Admin Pages (lazy loaded to avoid React instance conflicts)
 const AdminLogin = lazy(() => import("./pages/admin/AdminLogin"));
@@ -28,6 +30,7 @@ import WifiNetworkCategory from "./pages/category/WifiNetworkCategory";
 import HomeSecurityCategory from "./pages/category/HomeSecurityCategory";
 import ComputersPrintersCategory from "./pages/category/ComputersPrintersCategory";
 import BusinessCategory from "./pages/category/BusinessCategory";
+import HomeServicesCategory from "./pages/category/HomeServicesCategory";
 
 // Service Pages
 import TVMountingSmall from "./pages/service/TVMountingSmall";
@@ -109,12 +112,15 @@ const App = () => (
           <Route path="/terms" element={<Terms />} />
           <Route path="/privacy" element={<Privacy />} />
           <Route path="/remote-support" element={<RemoteSupportPage />} />
+          <Route path="/blog" element={<Blog />} />
+          <Route path="/blog/7-reasons-why-your-local-business-needs-modern-website-2026" element={<ModernWebsite2026 />} />
           
           {/* Admin Routes */}
           <Route path="/admin" element={<Suspense fallback={<div className="min-h-screen flex items-center justify-center">Loading...</div>}><AdminLogin /></Suspense>} />
           <Route path="/admin/dashboard" element={<Suspense fallback={<div className="min-h-screen flex items-center justify-center">Loading...</div>}><AdminDashboard /></Suspense>} />
           
           {/* Category Pages - Keep for backward compatibility but redirect will be handled */}
+          <Route path="/services/home-services" element={<HomeServicesCategory />} />
           <Route path="/services/tv-mounting" element={<TVMountingCategory />} />
           <Route path="/services/smart-home" element={<SmartHomeCategory />} />
           <Route path="/services/audio-video" element={<AudioVideoCategory />} />

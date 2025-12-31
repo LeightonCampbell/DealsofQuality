@@ -9,21 +9,25 @@ const services = [
     icon: Film,
     title: "Home Theater",
     href: "/home-theater",
+    benefit: "Cinema-quality entertainment in your home. Professional installation of projectors, screens, and audio systems."
   },
   {
     icon: Speaker,
     title: "Surround Sound",
     href: "/surround-sound",
+    benefit: "Immersive audio experience with perfectly positioned speakers. Transform your space into a premium entertainment zone."
   },
   {
     icon: Play,
     title: "Streaming Setup",
     href: "/streaming-setup",
+    benefit: "Access all your favorite content seamlessly. Expert configuration of streaming devices and smart TV apps."
   },
   {
     icon: Gamepad2,
     title: "Gaming Console Setup",
     href: "/gaming-setup",
+    benefit: "Optimize your gaming experience. Professional setup for consoles, displays, and audio for the ultimate gaming setup."
   },
 ];
 
@@ -65,26 +69,33 @@ const AudioVideoCategory = () => {
         </div>
       </section>
 
-      {/* Select a Service */}
+      {/* Services Grid */}
       <section className="section-padding bg-background">
         <div className="container-max">
-          <h2 className="font-display text-2xl font-bold text-foreground mb-8">
-            Select a service
+          <h2 className="font-display text-2xl md:text-3xl font-bold text-foreground mb-8">
+            Our Audio & Video Services
           </h2>
 
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
             {services.map((service, index) => (
               <Link
                 key={index}
                 to={service.href}
-                className="group bg-card border border-border rounded-xl p-6 text-center card-hover block"
+                className="group bg-card border border-border rounded-xl p-6 card-hover block"
               >
-                <div className="w-12 h-12 mx-auto mb-4 flex items-center justify-center">
-                  <service.icon className="w-8 h-8 text-muted-foreground group-hover:text-accent transition-colors" />
+                <div className="flex items-start gap-4">
+                  <div className="w-12 h-12 rounded-lg bg-accent/10 flex items-center justify-center flex-shrink-0 group-hover:bg-accent/20 transition-colors">
+                    <service.icon className="w-6 h-6 text-accent" />
+                  </div>
+                  <div className="flex-1">
+                    <h3 className="font-semibold text-foreground mb-2 group-hover:text-accent transition-colors">
+                      {service.title}
+                    </h3>
+                    <p className="text-sm text-muted-foreground leading-relaxed">
+                      {service.benefit}
+                    </p>
+                  </div>
                 </div>
-                <p className="text-sm font-medium text-foreground group-hover:text-accent transition-colors">
-                  {service.title}
-                </p>
               </Link>
             ))}
           </div>
