@@ -9,21 +9,25 @@ const services = [
     icon: Wrench,
     title: "Computer Repair",
     href: "/computer-repair",
+    benefit: "Fast, reliable computer repairs for all makes and models. Get your device working again without the hassle."
   },
   {
     icon: ShieldAlert,
     title: "Virus Removal",
     href: "/virus-removal",
+    benefit: "Complete virus and malware removal with system protection. Restore your computer's performance and security."
   },
   {
     icon: Printer,
     title: "Printer Setup",
     href: "/printer-setup",
+    benefit: "Professional printer installation and configuration. Get printing from all your devices quickly and easily."
   },
   {
     icon: HardDrive,
     title: "Data Backup",
     href: "/data-backup",
+    benefit: "Protect your important files with automated backup solutions. Never lose your data again with professional setup."
   },
 ];
 
@@ -65,26 +69,33 @@ const ComputersPrintersCategory = () => {
         </div>
       </section>
 
-      {/* Select a Service */}
+      {/* Services Grid */}
       <section className="section-padding bg-background">
         <div className="container-max">
-          <h2 className="font-display text-2xl font-bold text-foreground mb-8">
-            Select a service
+          <h2 className="font-display text-2xl md:text-3xl font-bold text-foreground mb-8">
+            Our Computer & Printer Services
           </h2>
 
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
             {services.map((service, index) => (
               <Link
                 key={index}
                 to={service.href}
-                className="group bg-card border border-border rounded-xl p-6 text-center card-hover block"
+                className="group bg-card border border-border rounded-xl p-6 card-hover block"
               >
-                <div className="w-12 h-12 mx-auto mb-4 flex items-center justify-center">
-                  <service.icon className="w-8 h-8 text-muted-foreground group-hover:text-accent transition-colors" />
+                <div className="flex items-start gap-4">
+                  <div className="w-12 h-12 rounded-lg bg-accent/10 flex items-center justify-center flex-shrink-0 group-hover:bg-accent/20 transition-colors">
+                    <service.icon className="w-6 h-6 text-accent" />
+                  </div>
+                  <div className="flex-1">
+                    <h3 className="font-semibold text-foreground mb-2 group-hover:text-accent transition-colors">
+                      {service.title}
+                    </h3>
+                    <p className="text-sm text-muted-foreground leading-relaxed">
+                      {service.benefit}
+                    </p>
+                  </div>
                 </div>
-                <p className="text-sm font-medium text-foreground group-hover:text-accent transition-colors">
-                  {service.title}
-                </p>
               </Link>
             ))}
           </div>

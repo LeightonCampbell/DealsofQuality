@@ -9,21 +9,25 @@ const services = [
     icon: Camera,
     title: "Security Cameras",
     href: "/security-cameras",
+    benefit: "24/7 surveillance and peace of mind. Professional camera installation with remote monitoring and smart alerts."
   },
   {
     icon: Video,
     title: "Video Doorbells",
     href: "/video-doorbells",
+    benefit: "See and speak with visitors from anywhere. Enhanced security and convenience with professional installation."
   },
   {
     icon: Lock,
     title: "Smart Locks",
     href: "/smart-locks",
+    benefit: "Keyless entry with smartphone control. Secure your home with modern technology installed by experts."
   },
   {
     icon: Activity,
     title: "Motion Sensors",
     href: "/motion-sensors",
+    benefit: "Intelligent motion detection that alerts you to activity. Professional placement for maximum coverage and accuracy."
   },
 ];
 
@@ -65,26 +69,33 @@ const HomeSecurityCategory = () => {
         </div>
       </section>
 
-      {/* Select a Service */}
+      {/* Services Grid */}
       <section className="section-padding bg-background">
         <div className="container-max">
-          <h2 className="font-display text-2xl font-bold text-foreground mb-8">
-            Select a service
+          <h2 className="font-display text-2xl md:text-3xl font-bold text-foreground mb-8">
+            Our Home Security Services
           </h2>
 
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
             {services.map((service, index) => (
               <Link
                 key={index}
                 to={service.href}
-                className="group bg-card border border-border rounded-xl p-6 text-center card-hover block"
+                className="group bg-card border border-border rounded-xl p-6 card-hover block"
               >
-                <div className="w-12 h-12 mx-auto mb-4 flex items-center justify-center">
-                  <service.icon className="w-8 h-8 text-muted-foreground group-hover:text-accent transition-colors" />
+                <div className="flex items-start gap-4">
+                  <div className="w-12 h-12 rounded-lg bg-accent/10 flex items-center justify-center flex-shrink-0 group-hover:bg-accent/20 transition-colors">
+                    <service.icon className="w-6 h-6 text-accent" />
+                  </div>
+                  <div className="flex-1">
+                    <h3 className="font-semibold text-foreground mb-2 group-hover:text-accent transition-colors">
+                      {service.title}
+                    </h3>
+                    <p className="text-sm text-muted-foreground leading-relaxed">
+                      {service.benefit}
+                    </p>
+                  </div>
                 </div>
-                <p className="text-sm font-medium text-foreground group-hover:text-accent transition-colors">
-                  {service.title}
-                </p>
               </Link>
             ))}
           </div>

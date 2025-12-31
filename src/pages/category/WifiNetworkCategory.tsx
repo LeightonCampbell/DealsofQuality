@@ -9,21 +9,25 @@ const services = [
     icon: Router,
     title: "Router Setup",
     href: "/router-setup",
+    benefit: "Proper router configuration for maximum speed and security. Get the most out of your internet connection with expert setup."
   },
   {
     icon: Signal,
     title: "Network Optimization",
     href: "/network-optimization",
+    benefit: "Boost your network performance and eliminate bottlenecks. Faster speeds and more reliable connections throughout your space."
   },
   {
     icon: Wifi,
     title: "Dead Zone Elimination",
     href: "/dead-zone-elimination",
+    benefit: "Say goodbye to WiFi dead zones. Professional solutions ensure strong, consistent coverage in every room of your home or office."
   },
   {
     icon: Building2,
     title: "Business Networks",
     href: "/business-networks",
+    benefit: "Enterprise-grade network solutions for your business. Secure, scalable infrastructure that supports your growing operations."
   },
 ];
 
@@ -65,26 +69,33 @@ const WifiNetworkCategory = () => {
         </div>
       </section>
 
-      {/* Select a Service */}
+      {/* Services Grid */}
       <section className="section-padding bg-background">
         <div className="container-max">
-          <h2 className="font-display text-2xl font-bold text-foreground mb-8">
-            Select a service
+          <h2 className="font-display text-2xl md:text-3xl font-bold text-foreground mb-8">
+            Our WiFi & Network Services
           </h2>
 
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
             {services.map((service, index) => (
               <Link
                 key={index}
                 to={service.href}
-                className="group bg-card border border-border rounded-xl p-6 text-center card-hover block"
+                className="group bg-card border border-border rounded-xl p-6 card-hover block"
               >
-                <div className="w-12 h-12 mx-auto mb-4 flex items-center justify-center">
-                  <service.icon className="w-8 h-8 text-muted-foreground group-hover:text-accent transition-colors" />
+                <div className="flex items-start gap-4">
+                  <div className="w-12 h-12 rounded-lg bg-accent/10 flex items-center justify-center flex-shrink-0 group-hover:bg-accent/20 transition-colors">
+                    <service.icon className="w-6 h-6 text-accent" />
+                  </div>
+                  <div className="flex-1">
+                    <h3 className="font-semibold text-foreground mb-2 group-hover:text-accent transition-colors">
+                      {service.title}
+                    </h3>
+                    <p className="text-sm text-muted-foreground leading-relaxed">
+                      {service.benefit}
+                    </p>
+                  </div>
                 </div>
-                <p className="text-sm font-medium text-foreground group-hover:text-accent transition-colors">
-                  {service.title}
-                </p>
               </Link>
             ))}
           </div>
