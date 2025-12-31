@@ -245,17 +245,59 @@ const Services = () => {
                 </div>
 
                 {/* Services List */}
-                <div className="space-y-1">
-                  {category.services.map((service, serviceIndex) => (
-                    <Link
-                      key={service.href}
-                      to={service.href}
-                      className="block py-2 px-1 text-foreground hover:text-accent transition-colors duration-200 border-b border-transparent hover:border-accent/20"
-                    >
-                      {service.title}
-                    </Link>
-                  ))}
-                </div>
+                {category.title === "Home Services" ? (
+                  // Home Services: 3 columns with 10 services each
+                  <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+                    {[0, 1, 2].map((colIndex) => (
+                      <div key={colIndex} className="space-y-1">
+                        {category.services.slice(colIndex * 10, (colIndex + 1) * 10).map((service) => (
+                          <Link
+                            key={service.href}
+                            to={service.href}
+                            className="block py-2 px-1 text-foreground hover:text-accent transition-colors duration-200 border-b border-transparent hover:border-accent/20"
+                          >
+                            {service.title}
+                          </Link>
+                        ))}
+                      </div>
+                    ))}
+                  </div>
+                ) : category.services.length >= 6 ? (
+                  // Other categories with 6+ services: 3 columns
+                  <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+                    {[0, 1, 2].map((colIndex) => {
+                      const servicesPerColumn = Math.ceil(category.services.length / 3);
+                      const startIndex = colIndex * servicesPerColumn;
+                      const endIndex = Math.min(startIndex + servicesPerColumn, category.services.length);
+                      return (
+                        <div key={colIndex} className="space-y-1">
+                          {category.services.slice(startIndex, endIndex).map((service) => (
+                            <Link
+                              key={service.href}
+                              to={service.href}
+                              className="block py-2 px-1 text-foreground hover:text-accent transition-colors duration-200 border-b border-transparent hover:border-accent/20"
+                            >
+                              {service.title}
+                            </Link>
+                          ))}
+                        </div>
+                      );
+                    })}
+                  </div>
+                ) : (
+                  // Categories with fewer services: single column
+                  <div className="space-y-1">
+                    {category.services.map((service) => (
+                      <Link
+                        key={service.href}
+                        to={service.href}
+                        className="block py-2 px-1 text-foreground hover:text-accent transition-colors duration-200 border-b border-transparent hover:border-accent/20"
+                      >
+                        {service.title}
+                      </Link>
+                    ))}
+                  </div>
+                )}
               </div>
             ))}
           </div>
