@@ -65,7 +65,7 @@ const Footer = () => {
                 <img src={logo} alt="DoQuality" className="h-10 w-auto brightness-0 invert" />
               </Link>
               <p className="text-background/70 mb-6 leading-relaxed">
-                Your trusted partner for premium home services and smart technology needs.
+                Your trusted partner for premium home services and smart technology.
               </p>
               
               {/* Social Links */}
