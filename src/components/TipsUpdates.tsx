@@ -35,24 +35,31 @@ const TipsUpdates = () => {
     
     try {
       // Save subscription to database
-      const { error } = await supabase.from("form_submissions").insert({
+      const { error: dbError } = await supabase.from("form_submissions").insert({
         form_type: "newsletter",
         name: "Newsletter Subscriber",
         email: trimmedEmail,
         message: "Newsletter subscription request",
       });
 
-      if (error) {
-        if (import.meta.env.DEV) console.error("Subscription error:", error);
-        toast({
-          title: "Subscription failed",
-          description: "Please try again later.",
-          variant: "destructive",
-        });
-      } else {
-        setShowThankYou(true);
-        setEmail("");
+      if (dbError) throw dbError;
+
+      // Send email notification
+      const { error: emailError } = await supabase.functions.invoke("send-form-email", {
+        body: {
+          formType: "newsletter",
+          customerEmail: trimmedEmail,
+          customerName: "Newsletter Subscriber",
+          formData: {},
+        },
+      });
+
+      if (emailError && import.meta.env.DEV) {
+        console.error("Email error:", emailError);
       }
+
+      setShowThankYou(true);
+      setEmail("");
     } catch (err) {
       if (import.meta.env.DEV) console.error("Subscription error:", err);
       toast({

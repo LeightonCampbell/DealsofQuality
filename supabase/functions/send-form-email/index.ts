@@ -13,7 +13,7 @@ const corsHeaders = {
 const formDataSchema = z.record(z.string().max(2000).optional());
 
 const emailRequestSchema = z.object({
-  formType: z.enum(["booking", "schedule", "application"]),
+  formType: z.enum(["booking", "schedule", "application", "newsletter"]),
   customerEmail: z.string().email("Invalid email address").max(255),
   customerName: z.string().min(1, "Name is required").max(200),
   formData: formDataSchema,
@@ -136,41 +136,69 @@ const handler = async (req: Request): Promise<Response> => {
     let adminHtml = "";
 
     if (formType === "booking") {
-      customerSubject = "Your Booking Request - Deals Of Quality";
-      adminSubject = `New Booking Request from ${safeName}`;
+      // Check if this is a contact form message (has message field but no service/date)
+      const isContactForm = formData.message && !formData.service && !formData.preferredDate;
+      
+      if (isContactForm) {
+        customerSubject = "Thank You for Contacting Us - Deals Of Quality";
+        adminSubject = `New Contact Form Submission from ${safeName}`;
 
-      customerHtml = `
-        <h1>Thank you for your booking request, ${safeName}!</h1>
-        <p>We've received your service request and will contact you shortly to confirm your appointment.</p>
-        <h3>Your Request Details:</h3>
-        <ul>
-          <li><strong>Service:</strong> ${sanitizeValue(formData.service)}</li>
-          <li><strong>Preferred Date:</strong> ${sanitizeValue(formData.preferredDate)}</li>
-          <li><strong>Preferred Time:</strong> ${sanitizeValue(formData.preferredTime)}</li>
-          <li><strong>Address:</strong> ${sanitizeValue(formData.address)}</li>
-          <li><strong>Additional Details:</strong> ${sanitizeValue(formData.details)}</li>
-        </ul>
-        <p>If you have any questions, please call us at <strong>(818) 584-7389</strong>.</p>
-        <p>Best regards,<br>The Deals Of Quality Team</p>
-      `;
+        customerHtml = `
+          <h1>Thank you for contacting us, ${safeName}!</h1>
+          <p>We've received your message and will get back to you as soon as possible.</p>
+          <p>If you have any urgent questions, please call us at <strong>(818) 584-7389</strong>.</p>
+          <p>Best regards,<br>The Deals Of Quality Team</p>
+        `;
 
-      adminHtml = `
-        <h1>New Booking Request</h1>
-        <h3>Customer Information:</h3>
-        <ul>
-          <li><strong>Name:</strong> ${safeName}</li>
-          <li><strong>Email:</strong> ${safeEmail}</li>
-          <li><strong>Phone:</strong> ${sanitizeValue(formData.phone)}</li>
-        </ul>
-        <h3>Service Details:</h3>
-        <ul>
-          <li><strong>Service:</strong> ${sanitizeValue(formData.service)}</li>
-          <li><strong>Preferred Date:</strong> ${sanitizeValue(formData.preferredDate)}</li>
-          <li><strong>Preferred Time:</strong> ${sanitizeValue(formData.preferredTime)}</li>
-          <li><strong>Address:</strong> ${sanitizeValue(formData.address)}</li>
-          <li><strong>Additional Details:</strong> ${sanitizeValue(formData.details)}</li>
-        </ul>
-      `;
+        adminHtml = `
+          <h1>New Contact Form Submission</h1>
+          <h3>Contact Information:</h3>
+          <ul>
+            <li><strong>Name:</strong> ${safeName}</li>
+            <li><strong>Email:</strong> ${safeEmail}</li>
+            <li><strong>Phone:</strong> ${sanitizeValue(formData.phone)}</li>
+            ${formData.serviceCategory ? `<li><strong>Category:</strong> ${sanitizeValue(formData.serviceCategory)}</li>` : ''}
+          </ul>
+          <h3>Message:</h3>
+          <p>${sanitizeValue(formData.message)}</p>
+        `;
+      } else {
+        customerSubject = "Your Booking Request - Deals Of Quality";
+        adminSubject = `New Booking Request from ${safeName}`;
+
+        customerHtml = `
+          <h1>Thank you for your booking request, ${safeName}!</h1>
+          <p>We've received your service request and will contact you shortly to confirm your appointment.</p>
+          <h3>Your Request Details:</h3>
+          <ul>
+            <li><strong>Service:</strong> ${sanitizeValue(formData.service)}</li>
+            <li><strong>Preferred Date:</strong> ${sanitizeValue(formData.preferredDate)}</li>
+            <li><strong>Preferred Time:</strong> ${sanitizeValue(formData.preferredTime)}</li>
+            <li><strong>Address:</strong> ${sanitizeValue(formData.address)}</li>
+            <li><strong>Additional Details:</strong> ${sanitizeValue(formData.details)}</li>
+          </ul>
+          <p>If you have any questions, please call us at <strong>(818) 584-7389</strong>.</p>
+          <p>Best regards,<br>The Deals Of Quality Team</p>
+        `;
+
+        adminHtml = `
+          <h1>New Booking Request</h1>
+          <h3>Customer Information:</h3>
+          <ul>
+            <li><strong>Name:</strong> ${safeName}</li>
+            <li><strong>Email:</strong> ${safeEmail}</li>
+            <li><strong>Phone:</strong> ${sanitizeValue(formData.phone)}</li>
+          </ul>
+          <h3>Service Details:</h3>
+          <ul>
+            <li><strong>Service:</strong> ${sanitizeValue(formData.service)}</li>
+            <li><strong>Preferred Date:</strong> ${sanitizeValue(formData.preferredDate)}</li>
+            <li><strong>Preferred Time:</strong> ${sanitizeValue(formData.preferredTime)}</li>
+            <li><strong>Address:</strong> ${sanitizeValue(formData.address)}</li>
+            <li><strong>Additional Details:</strong> ${sanitizeValue(formData.details)}</li>
+          </ul>
+        `;
+      }
     } else if (formType === "schedule") {
       customerSubject = "Your Service Request - Deals Of Quality";
       adminSubject = `New Service Request from ${safeName}`;
@@ -245,23 +273,51 @@ const handler = async (req: Request): Promise<Response> => {
           <li><strong>About:</strong> ${sanitizeValue(formData.about)}</li>
         </ul>
       `;
+    } else if (formType === "newsletter") {
+      customerSubject = "Welcome to Deals Of Quality Newsletter!";
+      adminSubject = `New Newsletter Subscription: ${safeEmail}`;
+
+      customerHtml = `
+        <h1>Thank you for subscribing, ${safeName}!</h1>
+        <p>You've successfully subscribed to our newsletter. You'll receive updates on:</p>
+        <ul>
+          <li>Home service tips and maintenance advice</li>
+          <li>Special offers and promotions</li>
+          <li>New services and service categories</li>
+          <li>Technology updates and smart home insights</li>
+        </ul>
+        <p>If you have any questions, please call us at <strong>(818) 584-7389</strong>.</p>
+        <p>Best regards,<br>The Deals Of Quality Team</p>
+      `;
+
+      adminHtml = `
+        <h1>New Newsletter Subscription</h1>
+        <h3>Subscriber Information:</h3>
+        <ul>
+          <li><strong>Name:</strong> ${safeName}</li>
+          <li><strong>Email:</strong> ${safeEmail}</li>
+        </ul>
+        <p><strong>Subscription Date:</strong> ${new Date().toLocaleString()}</p>
+      `;
     }
 
-    // Send email to customer
-    const customerEmailResponse = await sendEmail(
-      customerEmail,
-      customerSubject,
-      customerHtml
-    );
-    console.log("Customer email sent successfully");
+    // Send email to customer (skip for newsletter if generic subscriber name)
+    if (formType !== "newsletter" || customerName !== "Newsletter Subscriber") {
+      const customerEmailResponse = await sendEmail(
+        customerEmail,
+        customerSubject,
+        customerHtml
+      );
+      console.log("Customer email sent successfully");
+    }
 
-    // Send email to admin
+    // Send email to admin (always send admin notification to feedback@dealsofquality.com)
     const adminEmailResponse = await sendEmail(
       adminEmail,
       adminSubject,
       adminHtml
     );
-    console.log("Admin email sent successfully");
+    console.log("Admin email sent successfully to", adminEmail);
 
     return new Response(
       JSON.stringify({

@@ -64,9 +64,11 @@ const Contact = () => {
           formType: "booking",
           customerName: data.name,
           customerEmail: data.email,
-          phone: data.phone,
-          message: data.message,
-          serviceCategory: "Contact Form Inquiry",
+          formData: {
+            phone: data.phone || "",
+            message: data.message,
+            serviceCategory: "Contact Form Inquiry",
+          },
         },
       });
 
