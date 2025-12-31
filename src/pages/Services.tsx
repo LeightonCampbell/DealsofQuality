@@ -195,27 +195,8 @@ const Services = () => {
 
       <Header />
 
-      {/* Hero Section */}
-      <section className="hero-gradient relative overflow-hidden pt-24 pb-16 md:pt-32 md:pb-20">
-        <div className="absolute inset-0 opacity-10">
-          <div className="absolute top-20 right-20 w-96 h-96 bg-accent rounded-full blur-3xl" />
-          <div className="absolute bottom-10 left-10 w-72 h-72 bg-primary-foreground rounded-full blur-3xl" />
-        </div>
-
-        <div className="container-max px-4 md:px-8 lg:px-16 relative z-10">
-          <div className="max-w-4xl mx-auto text-center">
-            <h1 className="font-display text-4xl md:text-5xl font-bold text-primary-foreground mb-6">
-              Our Premium Home Services
-            </h1>
-            <p className="text-primary-foreground/80 text-lg max-w-2xl mx-auto">
-              Carefully vetted, local professionals for all your home service needs. From plumbing and electrical to remodeling and smart home installation.
-            </p>
-          </div>
-        </div>
-      </section>
-
       {/* Service Categories */}
-      <section className="section-padding bg-background">
+      <section className="section-padding bg-background pt-24 md:pt-32">
         <div className="container-max">
           <div className="text-center mb-12">
             <h2 className="font-display text-3xl md:text-4xl font-bold text-foreground mb-4">
