@@ -1,4 +1,5 @@
 import { Helmet } from "react-helmet";
+import { useLocation } from "react-router-dom";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import ScheduleServiceDialog from "@/components/ScheduleServiceDialog";
@@ -45,12 +46,46 @@ const ServicePage = ({
   faqs,
   category,
 }: ServicePageProps) => {
+  const location = useLocation();
+  const canonicalUrl = `https://www.dealsofquality.com${location.pathname}`;
+  const priceNumber = price.replace(/[^0-9.]/g, "") || "0";
+
   return (
     <div className="flex flex-col min-h-screen">
       <Helmet>
         <title>{metaTitle}</title>
         <meta name="description" content={metaDescription} />
         <meta name="keywords" content={metaKeywords} />
+        <meta name="robots" content="index, follow" />
+        <link rel="canonical" href={canonicalUrl} />
+        <meta property="og:title" content={metaTitle} />
+        <meta property="og:description" content={metaDescription} />
+        <meta property="og:type" content="website" />
+        <meta property="og:url" content={canonicalUrl} />
+        <meta property="og:image" content="https://www.dealsofquality.com/og-image.png" />
+        <script type="application/ld+json">
+          {JSON.stringify({
+            "@context": "https://schema.org",
+            "@type": "Service",
+            "serviceType": title,
+            "provider": {
+              "@type": "Organization",
+              "name": "Deals Of Quality",
+              "url": "https://www.dealsofquality.com",
+              "telephone": "(818) 584-7389"
+            },
+            "areaServed": {
+              "@type": "Country",
+              "name": "United States"
+            },
+            "description": metaDescription,
+            "offers": {
+              "@type": "Offer",
+              "price": priceNumber,
+              "priceCurrency": "USD"
+            }
+          })}
+        </script>
       </Helmet>
 
       <Header />
@@ -60,18 +95,12 @@ const ServicePage = ({
         <section className="pt-24 pb-8 md:pt-32 md:pb-12 bg-background">
           <div className="container-max px-4 md:px-8 lg:px-16">
             <div className="grid lg:grid-cols-2 gap-12 items-start">
-              {/* Left Side - Image/Icon Area */}
+              {/* Left Side - Icon/Visual Area */}
               <div className="relative">
-                <div className="bg-secondary/30 rounded-2xl p-12 flex flex-col items-center justify-center min-h-[350px]">
-                  <Icon className="w-32 h-32 text-accent mb-6" />
-                  
-                  {/* Brand Logos */}
-                  <div className="flex flex-wrap items-center justify-center gap-6 mt-8 opacity-60">
-                    <span className="text-sm font-semibold text-muted-foreground">nest</span>
-                    <span className="text-sm font-semibold text-muted-foreground">ring</span>
-                    <span className="text-sm font-semibold text-muted-foreground">arlo</span>
-                    <span className="text-sm font-semibold text-muted-foreground">NETGEAR</span>
-                    <span className="text-sm font-semibold text-muted-foreground">SAMSUNG</span>
+                <div className="bg-gradient-to-br from-accent/20 via-accent/10 to-secondary/30 rounded-2xl p-16 flex items-center justify-center min-h-[350px] shadow-lg">
+                  <div className="relative">
+                    <div className="absolute inset-0 bg-accent/10 rounded-full blur-3xl" />
+                    <Icon className="w-40 h-40 text-accent relative z-10 drop-shadow-lg" />
                   </div>
                 </div>
               </div>

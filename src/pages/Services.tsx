@@ -244,17 +244,15 @@ const Services = () => {
                   </div>
                 </div>
 
-                {/* Services Grid */}
-                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-3">
+                {/* Services List */}
+                <div className="space-y-1">
                   {category.services.map((service, serviceIndex) => (
                     <Link
                       key={service.href}
                       to={service.href}
-                      className="group bg-card border border-border rounded-lg p-3 hover:shadow-md hover:border-accent/30 hover:bg-accent/5 transition-all duration-200 text-foreground hover:text-accent"
+                      className="block py-2 px-1 text-foreground hover:text-accent transition-colors duration-200 border-b border-transparent hover:border-accent/20"
                     >
-                      <span className="font-medium">
-                        {service.title}
-                      </span>
+                      {service.title}
                     </Link>
                   ))}
                 </div>

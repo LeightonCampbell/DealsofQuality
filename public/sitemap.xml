@@ -35,6 +35,12 @@
     <changefreq>yearly</changefreq>
     <priority>0.3</priority>
   </url>
+  <url>
+    <loc>https://www.dealsofquality.com/remote-support</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  
   <!-- Category Pages -->
   <url>
     <loc>https://www.dealsofquality.com/services/tv-mounting</loc>
@@ -71,155 +77,309 @@
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
   </url>
+  
+  <!-- Home Services -->
+  <url>
+    <loc>https://www.dealsofquality.com/handyman-services</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://www.dealsofquality.com/painting</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://www.dealsofquality.com/flooring-installation</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://www.dealsofquality.com/drywall-installation</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://www.dealsofquality.com/cabinet-installation</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://www.dealsofquality.com/tile-work</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://www.dealsofquality.com/window-door-replacement</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://www.dealsofquality.com/deck-patio-building</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://www.dealsofquality.com/fence-installation</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://www.dealsofquality.com/bathroom-remodeling</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://www.dealsofquality.com/kitchen-remodeling</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://www.dealsofquality.com/plumbing</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://www.dealsofquality.com/electrical</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://www.dealsofquality.com/hvac</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://www.dealsofquality.com/roofing</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://www.dealsofquality.com/appliance-repair</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://www.dealsofquality.com/water-heater-installation</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://www.dealsofquality.com/gutter-installation</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://www.dealsofquality.com/siding-installation</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://www.dealsofquality.com/garage-door-installation</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://www.dealsofquality.com/solar-panel-installation</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://www.dealsofquality.com/house-cleaning</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://www.dealsofquality.com/carpet-cleaning</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://www.dealsofquality.com/junk-removal</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://www.dealsofquality.com/pressure-washing</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://www.dealsofquality.com/gutter-cleaning</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://www.dealsofquality.com/pest-control</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://www.dealsofquality.com/organization-services</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://www.dealsofquality.com/landscaping</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://www.dealsofquality.com/snow-removal</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
   <!-- TV Mounting Services -->
   <url>
-    <loc>https://www.dealsofquality.com/services/tv-mounting/small</loc>
+    <loc>https://www.dealsofquality.com/tv-mounting-up-to-50</loc>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://www.dealsofquality.com/services/tv-mounting/medium</loc>
+    <loc>https://www.dealsofquality.com/tv-mounting-51-to-65</loc>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://www.dealsofquality.com/services/tv-mounting/large</loc>
+    <loc>https://www.dealsofquality.com/tv-mounting-over-65</loc>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://www.dealsofquality.com/services/tv-mounting/cable-concealment</loc>
+    <loc>https://www.dealsofquality.com/tv-cable-concealment</loc>
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
   </url>
   <url>
-    <loc>https://www.dealsofquality.com/services/tv-mounting/soundbar</loc>
+    <loc>https://www.dealsofquality.com/soundbar-installation</loc>
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
   </url>
+  <url>
+    <loc>https://www.dealsofquality.com/tv-dismount-remount</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
   <!-- Smart Home Services -->
   <url>
-    <loc>https://www.dealsofquality.com/services/smart-home/thermostats</loc>
+    <loc>https://www.dealsofquality.com/smart-thermostats</loc>
     <changefreq>monthly</changefreq>
-    <priority>0.6</priority>
+    <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://www.dealsofquality.com/services/smart-home/video-doorbells</loc>
+    <loc>https://www.dealsofquality.com/video-doorbells</loc>
     <changefreq>monthly</changefreq>
-    <priority>0.6</priority>
+    <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://www.dealsofquality.com/services/smart-home/smart-locks</loc>
+    <loc>https://www.dealsofquality.com/smart-locks</loc>
     <changefreq>monthly</changefreq>
-    <priority>0.6</priority>
+    <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://www.dealsofquality.com/services/smart-home/integration</loc>
+    <loc>https://www.dealsofquality.com/smart-home-integration</loc>
     <changefreq>monthly</changefreq>
-    <priority>0.6</priority>
+    <priority>0.7</priority>
   </url>
-  <!-- Audio Video Services -->
+  
+  <!-- Audio & Video Services -->
   <url>
-    <loc>https://www.dealsofquality.com/services/audio-video/home-theater</loc>
+    <loc>https://www.dealsofquality.com/home-theater</loc>
     <changefreq>monthly</changefreq>
-    <priority>0.6</priority>
-  </url>
-  <url>
-    <loc>https://www.dealsofquality.com/services/audio-video/surround-sound</loc>
-    <changefreq>monthly</changefreq>
-    <priority>0.6</priority>
+    <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://www.dealsofquality.com/services/audio-video/streaming</loc>
+    <loc>https://www.dealsofquality.com/surround-sound</loc>
     <changefreq>monthly</changefreq>
-    <priority>0.6</priority>
+    <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://www.dealsofquality.com/services/audio-video/gaming</loc>
+    <loc>https://www.dealsofquality.com/streaming-setup</loc>
     <changefreq>monthly</changefreq>
-    <priority>0.6</priority>
-  </url>
-  <!-- WiFi Network Services -->
-  <url>
-    <loc>https://www.dealsofquality.com/services/wifi-network/router-setup</loc>
-    <changefreq>monthly</changefreq>
-    <priority>0.6</priority>
+    <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://www.dealsofquality.com/services/wifi-network/optimization</loc>
+    <loc>https://www.dealsofquality.com/gaming-setup</loc>
     <changefreq>monthly</changefreq>
-    <priority>0.6</priority>
+    <priority>0.7</priority>
+  </url>
+  
+  <!-- WiFi & Network Services -->
+  <url>
+    <loc>https://www.dealsofquality.com/router-setup</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://www.dealsofquality.com/services/wifi-network/dead-zones</loc>
+    <loc>https://www.dealsofquality.com/network-optimization</loc>
     <changefreq>monthly</changefreq>
-    <priority>0.6</priority>
+    <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://www.dealsofquality.com/services/wifi-network/business</loc>
+    <loc>https://www.dealsofquality.com/dead-zone-elimination</loc>
     <changefreq>monthly</changefreq>
-    <priority>0.6</priority>
+    <priority>0.7</priority>
   </url>
+  <url>
+    <loc>https://www.dealsofquality.com/business-networks</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  
   <!-- Home Security Services -->
   <url>
-    <loc>https://www.dealsofquality.com/services/home-security/cameras</loc>
+    <loc>https://www.dealsofquality.com/security-cameras</loc>
     <changefreq>monthly</changefreq>
-    <priority>0.6</priority>
+    <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://www.dealsofquality.com/services/home-security/video-doorbells</loc>
+    <loc>https://www.dealsofquality.com/motion-sensors</loc>
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
+  </url>
+  
+  <!-- Computers & Printers Services -->
+  <url>
+    <loc>https://www.dealsofquality.com/computer-repair</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://www.dealsofquality.com/services/home-security/smart-locks</loc>
+    <loc>https://www.dealsofquality.com/virus-removal</loc>
     <changefreq>monthly</changefreq>
-    <priority>0.6</priority>
+    <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://www.dealsofquality.com/services/home-security/motion-sensors</loc>
+    <loc>https://www.dealsofquality.com/printer-setup</loc>
     <changefreq>monthly</changefreq>
-    <priority>0.6</priority>
-  </url>
-  <!-- Computer Services -->
-  <url>
-    <loc>https://www.dealsofquality.com/services/computers-printers/repair</loc>
-    <changefreq>monthly</changefreq>
-    <priority>0.6</priority>
+    <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://www.dealsofquality.com/services/computers-printers/virus-removal</loc>
+    <loc>https://www.dealsofquality.com/data-backup</loc>
     <changefreq>monthly</changefreq>
-    <priority>0.6</priority>
+    <priority>0.7</priority>
   </url>
-  <url>
-    <loc>https://www.dealsofquality.com/services/computers-printers/printer-setup</loc>
-    <changefreq>monthly</changefreq>
-    <priority>0.6</priority>
-  </url>
-  <url>
-    <loc>https://www.dealsofquality.com/services/computers-printers/data-backup</loc>
-    <changefreq>monthly</changefreq>
-    <priority>0.6</priority>
-  </url>
+  
   <!-- Business Services -->
   <url>
-    <loc>https://www.dealsofquality.com/services/business/website-design</loc>
+    <loc>https://www.dealsofquality.com/website-design</loc>
     <changefreq>monthly</changefreq>
-    <priority>0.6</priority>
+    <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://www.dealsofquality.com/services/business/remote-support</loc>
+    <loc>https://www.dealsofquality.com/remote-support-service</loc>
     <changefreq>monthly</changefreq>
-    <priority>0.6</priority>
+    <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://www.dealsofquality.com/services/business/it-solutions</loc>
+    <loc>https://www.dealsofquality.com/business-it-solutions</loc>
     <changefreq>monthly</changefreq>
-    <priority>0.6</priority>
+    <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://www.dealsofquality.com/services/business/custom</loc>
+    <loc>https://www.dealsofquality.com/custom-solutions</loc>
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
   </url>

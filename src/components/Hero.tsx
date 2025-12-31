@@ -218,8 +218,8 @@ const Hero = () => {
         !inputRef.current.contains(event.target as Node)
       ) {
         setShowSuggestions(false);
-      }
-    };
+    }
+  };
 
     document.addEventListener("mousedown", handleClickOutside);
     return () => document.removeEventListener("mousedown", handleClickOutside);

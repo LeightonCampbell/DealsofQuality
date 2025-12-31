@@ -1,73 +1,92 @@
-# Welcome to your Lovable project
+# Deals Of Quality - Premium Home Services Marketplace
 
-## Project info
+## Admin Dashboard Access
 
-**URL**: https://lovable.dev/projects/REPLACE_WITH_PROJECT_ID
+### Accessing the Admin Dashboard
 
-## How can I edit this code?
+1. **Admin Login Page**: Navigate to `/admin` in your browser
+   - URL: `https://www.dealsofquality.com/admin`
+   - Or locally: `http://localhost:8080/admin`
 
-There are several ways of editing your application.
+2. **Admin Dashboard**: After logging in, you'll be redirected to `/admin/dashboard`
+   - URL: `https://www.dealsofquality.com/admin/dashboard`
 
-**Use Lovable**
+### Authentication
 
-Simply visit the [Lovable Project](https://lovable.dev/projects/REPLACE_WITH_PROJECT_ID) and start prompting.
+- The admin dashboard requires authentication through Supabase
+- You must have an admin role assigned in the `user_roles` table
+- Contact your system administrator to set up admin access
 
-Changes made via Lovable will be committed automatically to this repo.
+### Direct URL Access (Routing)
 
-**Use your preferred IDE**
+If you're having trouble accessing pages by typing the URL directly in the address bar:
 
-If you want to work locally using your own IDE, you can clone this repo and push changes. Pushed changes will also be reflected in Lovable.
+**For Development:**
+- Direct URL access should work automatically with Vite's dev server
+- Example: `http://localhost:8080/services` or `http://localhost:8080/plumbing`
 
-The only requirement is having Node.js & npm installed - [install with nvm](https://github.com/nvm-sh/nvm#installing-and-updating)
+**For Production:**
+- The `vercel.json` configuration file ensures all routes are properly handled
+- All routes should redirect to `index.html` for proper client-side routing
+- If you're using a different hosting provider, you may need to configure your server to serve `index.html` for all routes
 
-Follow these steps:
+**If direct URLs still don't work:**
+1. Make sure you're using the production build (`npm run build`)
+2. Ensure your hosting provider supports SPA routing (most modern hosts do)
+3. Check that `vercel.json` is deployed (for Vercel) or configure your server accordingly
 
-```sh
-# Step 1: Clone the repository using the project's Git URL.
-git clone <YOUR_GIT_URL>
+### Available Routes
 
-# Step 2: Navigate to the project directory.
-cd <YOUR_PROJECT_NAME>
+- `/` - Homepage
+- `/services` - All services listing
+- `/contact` - Contact page
+- `/faqs` - FAQs page
+- `/join-as-pro` - Join as a professional
+- `/terms` - Terms of Service
+- `/privacy` - Privacy Policy
+- `/admin` - Admin login
+- `/admin/dashboard` - Admin dashboard
+- `/plumbing`, `/electrical`, `/hvac`, etc. - Individual service pages
 
-# Step 3: Install the necessary dependencies.
-npm i
+## SEO Configuration
 
-# Step 4: Start the development server with auto-reloading and an instant preview.
+The website is configured for search engine indexing:
+
+- ✅ `robots.txt` allows all search engines to crawl
+- ✅ `sitemap.xml` includes all service pages
+- ✅ Meta tags and structured data (JSON-LD) on all pages
+- ✅ Canonical URLs for all pages
+- ✅ Open Graph tags for social sharing
+
+### Submit to Google Search Console
+
+1. Go to [Google Search Console](https://search.google.com/search-console)
+2. Add your property: `https://www.dealsofquality.com`
+3. Submit your sitemap: `https://www.dealsofquality.com/sitemap.xml`
+4. Request indexing for important pages
+
+## Development
+
+```bash
+# Install dependencies
+npm install
+
+# Start development server
 npm run dev
+
+# Build for production
+npm run build
+
+# Preview production build
+npm run preview
 ```
 
-**Edit a file directly in GitHub**
+## Technologies
 
-- Navigate to the desired file(s).
-- Click the "Edit" button (pencil icon) at the top right of the file view.
-- Make your changes and commit the changes.
-
-**Use GitHub Codespaces**
-
-- Navigate to the main page of your repository.
-- Click on the "Code" button (green button) near the top right.
-- Select the "Codespaces" tab.
-- Click on "New codespace" to launch a new Codespace environment.
-- Edit files directly within the Codespace and commit and push your changes once you're done.
-
-## What technologies are used for this project?
-
-This project is built with:
-
-- Vite
+- React 18
 - TypeScript
-- React
-- shadcn-ui
+- Vite
+- React Router
 - Tailwind CSS
-
-## How can I deploy this project?
-
-Simply open [Lovable](https://lovable.dev/projects/REPLACE_WITH_PROJECT_ID) and click on Share -> Publish.
-
-## Can I connect a custom domain to my Lovable project?
-
-Yes, you can!
-
-To connect a domain, navigate to Project > Settings > Domains and click Connect Domain.
-
-Read more here: [Setting up a custom domain](https://docs.lovable.dev/features/custom-domain#custom-domain)
+- shadcn/ui
+- Supabase
