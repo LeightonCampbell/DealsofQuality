@@ -27,7 +27,7 @@ const priorityServices = [
 const HeroNew = () => {
   const [selectedService, setSelectedService] = useState("");
   const [zipCode, setZipCode] = useState("");
-  const [userCity, setUserCity] = useState("Your Area");
+  const [userCity, setUserCity] = useState("Los Angeles");
   const [availablePros, setAvailablePros] = useState(12);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
@@ -38,14 +38,22 @@ const HeroNew = () => {
       try {
         const response = await fetch("https://ipapi.co/json/");
         const data = await response.json();
-        if (data.city) {
+        if (data.city && data.country_code === "US") {
+          // Use detected US city
           setUserCity(data.city);
           // Randomize available pros between 8-18 for realism
           setAvailablePros(Math.floor(Math.random() * 11) + 8);
+        } else if (data.city) {
+          // If outside US, still use the city
+          setUserCity(data.city);
+          setAvailablePros(Math.floor(Math.random() * 11) + 8);
+        } else {
+          // Fallback to default US city
+          setUserCity("Los Angeles");
         }
       } catch (error) {
-        // Fallback to default
-        setUserCity("Your Area");
+        // Fallback to default US city
+        setUserCity("Los Angeles");
       } finally {
         setIsLoading(false);
       }
@@ -84,8 +92,10 @@ const HeroNew = () => {
 
             {/* Headline */}
             <h1 className="font-display text-4xl md:text-5xl lg:text-6xl font-bold text-foreground leading-tight mb-4 animate-fade-in animation-delay-100">
-              Premium Home Services{" "}
-              <span className="block text-accent">in Los Angeles</span>
+              Premium Home Services
+              <span className="block">
+                {" "}in <span className="text-accent">{userCity}</span>
+              </span>
             </h1>
 
             {/* Subheadline */}
