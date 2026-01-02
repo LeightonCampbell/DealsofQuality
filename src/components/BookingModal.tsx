@@ -35,9 +35,10 @@ interface BookingModalProps {
   onClose: () => void;
   initialService?: string;
   initialZip?: string;
+  customServiceText?: string; // For "Other" service custom text
 }
 
-const BookingModal = ({ isOpen, onClose, initialService = "", initialZip = "" }: BookingModalProps) => {
+const BookingModal = ({ isOpen, onClose, initialService = "", initialZip = "", customServiceText = "" }: BookingModalProps) => {
   const navigate = useNavigate();
   const [step, setStep] = useState(1);
   const [isSearching, setIsSearching] = useState(false);
@@ -51,33 +52,6 @@ const BookingModal = ({ isOpen, onClose, initialService = "", initialZip = "" }:
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [phone, setPhone] = useState("");
-
-  // Reset form when modal opens
-  useEffect(() => {
-    if (isOpen) {
-      setStep(1);
-      setService(initialService);
-      setZipCode(initialZip);
-      setIsSearching(false);
-    }
-  }, [isOpen, initialService, initialZip]);
-
-  const handleStep1Next = () => {
-    if (!service) {
-      toast({ title: "Please select a service", variant: "destructive" });
-      return;
-    }
-    setStep(2);
-  };
-
-  const handleStep2Next = () => {
-    if (!zipCode || zipCode.length < 5) {
-      toast({ title: "Please enter a valid ZIP code", variant: "destructive" });
-      return;
-    }
-    setStep(3);
-    simulateSearch();
-  };
 
   const simulateSearch = () => {
     setIsSearching(true);
@@ -102,6 +76,49 @@ const BookingModal = ({ isOpen, onClose, initialService = "", initialZip = "" }:
     });
   };
 
+  // Reset form when modal opens
+  useEffect(() => {
+    if (isOpen) {
+      // If service and zip are already provided, skip to step 4 (contact info)
+      if (initialService && initialZip && initialZip.length === 5) {
+        setService(initialService);
+        setZipCode(initialZip);
+        // If custom service text was provided (for "Other"), populate projectDetails
+        if (customServiceText) {
+          setProjectDetails(customServiceText);
+        }
+        // Simulate finding pros and go to step 4
+        simulateSearch();
+      } else {
+        setStep(1);
+        setService(initialService);
+        setZipCode(initialZip);
+        // If custom service text was provided, populate projectDetails
+        if (customServiceText) {
+          setProjectDetails(customServiceText);
+        }
+      }
+      setIsSearching(false);
+    }
+  }, [isOpen, initialService, initialZip, customServiceText]);
+
+  const handleStep1Next = () => {
+    if (!service) {
+      toast({ title: "Please select a service", variant: "destructive" });
+      return;
+    }
+    setStep(2);
+  };
+
+  const handleStep2Next = () => {
+    if (!zipCode || zipCode.length < 5) {
+      toast({ title: "Please enter a valid ZIP code", variant: "destructive" });
+      return;
+    }
+    setStep(3);
+    simulateSearch();
+  };
+
   const handleSubmit = async () => {
     if (!name || !email || !phone) {
       toast({ title: "Please fill in all fields", variant: "destructive" });
@@ -111,24 +128,37 @@ const BookingModal = ({ isOpen, onClose, initialService = "", initialZip = "" }:
     setIsSubmitting(true);
 
     try {
+      // Determine service label - if it's "other", use the custom text, otherwise use the service label
+      const isOtherService = service === "other" || !services.find(s => s.value === service);
+      const serviceLabel = isOtherService 
+        ? (customServiceText || projectDetails || "Custom Service")
+        : (services.find(s => s.value === service)?.label || service);
+      
+      // Combine projectDetails with custom service text if "Other" was selected
+      const finalProjectDetails = isOtherService && customServiceText && !projectDetails.includes(customServiceText)
+        ? `${customServiceText}${projectDetails ? ` - ${projectDetails}` : ''}`
+        : projectDetails;
+
       const { error } = await supabase.from("form_submissions").insert({
         form_type: "booking",
         name,
         email,
         phone,
         zip: zipCode,
-        service_category: services.find(s => s.value === service)?.label || service,
-        message: projectDetails,
+        service_category: serviceLabel,
+        message: finalProjectDetails,
       });
 
       if (error) throw error;
-
-      // Get the service label for display
-      const serviceLabel = services.find(s => s.value === service)?.label || service;
       
       // Navigate to success page with query params
+      // Don't include "Other" in the service name - use the custom text or "Service"
+      const displayServiceName = isOtherService 
+        ? (customServiceText || "Service")
+        : serviceLabel;
+      
       onClose();
-      navigate(`/success?service=${encodeURIComponent(serviceLabel)}&zip=${encodeURIComponent(zipCode)}`);
+      navigate(`/success?service=${encodeURIComponent(displayServiceName)}&zip=${encodeURIComponent(zipCode)}`);
     } catch (error) {
       toast({
         title: "Something went wrong",

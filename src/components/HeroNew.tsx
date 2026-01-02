@@ -34,6 +34,8 @@ const HeroNew = () => {
   
   const [selectedService, setSelectedService] = useState("");
   const [customServiceText, setCustomServiceText] = useState("");
+  const [serviceInputValue, setServiceInputValue] = useState("");
+  const [isServiceDropdownOpen, setIsServiceDropdownOpen] = useState(false);
   const [zipCode, setZipCode] = useState("");
   const [zipCodeFocused, setZipCodeFocused] = useState(false);
   const [isLocating, setIsLocating] = useState(false);
@@ -42,11 +44,11 @@ const HeroNew = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
 
-  // Determine if "Other" is selected
-  const isOther = selectedService === "other";
+  // Determine if "Other" is selected or if user typed a custom service
+  const isOther = selectedService === "other" || (serviceInputValue.length > 0 && !priorityServices.find(s => s.label.toLowerCase() === serviceInputValue.toLowerCase()));
   
   // Get the actual service value (either selected or custom)
-  const serviceValue = isOther ? customServiceText : selectedService;
+  const serviceValue = isOther ? (customServiceText || serviceInputValue) : selectedService;
   
   // Button enabled state: service must be selected/typed AND zip must be 5 digits
   const isButtonEnabled = (serviceValue.length > 0) && (zipCode.length === 5);
@@ -98,23 +100,59 @@ const HeroNew = () => {
     }
   }, [selectedService, isMobile]);
 
-  // Auto-focus other service input when "Other" is selected
+  // Close dropdown when clicking outside
   useEffect(() => {
-    if (isOther && otherServiceInputRef.current) {
-      setTimeout(() => {
-        otherServiceInputRef.current?.focus();
-      }, 100);
-    }
-  }, [isOther]);
+    const handleClickOutside = (event: MouseEvent) => {
+      if (otherServiceInputRef.current && !otherServiceInputRef.current.contains(event.target as Node)) {
+        setIsServiceDropdownOpen(false);
+      }
+    };
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => document.removeEventListener("mousedown", handleClickOutside);
+  }, []);
 
   // Handle service selection change
   const handleServiceChange = (value: string) => {
     setSelectedService(value);
-    // Reset custom text if switching away from "Other"
-    if (value !== "other") {
+    if (value === "other") {
+      setServiceInputValue("");
+      setIsServiceDropdownOpen(false);
+    } else {
+      // Set the input value to the selected service label
+      const service = priorityServices.find(s => s.value === value);
+      setServiceInputValue(service?.label || "");
+      setCustomServiceText("");
+      setIsServiceDropdownOpen(false);
+    }
+  };
+
+  // Handle service input change (Angi.com-style typing)
+  const handleServiceInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const value = e.target.value;
+    setServiceInputValue(value);
+    
+    // Check if the input matches a service exactly
+    const exactMatch = priorityServices.find(s => s.label.toLowerCase() === value.toLowerCase());
+    if (exactMatch) {
+      setSelectedService(exactMatch.value);
+      setCustomServiceText("");
+    } else if (value.length > 0) {
+      // User is typing a custom service
+      setSelectedService("other");
+      setCustomServiceText(value);
+      setIsServiceDropdownOpen(true);
+    } else {
+      setSelectedService("");
       setCustomServiceText("");
     }
   };
+
+  // Filter services based on input
+  const filteredServices = serviceInputValue.length > 0
+    ? priorityServices.filter(s => 
+        s.label.toLowerCase().includes(serviceInputValue.toLowerCase())
+      )
+    : priorityServices;
 
   // Handle zip code change with validation
   const handleZipChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -249,54 +287,53 @@ const HeroNew = () => {
             {/* Dual Search Bar */}
             <div className="max-w-2xl mx-auto animate-fade-in-up animation-delay-300">
               <div className="bg-card rounded-xl border border-border shadow-lg p-2 flex flex-col md:flex-row gap-2">
-                {/* Service Dropdown or Custom Input */}
+                {/* Service Input with Dropdown (Angi.com-style) */}
                 <div className="flex-1 relative">
-                  {isOther ? (
-                    <div className="animate-fade-in">
-                      <Input
-                        ref={otherServiceInputRef}
-                        type="text"
-                        placeholder="What do you need help with? (e.g. Attic cleaning...)"
-                        value={customServiceText}
-                        onChange={(e) => setCustomServiceText(e.target.value)}
-                        className="w-full h-14 border-0 bg-transparent text-base px-4 focus:ring-0 focus:ring-offset-0"
-                        onKeyDown={(e) => {
-                          // Allow user to press Escape or Backspace when empty to go back to dropdown
-                          if (e.key === "Escape" || (e.key === "Backspace" && customServiceText === "")) {
-                            setSelectedService("");
-                            setCustomServiceText("");
-                          }
-                        }}
-                      />
-                      <button
-                        onClick={() => {
-                          setSelectedService("");
-                          setCustomServiceText("");
-                        }}
-                        className="absolute right-2 top-1/2 -translate-y-1/2 text-muted-foreground hover:text-foreground transition-colors"
-                        aria-label="Back to service list"
-                      >
-                        <ChevronDown className="w-4 h-4 rotate-180" />
-                      </button>
-                    </div>
-                  ) : (
-                    <Select value={selectedService} onValueChange={handleServiceChange}>
-                      <SelectTrigger className="w-full h-14 border-0 bg-transparent text-base px-4 focus:ring-0 focus:ring-offset-0">
-                        <SelectValue placeholder="What service do you need?" />
-                      </SelectTrigger>
-                      <SelectContent className="bg-card border border-border z-50">
-                        {priorityServices.map((service) => (
-                          <SelectItem 
-                            key={service.value} 
-                            value={service.value}
-                            className="text-base py-3 cursor-pointer hover:bg-accent/10"
+                  <div className="relative">
+                    <Input
+                      ref={otherServiceInputRef}
+                      type="text"
+                      placeholder="What service do you need?"
+                      value={serviceInputValue}
+                      onChange={handleServiceInputChange}
+                      onFocus={() => setIsServiceDropdownOpen(true)}
+                      className="w-full h-14 border-0 bg-transparent text-base px-4 focus:ring-0 focus:ring-offset-0"
+                      onKeyDown={(e) => {
+                        if (e.key === "Escape") {
+                          setIsServiceDropdownOpen(false);
+                        }
+                      }}
+                    />
+                    {isServiceDropdownOpen && filteredServices.length > 0 && (
+                      <div className="absolute top-full left-0 right-0 mt-1 bg-card border border-border rounded-lg shadow-lg z-50 max-h-60 overflow-y-auto">
+                        {filteredServices.map((service) => (
+                          <button
+                            key={service.value}
+                            type="button"
+                            onClick={() => {
+                              handleServiceChange(service.value);
+                            }}
+                            className="w-full text-left px-4 py-3 hover:bg-accent/10 transition-colors text-base"
                           >
                             {service.label}
-                          </SelectItem>
+                          </button>
                         ))}
-                      </SelectContent>
-                    </Select>
-                  )}
+                        {serviceInputValue.length > 0 && !priorityServices.find(s => s.label.toLowerCase() === serviceInputValue.toLowerCase()) && (
+                          <button
+                            type="button"
+                            onClick={() => {
+                              setSelectedService("other");
+                              setCustomServiceText(serviceInputValue);
+                              setIsServiceDropdownOpen(false);
+                            }}
+                            className="w-full text-left px-4 py-3 hover:bg-accent/10 transition-colors text-base border-t border-border"
+                          >
+                            Use "{serviceInputValue}"
+                          </button>
+                        )}
+                      </div>
+                    )}
+                  </div>
                 </div>
 
                 {/* Divider */}
@@ -362,8 +399,9 @@ const HeroNew = () => {
       <BookingModal
         isOpen={isModalOpen}
         onClose={() => setIsModalOpen(false)}
-        initialService={serviceValue}
+        initialService={isOther ? "other" : selectedService}
         initialZip={zipCode}
+        customServiceText={isOther ? customServiceText : ""}
       />
     </>
   );

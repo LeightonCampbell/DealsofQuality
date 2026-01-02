@@ -1,8 +1,7 @@
 import { Helmet } from "react-helmet";
-import { useSearchParams, Link } from "react-router-dom";
+import { useSearchParams } from "react-router-dom";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
-import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { CheckCircle2, Search, Phone, Shield, Check } from "lucide-react";
 
@@ -101,7 +100,7 @@ const SuccessPage = () => {
               </h1>
               
               <p className="text-lg md:text-xl text-muted-foreground mb-12 animate-fade-in-up animation-delay-100">
-                Hang tight. We're finding the perfect <span className="font-semibold text-foreground">{serviceName}</span> Pro for your project{zipCode && ` in ${zipCode}`}.
+                Hang tight. We're finding the perfect Pro for your project{zipCode && ` in ${zipCode}`}.
               </p>
             </div>
           </div>
@@ -121,8 +120,8 @@ const SuccessPage = () => {
                 <TimelineStep
                   step={2}
                   icon={Search}
-                  title="Matching with Local Pros"
-                  subtitle="Scanning for available, highly-rated specialists nearby."
+                  title="Matching with The Right Pro"
+                  subtitle="You are being matched with a highly-rated specialist nearby."
                   status="active"
                 />
                 <TimelineStep
@@ -201,35 +200,35 @@ const SuccessPage = () => {
               </h2>
               
               <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-                <Card className="card-hover cursor-pointer">
+                <Card>
                   <CardContent className="p-6">
                     <h3 className="font-semibold text-foreground mb-2">
-                      How to Clear the Work Area
+                      Clear the Workspace
                     </h3>
                     <p className="text-sm text-muted-foreground">
-                      Simple tips to prepare your space for the professional's arrival.
+                      Ensure the area around the project is accessible and free of clutter or breakables.
                     </p>
                   </CardContent>
                 </Card>
                 
-                <Card className="card-hover cursor-pointer">
+                <Card>
                   <CardContent className="p-6">
                     <h3 className="font-semibold text-foreground mb-2">
-                      Checklist for Service Visits
+                      Secure Your Pets
                     </h3>
                     <p className="text-sm text-muted-foreground">
-                      Everything you need to know before your pro arrives.
+                      For the safety of your technician and your pets, please keep them in a separate room during the visit.
                     </p>
                   </CardContent>
                 </Card>
                 
-                <Card className="card-hover cursor-pointer">
+                <Card>
                   <CardContent className="p-6">
                     <h3 className="font-semibold text-foreground mb-2">
-                      What to Expect
+                      Note Your Questions
                     </h3>
                     <p className="text-sm text-muted-foreground">
-                      Learn about our process and what happens during the service.
+                      Write down any specific concerns or questions you have so you can discuss them directly with your Pro.
                     </p>
                   </CardContent>
                 </Card>
@@ -241,17 +240,7 @@ const SuccessPage = () => {
         {/* Footer & Support Section */}
         <section className="py-16">
           <div className="container-max px-4">
-            <div className="max-w-2xl mx-auto text-center space-y-6">
-              <Button 
-                asChild
-                size="lg"
-                className="bg-cta hover:bg-cta/90 text-cta-foreground px-8 py-6 text-base font-semibold"
-              >
-                <Link to="/admin/dashboard">
-                  View Request Status in Dashboard
-                </Link>
-              </Button>
-              
+            <div className="max-w-2xl mx-auto text-center">
               <p className="text-muted-foreground">
                 Need to make a change?{" "}
                 <a 
