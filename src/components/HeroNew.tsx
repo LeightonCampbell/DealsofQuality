@@ -84,8 +84,8 @@ const HeroNew = () => {
 
             {/* Headline */}
             <h1 className="font-display text-4xl md:text-5xl lg:text-6xl font-bold text-foreground leading-tight mb-4 animate-fade-in animation-delay-100">
-              Premium Home Services in{" "}
-              <span className="text-accent">{userCity}</span>
+              Premium Home Services{" "}
+              <span className="block text-accent">in Los Angeles</span>
             </h1>
 
             {/* Subheadline */}
