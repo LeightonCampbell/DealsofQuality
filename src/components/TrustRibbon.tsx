@@ -53,10 +53,10 @@ const TrustRibbon = () => {
         </div>
 
         {/* Mobile: Carousel showing one item at a time */}
-        <div className="md:hidden flex items-center justify-center min-h-[60px] relative">
+        <div className="md:hidden flex items-center justify-center min-h-[60px]">
           <div
             key={currentIndex}
-            className="flex items-center gap-3 text-muted-foreground animate-fade-in absolute inset-0 justify-center"
+            className="flex items-center gap-3 text-muted-foreground animate-fade-in"
           >
             <div className="w-10 h-10 rounded-full bg-success/10 flex items-center justify-center flex-shrink-0">
               {(() => {
