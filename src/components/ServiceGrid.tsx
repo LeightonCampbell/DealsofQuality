@@ -1,0 +1,134 @@
+import { Link } from "react-router-dom";
+import {
+  Tv,
+  Home,
+  Droplet,
+  Zap,
+  Wrench,
+  Wifi,
+  Theater,
+  Camera,
+  ArrowRight,
+} from "lucide-react";
+
+const services = [
+  {
+    icon: Tv,
+    title: "TV Mounting",
+    description: "Professional wall mounting for any TV size",
+    href: "/tv-mounting-up-to-50",
+    popular: true,
+  },
+  {
+    icon: Home,
+    title: "Smart Home",
+    description: "Thermostats, locks, doorbells & more",
+    href: "/smart-home-integration",
+    popular: true,
+  },
+  {
+    icon: Droplet,
+    title: "Plumbing",
+    description: "Repairs, installations & emergencies",
+    href: "/plumbing",
+    popular: false,
+  },
+  {
+    icon: Zap,
+    title: "Electrical",
+    description: "Safe, licensed electrical work",
+    href: "/electrical",
+    popular: false,
+  },
+  {
+    icon: Wrench,
+    title: "Handyman",
+    description: "Furniture, repairs & odd jobs",
+    href: "/handyman-services",
+    popular: true,
+  },
+  {
+    icon: Wifi,
+    title: "WiFi & Network",
+    description: "Setup, optimization & dead zones",
+    href: "/router-setup",
+    popular: false,
+  },
+  {
+    icon: Theater,
+    title: "Home Theater",
+    description: "Surround sound & streaming setup",
+    href: "/home-theater",
+    popular: false,
+  },
+  {
+    icon: Camera,
+    title: "Security Cameras",
+    description: "Professional camera installation",
+    href: "/security-cameras",
+    popular: false,
+  },
+];
+
+const ServiceGrid = () => {
+  return (
+    <section className="section-padding bg-background">
+      <div className="container-max">
+        {/* Section Header */}
+        <div className="flex flex-col md:flex-row md:items-end md:justify-between mb-10">
+          <div className="text-center md:text-left">
+            <h2 className="font-display text-2xl md:text-3xl font-bold text-foreground mb-2">
+              Popular Services
+            </h2>
+            <p className="text-muted-foreground">
+              Expert help for your home's most important needs
+            </p>
+          </div>
+          <Link
+            to="/services"
+            className="inline-flex items-center gap-1 text-accent font-semibold mt-4 md:mt-0 hover:gap-2 transition-all duration-300"
+          >
+            View all services
+            <ArrowRight className="w-4 h-4" />
+          </Link>
+        </div>
+
+        {/* Services Grid */}
+        <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 md:gap-6">
+          {services.map((service, index) => (
+            <Link
+              key={service.title}
+              to={service.href}
+              className="group relative bg-card rounded-xl border border-border p-6 hover:shadow-lg hover:border-accent/30 transition-all duration-300 animate-fade-in-up"
+              style={{ animationDelay: `${index * 50}ms` }}
+            >
+              {/* Popular Badge */}
+              {service.popular && (
+                <span className="absolute -top-2 -right-2 bg-cta text-cta-foreground text-xs font-semibold px-2 py-1 rounded-full">
+                  Popular
+                </span>
+              )}
+
+              {/* Icon */}
+              <div className="w-14 h-14 rounded-xl bg-accent/10 flex items-center justify-center mb-4 group-hover:bg-accent/20 transition-colors duration-300">
+                <service.icon className="w-7 h-7 text-accent" />
+              </div>
+
+              {/* Title */}
+              <h3 className="font-display text-base font-semibold text-foreground mb-1 group-hover:text-accent transition-colors">
+                {service.title}
+              </h3>
+
+              {/* Description */}
+              <p className="text-sm text-muted-foreground leading-relaxed">
+                {service.description}
+              </p>
+            </Link>
+          ))}
+        </div>
+      </div>
+    </section>
+  );
+};
+
+export default ServiceGrid;
