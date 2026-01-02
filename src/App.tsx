@@ -20,6 +20,7 @@ import ModernWebsite2026 from "./pages/blog/ModernWebsite2026";
 import ComputerNeedsSupport from "./pages/blog/ComputerNeedsSupport";
 import TVMountingDoneRight from "./pages/blog/TVMountingDoneRight";
 import TVMountingMistakes from "./pages/blog/TVMountingMistakes";
+import SuccessPage from "./pages/SuccessPage";
 
 // Admin Pages (lazy loaded to avoid React instance conflicts)
 const AdminLogin = lazy(() => import("./pages/admin/AdminLogin"));
@@ -120,6 +121,9 @@ const App = () => (
           <Route path="/blog/signs-your-computer-needs-professional-support" element={<ComputerNeedsSupport />} />
           <Route path="/blog/tv-mounting-done-right-why-professional-installation-matters" element={<TVMountingDoneRight />} />
           <Route path="/blog/top-5-mistakes-to-avoid-when-mounting-your-tv" element={<TVMountingMistakes />} />
+          
+          {/* Success Page */}
+          <Route path="/success" element={<SuccessPage />} />
           
           {/* Admin Routes */}
           <Route path="/admin" element={<Suspense fallback={<div className="min-h-screen flex items-center justify-center">Loading...</div>}><AdminLogin /></Suspense>} />

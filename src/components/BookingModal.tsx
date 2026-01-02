@@ -12,6 +12,7 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { MapPin, CheckCircle2, Loader2, ArrowRight, ArrowLeft } from "lucide-react";
+import { useNavigate } from "react-router-dom";
 import { supabase } from "@/integrations/supabase/client";
 import { toast } from "@/hooks/use-toast";
 
@@ -37,6 +38,7 @@ interface BookingModalProps {
 }
 
 const BookingModal = ({ isOpen, onClose, initialService = "", initialZip = "" }: BookingModalProps) => {
+  const navigate = useNavigate();
   const [step, setStep] = useState(1);
   const [isSearching, setIsSearching] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
@@ -121,11 +123,12 @@ const BookingModal = ({ isOpen, onClose, initialService = "", initialZip = "" }:
 
       if (error) throw error;
 
-      toast({
-        title: "Request submitted!",
-        description: "We'll connect you with a pro shortly.",
-      });
+      // Get the service label for display
+      const serviceLabel = services.find(s => s.value === service)?.label || service;
+      
+      // Navigate to success page with query params
       onClose();
+      navigate(`/success?service=${encodeURIComponent(serviceLabel)}&zip=${encodeURIComponent(zipCode)}`);
     } catch (error) {
       toast({
         title: "Something went wrong",
