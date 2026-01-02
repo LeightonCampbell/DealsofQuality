@@ -79,15 +79,17 @@ const BookingModal = ({ isOpen, onClose, initialService = "", initialZip = "", c
   // Reset form when modal opens
   useEffect(() => {
     if (isOpen) {
-      // If service and zip are already provided, skip to step 4 (contact info)
+      // If service and zip are already provided (from Hero), skip to step 4 (Project Details + Contact Info)
       if (initialService && initialZip && initialZip.length === 5) {
         setService(initialService);
         setZipCode(initialZip);
-        // If custom service text was provided (for "Other"), populate projectDetails
+        // If custom service text was provided (for "Other"), populate projectDetails textarea
         if (customServiceText) {
           setProjectDetails(customServiceText);
         }
-        // Simulate finding pros and go to step 4
+        // Skip directly to step 4 (Project Details + Contact Info)
+        setStep(4);
+        // Simulate finding pros in background
         simulateSearch();
       } else {
         setStep(1);
@@ -178,7 +180,6 @@ const BookingModal = ({ isOpen, onClose, initialService = "", initialZip = "", c
         {/* Progress bar */}
         <div className="p-4 border-b border-border">
           <Progress value={progressValue} className="h-1.5" />
-          <p className="text-xs text-muted-foreground mt-2">Step {step} of 4</p>
         </div>
 
         <div className="p-6">

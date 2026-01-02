@@ -1,5 +1,6 @@
 import { Button } from "@/components/ui/button";
 import { Phone, ArrowRight } from "lucide-react";
+import ScheduleServiceDialog from "@/components/ScheduleServiceDialog";
 
 const CTA = () => {
   return (
@@ -22,12 +23,11 @@ const CTA = () => {
 
           {/* CTAs */}
           <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
-            <Button variant="hero" size="xl" asChild>
-              <a href="https://www.dealsofquality.com/provider-request8c944202" className="flex items-center gap-2">
-                Schedule Service Now
-                <ArrowRight className="w-5 h-5" />
-              </a>
-            </Button>
+            <ScheduleServiceDialog 
+              triggerText="Find A Pro Now" 
+              triggerVariant="hero" 
+              triggerSize="xl"
+            />
             <Button variant="heroOutline" size="xl" asChild>
               <a href="tel:+18185847389" className="flex items-center gap-2">
                 <Phone className="w-5 h-5" />

@@ -24,7 +24,6 @@ const priorityServices = [
   { value: "security", label: "Security Cameras", route: "/security-cameras" },
   { value: "computer-repair", label: "Computer Repair", route: "/computer-repair" },
   { value: "hvac", label: "HVAC", route: "/hvac" },
-  { value: "other", label: "Other", route: "" },
 ];
 
 const HeroNew = () => {

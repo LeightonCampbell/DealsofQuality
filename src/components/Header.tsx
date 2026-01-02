@@ -58,7 +58,7 @@ const Header = () => {
               <Phone className="w-5 h-5 text-accent" />
               (818) 584-7389
             </a>
-            <ScheduleServiceDialog triggerText="Schedule Service" triggerSize="default" />
+            <ScheduleServiceDialog triggerText="Find a Pro" triggerSize="default" />
           </div>
 
           {/* Mobile Menu Button */}
@@ -140,7 +140,7 @@ const Header = () => {
                 <Phone className="w-5 h-5 text-accent" />
                 (818) 584-7389
               </a>
-              <ScheduleServiceDialog triggerText="Schedule Service" triggerSize="default" triggerClassName="w-full" />
+              <ScheduleServiceDialog triggerText="Find a Pro" triggerSize="default" triggerClassName="w-full" />
             </div>
           </nav>
         )}
