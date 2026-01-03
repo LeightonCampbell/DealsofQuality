@@ -16,6 +16,15 @@ import { useNavigate } from "react-router-dom";
 import { supabase } from "@/integrations/supabase/client";
 import { toast } from "@/hooks/use-toast";
 
+// Validate US ZIP code (5 digits, range 00501-99950)
+const isValidUSZipCode = (zip: string): boolean => {
+  if (!zip || zip.length !== 5) return false;
+  const zipNum = parseInt(zip, 10);
+  // Valid US ZIP codes range from 00501 to 99950
+  // Some ranges are invalid, but this covers the vast majority
+  return zipNum >= 501 && zipNum <= 99950 && !isNaN(zipNum);
+};
+
 const services = [
   { value: "tv-mounting", label: "TV Mounting" },
   { value: "smart-home", label: "Smart Home Installation" },
@@ -48,6 +57,7 @@ const BookingModal = ({ isOpen, onClose, initialService = "", initialZip = "", c
   // Form state
   const [service, setService] = useState(initialService);
   const [zipCode, setZipCode] = useState(initialZip);
+  const [zipCodeError, setZipCodeError] = useState("");
   const [projectDetails, setProjectDetails] = useState("");
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
@@ -113,10 +123,17 @@ const BookingModal = ({ isOpen, onClose, initialService = "", initialZip = "", c
   };
 
   const handleStep2Next = () => {
-    if (!zipCode || zipCode.length < 5) {
+    if (!zipCode || zipCode.length !== 5) {
+      setZipCodeError("Please enter a 5-digit ZIP code");
       toast({ title: "Please enter a valid ZIP code", variant: "destructive" });
       return;
     }
+    if (!isValidUSZipCode(zipCode)) {
+      setZipCodeError("Please enter a valid US ZIP code (00501-99950)");
+      toast({ title: "Please enter a valid US ZIP code", variant: "destructive" });
+      return;
+    }
+    setZipCodeError("");
     setStep(3);
     simulateSearch();
   };
@@ -227,16 +244,37 @@ const BookingModal = ({ isOpen, onClose, initialService = "", initialZip = "", c
                 </p>
               </div>
 
-              <div className="relative">
-                <MapPin className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-muted-foreground" />
-                <Input
-                  type="text"
-                  placeholder="Enter ZIP code"
-                  value={zipCode}
-                  onChange={(e) => setZipCode(e.target.value.replace(/\D/g, '').slice(0, 5))}
-                  className="h-14 text-base pl-12"
-                  maxLength={5}
-                />
+              <div className="space-y-2">
+                <div className="relative">
+                  <MapPin className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-muted-foreground" />
+                  <Input
+                    type="text"
+                    placeholder="Enter ZIP code"
+                    value={zipCode}
+                    onChange={(e) => {
+                      const value = e.target.value.replace(/\D/g, '').slice(0, 5);
+                      setZipCode(value);
+                      
+                      // Validate when user has entered 5 digits
+                      if (value.length === 5) {
+                        if (isValidUSZipCode(value)) {
+                          setZipCodeError("");
+                        } else {
+                          setZipCodeError("Please enter a valid US ZIP code (00501-99950)");
+                        }
+                      } else {
+                        setZipCodeError("");
+                      }
+                    }}
+                    className={`h-14 text-base pl-12 ${
+                      zipCodeError ? "border-red-500 focus-visible:ring-red-500" : ""
+                    }`}
+                    maxLength={5}
+                  />
+                </div>
+                {zipCodeError && (
+                  <p className="text-sm text-red-500">{zipCodeError}</p>
+                )}
               </div>
 
               <div className="flex gap-3">

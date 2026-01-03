@@ -12,6 +12,15 @@ import {
 import BookingModal from "@/components/BookingModal";
 import { useIsMobile } from "@/hooks/use-mobile";
 
+// Validate US ZIP code (5 digits, range 00501-99950)
+const isValidUSZipCode = (zip: string): boolean => {
+  if (!zip || zip.length !== 5) return false;
+  const zipNum = parseInt(zip, 10);
+  // Valid US ZIP codes range from 00501 to 99950
+  // Some ranges are invalid, but this covers the vast majority
+  return zipNum >= 501 && zipNum <= 99950 && !isNaN(zipNum);
+};
+
 // All services from Services page for autosuggest
 const allServices = [
   // Home Services
@@ -93,6 +102,7 @@ const HeroNew = () => {
   const [isServiceDropdownOpen, setIsServiceDropdownOpen] = useState(false);
   const [zipCode, setZipCode] = useState("");
   const [zipCodeFocused, setZipCodeFocused] = useState(false);
+  const [zipCodeError, setZipCodeError] = useState("");
   const [isLocating, setIsLocating] = useState(false);
   const [availablePros] = useState(12);
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -103,8 +113,11 @@ const HeroNew = () => {
   // Get the actual service value (either selected or custom)
   const serviceValue = isOther ? (customServiceText || serviceInputValue) : selectedService;
   
-  // Button enabled state: service must be selected/typed AND zip must be 5 digits
-  const isButtonEnabled = (serviceValue.length > 0) && (zipCode.length === 5);
+  // Validate zip code
+  const isZipValid = zipCode.length === 5 && isValidUSZipCode(zipCode);
+  
+  // Button enabled state: service must be selected/typed AND zip must be valid US zip code
+  const isButtonEnabled = (serviceValue.length > 0) && isZipValid;
 
   // Sequential highlight logic: Glow zip code when service is selected
   useEffect(() => {
@@ -175,6 +188,17 @@ const HeroNew = () => {
   const handleZipChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const value = e.target.value.replace(/\D/g, '').slice(0, 5);
     setZipCode(value);
+    
+    // Validate when user has entered 5 digits
+    if (value.length === 5) {
+      if (isValidUSZipCode(value)) {
+        setZipCodeError("");
+      } else {
+        setZipCodeError("Please enter a valid US ZIP code (00501-99950)");
+      }
+    } else {
+      setZipCodeError("");
+    }
   };
 
   // Geolocation handler
@@ -202,8 +226,9 @@ const HeroNew = () => {
             
             if (data.postcode) {
               const zip = data.postcode.replace(/\D/g, '').slice(0, 5);
-              if (zip.length === 5) {
+              if (zip.length === 5 && isValidUSZipCode(zip)) {
                 setZipCode(zip);
+                setZipCodeError("");
                 setIsLocating(false);
                 return;
               }
@@ -221,8 +246,9 @@ const HeroNew = () => {
             
             if (data.address?.postcode) {
               const zip = data.address.postcode.replace(/\D/g, '').slice(0, 5);
-              if (zip.length === 5) {
+              if (zip.length === 5 && isValidUSZipCode(zip)) {
                 setZipCode(zip);
+                setZipCodeError("");
                 setIsLocating(false);
                 return;
               }
@@ -338,35 +364,42 @@ const HeroNew = () => {
                 <div className="hidden md:block w-px bg-border my-2" />
 
                 {/* Zip Code Input with Locate Me */}
-                <div 
-                  className={`flex items-center gap-2 px-4 border-t md:border-t-0 border-border md:border-none relative transition-all duration-300 ${
-                    zipCodeFocused ? "ring-2 ring-blue-400/50 rounded-md" : ""
-                  }`}
-                >
-                  <MapPin className="w-5 h-5 text-muted-foreground flex-shrink-0" />
-                  <input
-                    ref={zipInputRef}
-                    type="tel"
-                    inputMode="numeric"
-                    placeholder={zipCodeFocused ? "12345 or e.g. 90210" : "ZIP Code"}
-                    value={zipCode}
-                    onChange={handleZipChange}
-                    maxLength={5}
-                    className="w-28 py-4 text-foreground placeholder:text-muted-foreground bg-transparent border-0 focus:outline-none focus:ring-0 text-base"
-                  />
-                  <button
-                    onClick={handleLocateMe}
-                    disabled={isLocating}
-                    className="flex-shrink-0 text-muted-foreground hover:text-accent transition-colors disabled:opacity-50"
-                    aria-label="Use my location"
-                    title="Use my location"
+                <div className="flex flex-col">
+                  <div 
+                    className={`flex items-center gap-2 px-4 border-t md:border-t-0 border-border md:border-none relative transition-all duration-300 ${
+                      zipCodeFocused ? "ring-2 ring-blue-400/50 rounded-md" : ""
+                    } ${
+                      zipCodeError ? "ring-2 ring-red-400/50 rounded-md" : ""
+                    }`}
                   >
-                    {isLocating ? (
-                      <Loader2 className="w-4 h-4 animate-spin" />
-                    ) : (
-                      <Navigation className="w-4 h-4" />
-                    )}
-                  </button>
+                    <MapPin className="w-5 h-5 text-muted-foreground flex-shrink-0" />
+                    <input
+                      ref={zipInputRef}
+                      type="tel"
+                      inputMode="numeric"
+                      placeholder={zipCodeFocused ? "12345 or e.g. 90210" : "ZIP Code"}
+                      value={zipCode}
+                      onChange={handleZipChange}
+                      maxLength={5}
+                      className="w-28 py-4 text-foreground placeholder:text-muted-foreground bg-transparent border-0 focus:outline-none focus:ring-0 text-base"
+                    />
+                    <button
+                      onClick={handleLocateMe}
+                      disabled={isLocating}
+                      className="flex-shrink-0 text-muted-foreground hover:text-accent transition-colors disabled:opacity-50"
+                      aria-label="Use my location"
+                      title="Use my location"
+                    >
+                      {isLocating ? (
+                        <Loader2 className="w-4 h-4 animate-spin" />
+                      ) : (
+                        <Navigation className="w-4 h-4" />
+                      )}
+                    </button>
+                  </div>
+                  {zipCodeError && (
+                    <p className="text-xs text-red-500 mt-1 px-4">{zipCodeError}</p>
+                  )}
                 </div>
 
                 {/* CTA Button */}
