@@ -6,9 +6,10 @@ The `form_submissions` table now has proper Row Level Security (RLS) policies th
 ## Security Policies Applied
 
 ### SELECT Policy
-- **Policy Name:** "Admins can view all form submissions"
+- **Policy Name:** "Only admins can view submissions"
 - **Access:** Only authenticated users with 'admin' role
 - **Denied:** Anonymous users and authenticated non-admin users
+- **Policy:** `USING (auth.uid() IS NOT NULL AND public.has_role(auth.uid(), 'admin'::app_role))`
 
 ### INSERT Policy
 - **Policy Name:** "Anyone can insert form submissions"
@@ -43,11 +44,16 @@ SELECT * FROM form_submissions;
 SELECT * FROM form_submissions;
 ```
 
-## Migration Applied
-The migration file `20251218000000_secure_form_submissions_select.sql` ensures:
+## Migrations Applied
+1. **Initial Migration** (`20251217074936_*`): Created table with RLS and initial policies
+2. **Security Update** (`20251218000000_secure_form_submissions_select.sql`): Enhanced SELECT policy security
+3. **Final Security** (`20251219000000_ensure_secure_form_submissions_select.sql`): Ensures admin-only SELECT access with explicit policy
+
+All migrations ensure:
 1. RLS is enabled on the table
-2. SELECT policy explicitly checks for admin role
+2. SELECT policy explicitly checks for admin role using `has_role(auth.uid(), 'admin'::app_role)`
 3. All other access is denied by default (RLS behavior)
+4. Anonymous users cannot SELECT (no matching policy)
 
 ## Application Code
 - **Admin Dashboard:** Uses authenticated admin session to SELECT data
