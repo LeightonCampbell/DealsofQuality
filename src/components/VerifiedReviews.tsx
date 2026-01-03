@@ -200,33 +200,30 @@ const VerifiedReviews = () => {
       return `translateX(-${currentIndex * 100}%)`;
     }
     // Desktop: show 3 testimonials at once, with current centered
-    // Each testimonial is 33.333% wide
-    // To center a testimonial, we need to position it at 50% of viewport
-    // Testimonial center positions: 0 at 16.666%, 1 at 50%, 2 at 83.333%, etc.
-    // To center index N: move carousel so N's center (at N*33.333% + 16.666%) aligns with 50%
-    // Offset = (N * 33.333% + 16.666%) - 50% = N * 33.333% - 33.333%
-    // Simplified: offset = (N - 1) * 33.333%
-    // For index 0: can't center perfectly, show 0, 1, 2 (offset 0)
-    // For index 1: offset = 0, shows 0, 1, 2 with 1 centered ✓
-    // For index 2: offset = 33.333%, shows 1, 2, 3 with 2 centered ✓
-    const slideWidth = 100 / itemsPerView; // 33.333%
-    const offset = currentIndex === 0 ? 0 : (currentIndex - 1) * slideWidth;
+    // With gap-8 (32px), each item is approximately 33.333% wide
+    // The gap adds spacing, so we approximate the slide distance
+    // For a 1400px container: item = ~445px, gap = 32px, total = ~477px per slide
+    // That's about 34% of container width per slide
+    // Simplified: use ~34% per slide to account for gap
+    if (currentIndex === 0) {
+      return `translateX(0)`;
+    }
+    // Each slide moves by approximately one item width + gap
+    // Approximate: 34% per slide (accounts for item width ~33.3% + gap ~0.7%)
+    const slideWidthPercent = 34;
+    const offset = (currentIndex - 1) * slideWidthPercent;
     return `translateX(-${offset}%)`;
   };
 
   return (
-    <section className="section-padding bg-secondary/50">
-      <div className="container-max">
+    <section className="section-padding bg-[#f8f9fa]">
+      <div className="container-max max-w-[1400px]">
         {/* Section Header */}
-        <div className="text-center max-w-3xl mx-auto mb-12">
-          <div className="inline-flex items-center gap-2 bg-success/10 text-success px-4 py-2 rounded-full text-sm font-medium mb-4">
-            <BadgeCheck className="w-4 h-4" />
-            Verified Reviews
-          </div>
-          <h2 className="font-display text-3xl md:text-4xl font-bold text-foreground mb-4">
+        <div className="text-center max-w-3xl mx-auto mb-16">
+          <h2 className="text-4xl md:text-5xl font-bold text-[#1a1a1a] mb-3">
             Trusted by Thousands of Homeowners
           </h2>
-          <p className="text-lg text-muted-foreground">
+          <p className="text-lg text-[#6b7280] font-normal">
             Real reviews from verified customers
           </p>
         </div>
@@ -242,10 +239,10 @@ const VerifiedReviews = () => {
           aria-label="Customer testimonials carousel"
         >
           {/* Carousel Wrapper */}
-          <div className="overflow-hidden rounded-2xl w-full">
+          <div className="overflow-hidden w-full">
             <div
               ref={carouselRef}
-              className="flex transition-transform duration-700 ease-in-out w-full"
+              className="flex transition-transform duration-700 ease-in-out w-full gap-8"
               style={{
                 transform: getTransform(),
               }}
@@ -255,13 +252,26 @@ const VerifiedReviews = () => {
                 // On mobile: show only the current testimonial
                 const isCenter = !isMobile && index === currentIndex;
                 
+                // Generate avatar gradient class based on index for variety
+                const avatarGradients = [
+                  'bg-gradient-to-br from-blue-500 to-blue-600',
+                  'bg-gradient-to-br from-orange-500 to-orange-600',
+                  'bg-gradient-to-br from-green-500 to-green-600',
+                  'bg-gradient-to-br from-purple-500 to-purple-600',
+                  'bg-gradient-to-br from-pink-500 to-pink-600',
+                  'bg-gradient-to-br from-indigo-500 to-indigo-600',
+                  'bg-gradient-to-br from-teal-500 to-teal-600',
+                  'bg-gradient-to-br from-cyan-500 to-cyan-600',
+                ];
+                const avatarClass = avatarGradients[index % avatarGradients.length];
+                
                 return (
                 <div
                   key={`${testimonial.author}-${index}`}
                   className={`flex-shrink-0 transition-all duration-500 ${
                     isMobile 
                       ? 'w-full px-2' 
-                      : 'flex-[0_0_33.333%] px-3'
+                      : 'flex-[0_0_calc((100%-64px)/3)]'
                   } ${
                     isMobile && index !== currentIndex ? 'opacity-0 pointer-events-none' : ''
                   }`}
@@ -270,56 +280,52 @@ const VerifiedReviews = () => {
                   aria-label={`Testimonial ${index + 1} of ${testimonials.length}`}
                 >
                   <article
-                    className={`bg-card rounded-2xl border p-6 md:p-8 hover:shadow-lg transition-all duration-500 h-full ${
+                    className={`bg-white rounded-2xl p-8 shadow-sm hover:shadow-xl hover:-translate-y-1 transition-all duration-300 h-full relative ${
                       isCenter 
-                        ? 'border-accent shadow-xl scale-105 z-10 relative md:ring-2 md:ring-accent/20' 
+                        ? 'shadow-lg scale-[1.02] z-10' 
                         : isMobile 
-                        ? 'border-border scale-100'
-                        : 'border-border scale-95 opacity-80'
+                        ? 'scale-100'
+                        : 'scale-100 opacity-90'
                     }`}
                   >
-                    {/* Header with Service Tag */}
-                    <div className="flex items-start justify-between mb-4">
-                      <div className="flex items-center gap-2">
-                        {/* Stars */}
-                        <div className="flex gap-0.5" aria-label={`${testimonial.rating} out of 5 stars`}>
-                          {Array.from({ length: testimonial.rating }).map((_, i) => (
-                            <Star
-                              key={i}
-                              className="w-4 h-4 text-cta fill-cta"
-                              aria-hidden="true"
-                            />
-                          ))}
-                        </div>
-                      </div>
-                      {/* Service Tag */}
-                      <span className="text-xs font-medium bg-accent/10 text-accent px-3 py-1 rounded-full">
-                        {testimonial.service}
-                      </span>
+                    {/* Stars */}
+                    <div className="flex gap-1 mb-5" aria-label={`${testimonial.rating} out of 5 stars`}>
+                      {Array.from({ length: testimonial.rating }).map((_, i) => (
+                        <Star
+                          key={i}
+                          className="w-5 h-5 text-[#ff6b35] fill-[#ff6b35]"
+                          aria-hidden="true"
+                        />
+                      ))}
                     </div>
 
+                    {/* Service Tag - Absolutely positioned */}
+                    <span className="absolute top-8 right-8 bg-[#e8f3ff] text-[#0066cc] px-3.5 py-1.5 rounded-full text-xs font-medium">
+                      {testimonial.service}
+                    </span>
+
                     {/* Quote */}
-                    <blockquote className="text-foreground text-base md:text-lg leading-relaxed mb-6">
+                    <blockquote className="text-[#374151] text-base leading-[1.7] mb-6 mt-3">
                       "{testimonial.quote}"
                     </blockquote>
 
                     {/* Author */}
-                    <div className="flex items-center gap-3">
-                      <div className="w-10 h-10 rounded-full bg-accent/10 flex items-center justify-center">
-                        <span className="text-accent font-bold">
+                    <div className="flex items-center gap-3 mt-6">
+                      <div className={`w-12 h-12 rounded-full ${avatarClass} flex items-center justify-center flex-shrink-0`}>
+                        <span className="text-white font-semibold text-lg">
                           {testimonial.author[0]}
                         </span>
                       </div>
-                      <div>
-                        <div className="flex items-center gap-2">
-                          <span className="font-display font-semibold text-foreground">
+                      <div className="flex-1">
+                        <div className="flex items-center gap-1.5">
+                          <span className="font-semibold text-[#1a1a1a] text-[15px]">
                             {testimonial.author}
                           </span>
                           {testimonial.verified && (
-                            <BadgeCheck className="w-4 h-4 text-success" aria-label="Verified customer" />
+                            <BadgeCheck className="w-4 h-4 text-[#10b981]" aria-label="Verified customer" />
                           )}
                         </div>
-                        <span className="text-sm text-muted-foreground">
+                        <span className="text-sm text-[#6b7280] mt-0.5 block">
                           Verified Customer
                         </span>
                       </div>
@@ -401,23 +407,23 @@ const VerifiedReviews = () => {
         </div>
 
         {/* Trust Stats */}
-        <div className="mt-12 pt-8 border-t border-border">
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-6 text-center">
-            <div>
-              <div className="font-display text-3xl md:text-4xl font-bold text-foreground">10,000+</div>
-              <div className="text-sm text-muted-foreground mt-1">Happy Customers</div>
+        <div className="mt-20">
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-10 md:gap-16 bg-white rounded-2xl shadow-sm p-12 md:p-20">
+            <div className="text-center">
+              <div className="text-5xl md:text-6xl font-bold text-[#1a1a1a] mb-2">10,000+</div>
+              <div className="text-[15px] text-[#6b7280] font-medium">Happy Customers</div>
             </div>
-            <div>
-              <div className="font-display text-3xl md:text-4xl font-bold text-foreground">4.9</div>
-              <div className="text-sm text-muted-foreground mt-1">Average Rating</div>
+            <div className="text-center">
+              <div className="text-5xl md:text-6xl font-bold text-[#1a1a1a] mb-2">4.9</div>
+              <div className="text-[15px] text-[#6b7280] font-medium">Average Rating</div>
             </div>
-            <div>
-              <div className="font-display text-3xl md:text-4xl font-bold text-foreground">500+</div>
-              <div className="text-sm text-muted-foreground mt-1">Vetted Pros</div>
+            <div className="text-center">
+              <div className="text-5xl md:text-6xl font-bold text-[#1a1a1a] mb-2">500+</div>
+              <div className="text-[15px] text-[#6b7280] font-medium">Vetted Pros</div>
             </div>
-            <div>
-              <div className="font-display text-3xl md:text-4xl font-bold text-foreground">98%</div>
-              <div className="text-sm text-muted-foreground mt-1">Satisfaction Rate</div>
+            <div className="text-center">
+              <div className="text-5xl md:text-6xl font-bold text-[#1a1a1a] mb-2">98%</div>
+              <div className="text-[15px] text-[#6b7280] font-medium">Satisfaction Rate</div>
             </div>
           </div>
         </div>
