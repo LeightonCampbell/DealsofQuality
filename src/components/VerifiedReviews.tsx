@@ -199,12 +199,17 @@ const VerifiedReviews = () => {
       // Mobile: show 1 testimonial at a time, fully visible
       return `translateX(-${currentIndex * 100}%)`;
     }
-    // Desktop: show 3 testimonials, center the current one
-    // To center the current testimonial, we offset by (currentIndex - 1) * slideWidth
-    // This positions: prev, current (center), next
+    // Desktop: show 3 testimonials at once, with current centered
+    // Each testimonial is 33.333% wide
+    // To center a testimonial, we need to position it at 50% of viewport
+    // Testimonial center positions: 0 at 16.666%, 1 at 50%, 2 at 83.333%, etc.
+    // To center index N: move carousel so N's center (at N*33.333% + 16.666%) aligns with 50%
+    // Offset = (N * 33.333% + 16.666%) - 50% = N * 33.333% - 33.333%
+    // Simplified: offset = (N - 1) * 33.333%
+    // For index 0: can't center perfectly, show 0, 1, 2 (offset 0)
+    // For index 1: offset = 0, shows 0, 1, 2 with 1 centered ✓
+    // For index 2: offset = 33.333%, shows 1, 2, 3 with 2 centered ✓
     const slideWidth = 100 / itemsPerView; // 33.333%
-    // Handle edge cases: for first testimonial, we can't show previous, so offset is 0
-    // For others, offset by (currentIndex - 1) to center the current one
     const offset = currentIndex === 0 ? 0 : (currentIndex - 1) * slideWidth;
     return `translateX(-${offset}%)`;
   };
@@ -237,10 +242,10 @@ const VerifiedReviews = () => {
           aria-label="Customer testimonials carousel"
         >
           {/* Carousel Wrapper */}
-          <div className="overflow-hidden rounded-2xl">
+          <div className="overflow-hidden rounded-2xl w-full">
             <div
               ref={carouselRef}
-              className="flex transition-transform duration-700 ease-in-out"
+              className="flex transition-transform duration-700 ease-in-out w-full"
               style={{
                 transform: getTransform(),
               }}
@@ -253,7 +258,11 @@ const VerifiedReviews = () => {
                 return (
                 <div
                   key={`${testimonial.author}-${index}`}
-                  className={`min-w-full md:min-w-[calc(33.333%-0.5rem)] px-2 flex-shrink-0 transition-all duration-500 ${
+                  className={`flex-shrink-0 transition-all duration-500 ${
+                    isMobile 
+                      ? 'w-full px-2' 
+                      : 'flex-[0_0_33.333%] px-3'
+                  } ${
                     isMobile && index !== currentIndex ? 'opacity-0 pointer-events-none' : ''
                   }`}
                   role="group"
