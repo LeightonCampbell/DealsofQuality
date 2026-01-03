@@ -1,8 +1,11 @@
+import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Phone, ArrowRight } from "lucide-react";
-import ScheduleServiceDialog from "@/components/ScheduleServiceDialog";
+import BookingModal from "@/components/BookingModal";
 
 const CTA = () => {
+  const [isBookingModalOpen, setIsBookingModalOpen] = useState(false);
+
   return (
     <section id="quote" className="section-padding hero-gradient relative overflow-hidden">
       {/* Background Elements */}
@@ -23,11 +26,15 @@ const CTA = () => {
 
           {/* CTAs */}
           <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
-            <ScheduleServiceDialog 
-              triggerText="Find A Pro Now" 
-              triggerVariant="hero" 
-              triggerSize="xl"
-            />
+            <Button 
+              variant="hero" 
+              size="xl"
+              onClick={() => setIsBookingModalOpen(true)}
+              className="flex items-center gap-2"
+            >
+              Find A Pro Now
+              <ArrowRight className="w-5 h-5" />
+            </Button>
             <Button variant="heroOutline" size="xl" asChild>
               <a href="tel:+18185847389" className="flex items-center gap-2">
                 <Phone className="w-5 h-5" />
@@ -37,6 +44,14 @@ const CTA = () => {
           </div>
         </div>
       </div>
+
+      {/* Booking Modal */}
+      <BookingModal
+        isOpen={isBookingModalOpen}
+        onClose={() => setIsBookingModalOpen(false)}
+        initialService=""
+        initialZip=""
+      />
     </section>
   );
 };

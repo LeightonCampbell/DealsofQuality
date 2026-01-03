@@ -12,18 +12,74 @@ import {
 import BookingModal from "@/components/BookingModal";
 import { useIsMobile } from "@/hooks/use-mobile";
 
-// Priority services for dropdown
-const priorityServices = [
-  { value: "tv-mounting", label: "TV Mounting", route: "/tv-mounting-up-to-50" },
-  { value: "smart-home", label: "Smart Home", route: "/smart-home-integration" },
+// All services from Services page for autosuggest
+const allServices = [
+  // Home Services
+  { value: "handyman-services", label: "Handyman Services", route: "/handyman-services" },
+  { value: "painting", label: "Painting", route: "/painting" },
+  { value: "flooring-installation", label: "Flooring Installation", route: "/flooring-installation" },
+  { value: "drywall-installation", label: "Drywall Installation", route: "/drywall-installation" },
+  { value: "cabinet-installation", label: "Cabinet Installation", route: "/cabinet-installation" },
+  { value: "tile-work", label: "Tile Work", route: "/tile-work" },
+  { value: "window-door-replacement", label: "Window and Door Replacement", route: "/window-door-replacement" },
+  { value: "deck-patio-building", label: "Deck and Patio Building", route: "/deck-patio-building" },
+  { value: "fence-installation", label: "Fence Installation", route: "/fence-installation" },
+  { value: "bathroom-remodeling", label: "Bathroom Remodeling", route: "/bathroom-remodeling" },
+  { value: "kitchen-remodeling", label: "Kitchen Remodeling", route: "/kitchen-remodeling" },
   { value: "plumbing", label: "Plumbing", route: "/plumbing" },
   { value: "electrical", label: "Electrical", route: "/electrical" },
-  { value: "handyman", label: "Handyman", route: "/handyman-services" },
-  { value: "wifi-network", label: "WiFi & Network", route: "/router-setup" },
-  { value: "home-theater", label: "Home Theater", route: "/home-theater" },
-  { value: "security", label: "Security Cameras", route: "/security-cameras" },
-  { value: "computer-repair", label: "Computer Repair", route: "/computer-repair" },
   { value: "hvac", label: "HVAC", route: "/hvac" },
+  { value: "roofing", label: "Roofing", route: "/roofing" },
+  { value: "appliance-repair", label: "Appliance Repair", route: "/appliance-repair" },
+  { value: "water-heater-installation", label: "Water Heater Installation", route: "/water-heater-installation" },
+  { value: "gutter-installation", label: "Gutter Installation", route: "/gutter-installation" },
+  { value: "siding-installation", label: "Siding Installation", route: "/siding-installation" },
+  { value: "garage-door-installation", label: "Garage Door Installation", route: "/garage-door-installation" },
+  { value: "solar-panel-installation", label: "Solar Panel Installation", route: "/solar-panel-installation" },
+  { value: "house-cleaning", label: "House Cleaning", route: "/house-cleaning" },
+  { value: "carpet-cleaning", label: "Carpet Cleaning", route: "/carpet-cleaning" },
+  { value: "junk-removal", label: "Junk Removal", route: "/junk-removal" },
+  { value: "pressure-washing", label: "Pressure Washing", route: "/pressure-washing" },
+  { value: "gutter-cleaning", label: "Gutter Cleaning", route: "/gutter-cleaning" },
+  { value: "pest-control", label: "Pest Control", route: "/pest-control" },
+  { value: "organization-services", label: "Organization Services", route: "/organization-services" },
+  { value: "landscaping", label: "Landscaping", route: "/landscaping" },
+  { value: "snow-removal", label: "Snow Removal", route: "/snow-removal" },
+  // TV Mounting
+  { value: "tv-mounting-up-to-50", label: "TV Mounting (Up to 50\")", route: "/tv-mounting-up-to-50" },
+  { value: "tv-mounting-51-to-65", label: "TV Mounting (51\"-65\")", route: "/tv-mounting-51-to-65" },
+  { value: "tv-mounting-over-65", label: "TV Mounting (Over 65\")", route: "/tv-mounting-over-65" },
+  { value: "tv-cable-concealment", label: "TV Cable Concealment", route: "/tv-cable-concealment" },
+  { value: "soundbar-installation", label: "Soundbar Installation", route: "/soundbar-installation" },
+  { value: "tv-dismount-remount", label: "TV Dismount/Remount", route: "/tv-dismount-remount" },
+  // Smart Home
+  { value: "smart-thermostats", label: "Smart Thermostats", route: "/smart-thermostats" },
+  { value: "video-doorbells", label: "Video Doorbells", route: "/video-doorbells" },
+  { value: "smart-locks", label: "Smart Locks", route: "/smart-locks" },
+  { value: "smart-home-integration", label: "Smart Home Integration", route: "/smart-home-integration" },
+  // Audio & Video
+  { value: "home-theater", label: "Home Theater", route: "/home-theater" },
+  { value: "surround-sound", label: "Surround Sound", route: "/surround-sound" },
+  { value: "streaming-setup", label: "Streaming Setup", route: "/streaming-setup" },
+  { value: "gaming-setup", label: "Gaming Setup", route: "/gaming-setup" },
+  // WiFi & Network
+  { value: "router-setup", label: "Router Setup", route: "/router-setup" },
+  { value: "network-optimization", label: "Network Optimization", route: "/network-optimization" },
+  { value: "dead-zone-elimination", label: "Dead Zone Elimination", route: "/dead-zone-elimination" },
+  { value: "business-networks", label: "Business Networks", route: "/business-networks" },
+  // Home Security
+  { value: "security-cameras", label: "Security Cameras", route: "/security-cameras" },
+  { value: "motion-sensors", label: "Motion Sensors", route: "/motion-sensors" },
+  // Computers & Printers
+  { value: "computer-repair", label: "Computer Repair", route: "/computer-repair" },
+  { value: "virus-removal", label: "Virus Removal", route: "/virus-removal" },
+  { value: "printer-setup", label: "Printer Setup", route: "/printer-setup" },
+  { value: "data-backup", label: "Data Backup", route: "/data-backup" },
+  // Business Services
+  { value: "website-design", label: "Website Design", route: "/website-design" },
+  { value: "remote-support-service", label: "Remote Support", route: "/remote-support-service" },
+  { value: "business-it-solutions", label: "Business IT Solutions", route: "/business-it-solutions" },
+  { value: "custom-solutions", label: "Custom Solutions", route: "/custom-solutions" },
 ];
 
 const HeroNew = () => {
@@ -38,13 +94,11 @@ const HeroNew = () => {
   const [zipCode, setZipCode] = useState("");
   const [zipCodeFocused, setZipCodeFocused] = useState(false);
   const [isLocating, setIsLocating] = useState(false);
-  const [userCity, setUserCity] = useState("Los Angeles");
-  const [availablePros, setAvailablePros] = useState(12);
+  const [availablePros] = useState(12);
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const [isLoading, setIsLoading] = useState(true);
 
   // Determine if "Other" is selected or if user typed a custom service
-  const isOther = selectedService === "other" || (serviceInputValue.length > 0 && !priorityServices.find(s => s.label.toLowerCase() === serviceInputValue.toLowerCase()));
+  const isOther = selectedService === "other" || (serviceInputValue.length > 0 && !allServices.find(s => s.label.toLowerCase() === serviceInputValue.toLowerCase()));
   
   // Get the actual service value (either selected or custom)
   const serviceValue = isOther ? (customServiceText || serviceInputValue) : selectedService;
@@ -52,40 +106,11 @@ const HeroNew = () => {
   // Button enabled state: service must be selected/typed AND zip must be 5 digits
   const isButtonEnabled = (serviceValue.length > 0) && (zipCode.length === 5);
 
-  // IP-based location detection
-  useEffect(() => {
-    const detectLocation = async () => {
-      try {
-        const response = await fetch("https://ipapi.co/json/");
-        const data = await response.json();
-        if (data.city && data.country_code === "US") {
-          // Use detected US city
-          setUserCity(data.city);
-          // Randomize available pros between 8-18 for realism
-          setAvailablePros(Math.floor(Math.random() * 11) + 8);
-        } else if (data.city) {
-          // If outside US, still use the city
-          setUserCity(data.city);
-          setAvailablePros(Math.floor(Math.random() * 11) + 8);
-        } else {
-          // Fallback to default US city
-          setUserCity("Los Angeles");
-        }
-      } catch (error) {
-        // Fallback to default US city
-        setUserCity("Los Angeles");
-      } finally {
-        setIsLoading(false);
-      }
-    };
-    detectLocation();
-  }, []);
-
   // Sequential highlight logic: Glow zip code when service is selected
   useEffect(() => {
-    if (selectedService && selectedService !== "other" && !zipCodeFocused) {
+    if (serviceInputValue && serviceInputValue.length > 0 && !zipCodeFocused) {
       setZipCodeFocused(true);
-      // Auto-focus zip code on mobile when service is selected
+      // Auto-focus zip code on mobile when service is typed
       if (isMobile && zipInputRef.current) {
         setTimeout(() => {
           zipInputRef.current?.focus();
@@ -97,7 +122,7 @@ const HeroNew = () => {
       }, 3000);
       return () => clearTimeout(timer);
     }
-  }, [selectedService, isMobile]);
+  }, [serviceInputValue, isMobile]);
 
   // Close dropdown when clicking outside
   useEffect(() => {
@@ -110,28 +135,21 @@ const HeroNew = () => {
     return () => document.removeEventListener("mousedown", handleClickOutside);
   }, []);
 
-  // Handle service selection change
-  const handleServiceChange = (value: string) => {
-    setSelectedService(value);
-    if (value === "other") {
-      setServiceInputValue("");
-      setIsServiceDropdownOpen(false);
-    } else {
-      // Set the input value to the selected service label
-      const service = priorityServices.find(s => s.value === value);
-      setServiceInputValue(service?.label || "");
-      setCustomServiceText("");
-      setIsServiceDropdownOpen(false);
-    }
+  // Handle service selection from autosuggest
+  const handleServiceSelect = (service: typeof allServices[0]) => {
+    setServiceInputValue(service.label);
+    setSelectedService(service.value);
+    setCustomServiceText("");
+    setIsServiceDropdownOpen(false);
   };
 
-  // Handle service input change (Angi.com-style typing)
+  // Handle service input change with autosuggest
   const handleServiceInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const value = e.target.value;
     setServiceInputValue(value);
     
     // Check if the input matches a service exactly
-    const exactMatch = priorityServices.find(s => s.label.toLowerCase() === value.toLowerCase());
+    const exactMatch = allServices.find(s => s.label.toLowerCase() === value.toLowerCase());
     if (exactMatch) {
       setSelectedService(exactMatch.value);
       setCustomServiceText("");
@@ -146,12 +164,12 @@ const HeroNew = () => {
     }
   };
 
-  // Filter services based on input
+  // Filter services based on input for autosuggest
   const filteredServices = serviceInputValue.length > 0
-    ? priorityServices.filter(s => 
+    ? allServices.filter(s => 
         s.label.toLowerCase().includes(serviceInputValue.toLowerCase())
-      )
-    : priorityServices;
+      ).slice(0, 8) // Limit to 8 suggestions
+    : [];
 
   // Handle zip code change with validation
   const handleZipChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -249,53 +267,36 @@ const HeroNew = () => {
         
         <div className="container-max px-4 relative z-10">
           <div className="max-w-4xl mx-auto text-center">
-            {/* Availability Signal */}
-            <div className="inline-flex items-center gap-2 mb-6 animate-fade-in">
-              <span className="relative flex h-2.5 w-2.5">
-                <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-success opacity-75"></span>
-                <span className="relative inline-flex rounded-full h-2.5 w-2.5 bg-success"></span>
-              </span>
-              <span className="text-sm font-medium text-muted-foreground">
-                {isLoading ? (
-                  "Finding pros near you..."
-                ) : (
-                  <>
-                    <span className="text-success font-semibold">{availablePros} Verified Pros</span> available in {userCity} today
-                  </>
-                )}
-              </span>
-            </div>
-
             {/* Headline */}
             <h1 className="font-display text-4xl md:text-5xl lg:text-6xl font-bold text-foreground leading-tight mb-4 animate-fade-in animation-delay-100">
               Premium Home Services
               <span className="block">
-                {" "}in <span className="text-accent">{userCity}</span>
+                <span className="text-accent">Hand-Picked Pros. Ready Today.</span>
               </span>
             </h1>
-
-            {/* Subheadline */}
-            <h2 className="font-display text-xl md:text-2xl font-medium text-foreground/80 mb-3 animate-fade-in-up animation-delay-100">
-              Hand-Picked Pros. Ready Today.
-            </h2>
 
             <p className="text-lg text-muted-foreground mb-10 max-w-2xl mx-auto animate-fade-in-up animation-delay-200">
               From smart home installs to emergency repairs, get expert help with upfront pricing and our 100% Satisfaction Guarantee.
             </p>
 
             {/* Dual Search Bar */}
-            <div className="max-w-2xl mx-auto animate-fade-in-up animation-delay-300">
+            <div className="max-w-3xl mx-auto animate-fade-in-up animation-delay-300">
               <div className="bg-card rounded-xl border border-border shadow-lg p-2 flex flex-col md:flex-row gap-2">
-                {/* Service Input with Dropdown (Angi.com-style) */}
+                {/* Service Input with Autosuggest */}
                 <div className="flex-1 relative">
                   <div className="relative">
                     <Input
                       ref={otherServiceInputRef}
                       type="text"
-                      placeholder="What service do you need?"
+                      placeholder="What kind of service do you need?"
                       value={serviceInputValue}
                       onChange={handleServiceInputChange}
-                      onFocus={() => setIsServiceDropdownOpen(true)}
+                      onFocus={() => {
+                        // Only show dropdown if there's text to filter
+                        if (serviceInputValue.length > 0) {
+                          setIsServiceDropdownOpen(true);
+                        }
+                      }}
                       className="w-full h-14 border-0 bg-transparent text-base px-4 focus:ring-0 focus:ring-offset-0"
                       onKeyDown={(e) => {
                         if (e.key === "Escape") {
@@ -309,15 +310,13 @@ const HeroNew = () => {
                           <button
                             key={service.value}
                             type="button"
-                            onClick={() => {
-                              handleServiceChange(service.value);
-                            }}
+                            onClick={() => handleServiceSelect(service)}
                             className="w-full text-left px-4 py-3 hover:bg-accent/10 transition-colors text-base"
                           >
                             {service.label}
                           </button>
                         ))}
-                        {serviceInputValue.length > 0 && !priorityServices.find(s => s.label.toLowerCase() === serviceInputValue.toLowerCase()) && (
+                        {serviceInputValue.length > 0 && !allServices.find(s => s.label.toLowerCase() === serviceInputValue.toLowerCase()) && (
                           <button
                             type="button"
                             onClick={() => {

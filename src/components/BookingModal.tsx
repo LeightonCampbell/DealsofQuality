@@ -79,7 +79,7 @@ const BookingModal = ({ isOpen, onClose, initialService = "", initialZip = "", c
   // Reset form when modal opens
   useEffect(() => {
     if (isOpen) {
-      // If service and zip are already provided (from Hero), skip to step 4 (Project Details + Contact Info)
+      // If service and zip are already provided (from Hero), show step 3 (searching animation) then go to step 4
       if (initialService && initialZip && initialZip.length === 5) {
         setService(initialService);
         setZipCode(initialZip);
@@ -87,9 +87,9 @@ const BookingModal = ({ isOpen, onClose, initialService = "", initialZip = "", c
         if (customServiceText) {
           setProjectDetails(customServiceText);
         }
-        // Skip directly to step 4 (Project Details + Contact Info)
-        setStep(4);
-        // Simulate finding pros in background
+        // Start at step 3 (searching animation) - simulateSearch will automatically move to step 4
+        setStep(3);
+        // Don't set isSearching to false here - let simulateSearch handle it
         simulateSearch();
       } else {
         setStep(1);
@@ -99,8 +99,8 @@ const BookingModal = ({ isOpen, onClose, initialService = "", initialZip = "", c
         if (customServiceText) {
           setProjectDetails(customServiceText);
         }
+        setIsSearching(false);
       }
-      setIsSearching(false);
     }
   }, [isOpen, initialService, initialZip, customServiceText]);
 

@@ -3,11 +3,12 @@ import { Button } from "@/components/ui/button";
 import { Phone, Menu, X, ChevronDown } from "lucide-react";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import logo from "@/assets/logo.png";
-import ScheduleServiceDialog from "@/components/ScheduleServiceDialog";
+import BookingModal from "@/components/BookingModal";
 
 const Header = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isMobileServicesOpen, setIsMobileServicesOpen] = useState(false);
+  const [isBookingModalOpen, setIsBookingModalOpen] = useState(false);
   const location = useLocation();
   const navigate = useNavigate();
 
@@ -58,7 +59,9 @@ const Header = () => {
               <Phone className="w-5 h-5 text-accent" />
               (818) 584-7389
             </a>
-            <ScheduleServiceDialog triggerText="Find a Pro" triggerSize="default" />
+            <Button onClick={() => setIsBookingModalOpen(true)} size="default">
+              Find a Pro
+            </Button>
           </div>
 
           {/* Mobile Menu Button */}
@@ -140,11 +143,21 @@ const Header = () => {
                 <Phone className="w-5 h-5 text-accent" />
                 (818) 584-7389
               </a>
-              <ScheduleServiceDialog triggerText="Find a Pro" triggerSize="default" triggerClassName="w-full" />
+              <Button onClick={() => setIsBookingModalOpen(true)} size="default" className="w-full">
+                Find a Pro
+              </Button>
             </div>
           </nav>
         )}
       </div>
+
+      {/* Booking Modal */}
+      <BookingModal
+        isOpen={isBookingModalOpen}
+        onClose={() => setIsBookingModalOpen(false)}
+        initialService=""
+        initialZip=""
+      />
     </header>
   );
 };
