@@ -154,6 +154,12 @@ const HeroNew = () => {
     setSelectedService(service.value);
     setCustomServiceText("");
     setIsServiceDropdownOpen(false);
+    // Focus back on input to ensure state updates are visible
+    setTimeout(() => {
+      if (otherServiceInputRef.current) {
+        otherServiceInputRef.current.blur();
+      }
+    }, 0);
   };
 
   // Handle service input change with autosuggest
@@ -336,7 +342,11 @@ const HeroNew = () => {
                           <button
                             key={service.value}
                             type="button"
-                            onClick={() => handleServiceSelect(service)}
+                            onClick={(e) => {
+                              e.preventDefault();
+                              e.stopPropagation();
+                              handleServiceSelect(service);
+                            }}
                             className="w-full text-left px-4 py-3 hover:bg-accent/10 transition-colors text-base"
                           >
                             {service.label}
@@ -345,7 +355,9 @@ const HeroNew = () => {
                         {serviceInputValue.length > 0 && !allServices.find(s => s.label.toLowerCase() === serviceInputValue.toLowerCase()) && (
                           <button
                             type="button"
-                            onClick={() => {
+                            onClick={(e) => {
+                              e.preventDefault();
+                              e.stopPropagation();
                               setSelectedService("other");
                               setCustomServiceText(serviceInputValue);
                               setIsServiceDropdownOpen(false);

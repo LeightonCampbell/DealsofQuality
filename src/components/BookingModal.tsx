@@ -63,6 +63,7 @@ const BookingModal = ({ isOpen, onClose, initialService = "", initialZip = "", c
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [phone, setPhone] = useState("");
+  const [otherServiceDescription, setOtherServiceDescription] = useState("");
 
   const simulateSearch = () => {
     setIsSearching(true);
@@ -96,6 +97,7 @@ const BookingModal = ({ isOpen, onClose, initialService = "", initialZip = "", c
         setService(initialService);
         setZipCode(initialZip);
         if (customServiceText) {
+          setOtherServiceDescription(customServiceText);
           setProjectDetails(customServiceText);
         }
         // If starting at step 3, trigger search animation (only if zip is provided)
@@ -108,8 +110,9 @@ const BookingModal = ({ isOpen, onClose, initialService = "", initialZip = "", c
         // If service and zip are already provided (from Hero), show step 3 (searching animation) then go to step 4
         setService(initialService);
         setZipCode(initialZip);
-        // If custom service text was provided (for "Other"), populate projectDetails textarea
+        // If custom service text was provided (for "Other"), populate otherServiceDescription and projectDetails
         if (customServiceText) {
+          setOtherServiceDescription(customServiceText);
           setProjectDetails(customServiceText);
         }
         // Start at step 3 (searching animation) - simulateSearch will automatically move to step 4
@@ -120,8 +123,9 @@ const BookingModal = ({ isOpen, onClose, initialService = "", initialZip = "", c
         setStep(initialStep || 1);
         setService(initialService);
         setZipCode(initialZip);
-        // If custom service text was provided, populate projectDetails
+        // If custom service text was provided, populate otherServiceDescription and projectDetails
         if (customServiceText) {
+          setOtherServiceDescription(customServiceText);
           setProjectDetails(customServiceText);
         }
         setIsSearching(false);
@@ -133,6 +137,15 @@ const BookingModal = ({ isOpen, onClose, initialService = "", initialZip = "", c
     if (!service) {
       toast({ title: "Please select a service", variant: "destructive" });
       return;
+    }
+    // If "Other" is selected, ensure description is provided
+    if (service === "other" && !otherServiceDescription.trim()) {
+      toast({ title: "Please describe your service", variant: "destructive" });
+      return;
+    }
+    // If "Other" is selected, populate projectDetails with the description
+    if (service === "other" && otherServiceDescription) {
+      setProjectDetails(otherServiceDescription);
     }
     setStep(2);
   };
@@ -165,13 +178,15 @@ const BookingModal = ({ isOpen, onClose, initialService = "", initialZip = "", c
       // Determine service label - if it's "other", use the custom text, otherwise use the service label
       const isOtherService = service === "other" || !services.find(s => s.value === service);
       const serviceLabel = isOtherService 
-        ? (customServiceText || projectDetails || "Custom Service")
+        ? (otherServiceDescription || customServiceText || projectDetails || "Custom Service")
         : (services.find(s => s.value === service)?.label || service);
       
-      // Combine projectDetails with custom service text if "Other" was selected
-      const finalProjectDetails = isOtherService && customServiceText && !projectDetails.includes(customServiceText)
-        ? `${customServiceText}${projectDetails ? ` - ${projectDetails}` : ''}`
-        : projectDetails;
+      // For "Other" services, use otherServiceDescription in projectDetails if not already there
+      const finalProjectDetails = isOtherService && otherServiceDescription && !projectDetails.trim()
+        ? otherServiceDescription
+        : (isOtherService && otherServiceDescription && projectDetails && !projectDetails.includes(otherServiceDescription)
+          ? `${otherServiceDescription}${projectDetails ? ` - ${projectDetails}` : ''}`
+          : projectDetails);
 
       const { error } = await supabase.from("form_submissions").insert({
         form_type: "booking",
@@ -188,7 +203,7 @@ const BookingModal = ({ isOpen, onClose, initialService = "", initialZip = "", c
       // Navigate to success page with query params
       // Don't include "Other" in the service name - use the custom text or "Service"
       const displayServiceName = isOtherService 
-        ? (customServiceText || "Service")
+        ? (otherServiceDescription || customServiceText || "Service")
         : serviceLabel;
       
       onClose();
@@ -227,7 +242,16 @@ const BookingModal = ({ isOpen, onClose, initialService = "", initialZip = "", c
                 </p>
               </div>
 
-              <Select value={service} onValueChange={setService}>
+              <Select 
+                value={service} 
+                onValueChange={(value) => {
+                  setService(value);
+                  // Clear otherServiceDescription if switching away from "Other"
+                  if (value !== "other") {
+                    setOtherServiceDescription("");
+                  }
+                }}
+              >
                 <SelectTrigger className="h-14 text-base">
                   <SelectValue placeholder="Select a service..." />
                 </SelectTrigger>
@@ -239,6 +263,22 @@ const BookingModal = ({ isOpen, onClose, initialService = "", initialZip = "", c
                   ))}
                 </SelectContent>
               </Select>
+
+              {/* Show service description input when "Other" is selected */}
+              {service === "other" && (
+                <div className="space-y-2">
+                  <label className="text-sm font-medium text-foreground">
+                    Please describe your service
+                  </label>
+                  <Input
+                    type="text"
+                    placeholder="e.g., Appliance repair, Carpet cleaning, etc."
+                    value={otherServiceDescription}
+                    onChange={(e) => setOtherServiceDescription(e.target.value)}
+                    className="h-12 text-base"
+                  />
+                </div>
+              )}
 
               <Button onClick={handleStep1Next} className="w-full h-12 text-base bg-cta hover:bg-cta/90">
                 Continue
