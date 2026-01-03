@@ -45,11 +45,12 @@ interface BookingModalProps {
   initialService?: string;
   initialZip?: string;
   customServiceText?: string; // For "Other" service custom text
+  initialStep?: number; // Optional: start at a specific step (1-4)
 }
 
-const BookingModal = ({ isOpen, onClose, initialService = "", initialZip = "", customServiceText = "" }: BookingModalProps) => {
+const BookingModal = ({ isOpen, onClose, initialService = "", initialZip = "", customServiceText = "", initialStep }: BookingModalProps) => {
   const navigate = useNavigate();
-  const [step, setStep] = useState(1);
+  const [step, setStep] = useState(initialStep || 1);
   const [isSearching, setIsSearching] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [prosFound, setProsFound] = useState(0);
@@ -89,8 +90,22 @@ const BookingModal = ({ isOpen, onClose, initialService = "", initialZip = "", c
   // Reset form when modal opens
   useEffect(() => {
     if (isOpen) {
-      // If service and zip are already provided (from Hero), show step 3 (searching animation) then go to step 4
-      if (initialService && initialZip && initialZip.length === 5) {
+      // If initialStep is provided, use it
+      if (initialStep !== undefined) {
+        setStep(initialStep);
+        setService(initialService);
+        setZipCode(initialZip);
+        if (customServiceText) {
+          setProjectDetails(customServiceText);
+        }
+        // If starting at step 3, trigger search animation (only if zip is provided)
+        if (initialStep === 3 && initialZip && initialZip.length === 5) {
+          simulateSearch();
+        } else {
+          setIsSearching(false);
+        }
+      } else if (initialService && initialZip && initialZip.length === 5) {
+        // If service and zip are already provided (from Hero), show step 3 (searching animation) then go to step 4
         setService(initialService);
         setZipCode(initialZip);
         // If custom service text was provided (for "Other"), populate projectDetails textarea
@@ -102,7 +117,7 @@ const BookingModal = ({ isOpen, onClose, initialService = "", initialZip = "", c
         // Don't set isSearching to false here - let simulateSearch handle it
         simulateSearch();
       } else {
-        setStep(1);
+        setStep(initialStep || 1);
         setService(initialService);
         setZipCode(initialZip);
         // If custom service text was provided, populate projectDetails
@@ -112,7 +127,7 @@ const BookingModal = ({ isOpen, onClose, initialService = "", initialZip = "", c
         setIsSearching(false);
       }
     }
-  }, [isOpen, initialService, initialZip, customServiceText]);
+  }, [isOpen, initialService, initialZip, customServiceText, initialStep]);
 
   const handleStep1Next = () => {
     if (!service) {

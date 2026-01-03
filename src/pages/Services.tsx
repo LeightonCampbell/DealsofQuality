@@ -1,320 +1,441 @@
+import { useState, useEffect, useMemo } from "react";
 import { Helmet } from "react-helmet";
-import { Link } from "react-router-dom";
+import { motion, AnimatePresence } from "framer-motion";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
-import { 
-  Tv, 
-  Home, 
-  Speaker, 
-  Wifi, 
-  Shield, 
-  Monitor, 
-  Briefcase,
-  Wrench,
-  Hammer,
-  Droplet,
-  Zap,
-  Wind,
-  Square,
-  Package,
-  Grid3x3,
-  DoorOpen,
-  Trees,
-  Fence,
-  ChefHat,
-  Refrigerator,
-  Droplets,
-  DoorClosed,
-  Sun,
-  Sparkles,
-  SquareStack,
-  Trash2,
-  Bug,
-  Boxes,
-  TreePine,
-  Snowflake,
-  Film,
-  Play,
-  Gamepad2,
-  Thermometer,
-  Lock,
-  Zap as ZapIcon,
-  Camera,
-  Activity,
-  Router,
-  Signal,
-  Building2,
-  Globe,
-  Headphones,
-  Server,
-  ArrowRight
-} from "lucide-react";
+import BookingModal from "@/components/BookingModal";
+import { Input } from "@/components/ui/input";
+import { Button } from "@/components/ui/button";
+import { Search, Clock, ShieldCheck, MapPin } from "lucide-react";
 
+// Service data with images, prices, and categories
 interface Service {
+  id: string;
   title: string;
   href: string;
-}
-
-interface ServiceCategory {
-  icon: any;
-  title: string;
+  category: "Home Repair" | "Smart Home" | "Tech Support" | "Outdoors";
+  price: string;
+  image: string; // Placeholder image URLs - replace with actual images
   description: string;
-  href: string;
-  services: Service[];
 }
 
-const serviceCategories: ServiceCategory[] = [
+const services: Service[] = [
+  // Home Repair
   {
-    icon: Wrench,
-    title: "Home Services",
-    description: "Comprehensive home maintenance, repair, and improvement services.",
-    href: "/services/home-services",
-    services: [
-      { title: "Handyman Services", href: "/handyman-services" },
-      { title: "Painting", href: "/painting" },
-      { title: "Flooring Installation", href: "/flooring-installation" },
-      { title: "Drywall Installation", href: "/drywall-installation" },
-      { title: "Cabinet Installation", href: "/cabinet-installation" },
-      { title: "Tile Work", href: "/tile-work" },
-      { title: "Window and Door Replacement", href: "/window-door-replacement" },
-      { title: "Deck and Patio Building", href: "/deck-patio-building" },
-      { title: "Fence Installation", href: "/fence-installation" },
-      { title: "Bathroom Remodeling", href: "/bathroom-remodeling" },
-      { title: "Kitchen Remodeling", href: "/kitchen-remodeling" },
-      { title: "Plumbing", href: "/plumbing" },
-      { title: "Electrical", href: "/electrical" },
-      { title: "HVAC", href: "/hvac" },
-      { title: "Roofing", href: "/roofing" },
-      { title: "Appliance Repair", href: "/appliance-repair" },
-      { title: "Water Heater Installation", href: "/water-heater-installation" },
-      { title: "Gutter Installation", href: "/gutter-installation" },
-      { title: "Siding Installation", href: "/siding-installation" },
-      { title: "Garage Door Installation", href: "/garage-door-installation" },
-      { title: "Solar Panel Installation", href: "/solar-panel-installation" },
-      { title: "House Cleaning", href: "/house-cleaning" },
-      { title: "Carpet Cleaning", href: "/carpet-cleaning" },
-      { title: "Junk Removal", href: "/junk-removal" },
-      { title: "Pressure Washing", href: "/pressure-washing" },
-      { title: "Gutter Cleaning", href: "/gutter-cleaning" },
-      { title: "Pest Control", href: "/pest-control" },
-      { title: "Organization Services", href: "/organization-services" },
-      { title: "Landscaping", href: "/landscaping" },
-      { title: "Snow Removal", href: "/snow-removal" },
-    ],
+    id: "handyman",
+    title: "Handyman Services",
+    href: "/handyman-services",
+    category: "Home Repair",
+    price: "$75",
+    image: "https://images.unsplash.com/photo-1581578731548-c64695cc6952?w=800",
+    description: "Furniture assembly, repairs & odd jobs",
   },
   {
-    icon: Tv,
+    id: "plumbing",
+    title: "Plumbing",
+    href: "/plumbing",
+    category: "Home Repair",
+    price: "$99",
+    image: "https://images.unsplash.com/photo-1621905251918-48416bd8575a?w=800",
+    description: "Repairs, installations & emergencies",
+  },
+  {
+    id: "electrical",
+    title: "Electrical",
+    href: "/electrical",
+    category: "Home Repair",
+    price: "$125",
+    image: "https://images.unsplash.com/photo-1621905252472-3af65b8c3dd8?w=800",
+    description: "Safe, licensed electrical work",
+  },
+  {
+    id: "hvac",
+    title: "HVAC",
+    href: "/hvac",
+    category: "Home Repair",
+    price: "$149",
+    image: "https://images.unsplash.com/photo-1621905251918-48416bd8575a?w=800",
+    description: "Heating, cooling & air quality",
+  },
+  {
+    id: "painting",
+    title: "Painting",
+    href: "/painting",
+    category: "Home Repair",
+    price: "$199",
+    image: "https://images.unsplash.com/photo-1563453392212-326f5e854473?w=800",
+    description: "Interior & exterior painting",
+  },
+  {
+    id: "flooring",
+    title: "Flooring Installation",
+    href: "/flooring-installation",
+    category: "Home Repair",
+    price: "$299",
+    image: "https://images.unsplash.com/photo-1586023492125-27b2c045efd7?w=800",
+    description: "Hardwood, tile & carpet installation",
+  },
+  // Smart Home
+  {
+    id: "smart-home",
+    title: "Smart Home Installation",
+    href: "/smart-home-integration",
+    category: "Smart Home",
+    price: "$149",
+    image: "https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=800",
+    description: "Thermostats, locks, doorbells & more",
+  },
+  {
+    id: "tv-mounting",
     title: "TV Mounting",
-    description: "Professional TV installation and setup services for all screen sizes.",
-    href: "/services/tv-mounting",
-    services: [
-      { title: "TV Mounting (Up to 50\")", href: "/tv-mounting-up-to-50" },
-      { title: "TV Mounting (51\"-65\")", href: "/tv-mounting-51-to-65" },
-      { title: "TV Mounting (Over 65\")", href: "/tv-mounting-over-65" },
-      { title: "TV Cable Concealment", href: "/tv-cable-concealment" },
-      { title: "Soundbar Installation", href: "/soundbar-installation" },
-      { title: "TV Dismount/Remount", href: "/tv-dismount-remount" },
-    ],
+    href: "/tv-mounting-up-to-50",
+    category: "Smart Home",
+    price: "$99",
+    image: "https://images.unsplash.com/photo-1593359677879-a4bb92f829d1?w=800",
+    description: "Professional wall mounting for any TV size",
   },
   {
-    icon: Home,
-    title: "Smart Home",
-    description: "Complete smart home automation and device installation.",
-    href: "/services/smart-home",
-    services: [
-      { title: "Smart Thermostats", href: "/smart-thermostats" },
-      { title: "Video Doorbells", href: "/video-doorbells" },
-      { title: "Smart Locks", href: "/smart-locks" },
-      { title: "Smart Home Integration", href: "/smart-home-integration" },
-    ],
+    id: "security-cameras",
+    title: "Security Cameras",
+    href: "/security-cameras",
+    category: "Smart Home",
+    price: "$199",
+    image: "https://images.unsplash.com/photo-1557804506-669a67965ba0?w=800",
+    description: "Professional camera installation",
   },
   {
-    icon: Speaker,
-    title: "Audio & Video",
-    description: "Home theater and entertainment system setup and installation.",
-    href: "/services/audio-video",
-    services: [
-      { title: "Home Theater", href: "/home-theater" },
-      { title: "Surround Sound", href: "/surround-sound" },
-      { title: "Streaming Setup", href: "/streaming-setup" },
-      { title: "Gaming Setup", href: "/gaming-setup" },
-    ],
+    id: "home-theater",
+    title: "Home Theater Setup",
+    href: "/home-theater",
+    category: "Smart Home",
+    price: "$249",
+    image: "https://images.unsplash.com/photo-1593359677879-a4bb92f829d1?w=800",
+    description: "Surround sound & streaming setup",
+  },
+  // Tech Support
+  {
+    id: "wifi-network",
+    title: "WiFi & Network Setup",
+    href: "/router-setup",
+    category: "Tech Support",
+    price: "$99",
+    image: "https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=800",
+    description: "Setup, optimization & dead zones",
   },
   {
-    icon: Wifi,
-    title: "WiFi & Network",
-    description: "Network setup, optimization, and troubleshooting services.",
-    href: "/services/wifi-network",
-    services: [
-      { title: "Router Setup", href: "/router-setup" },
-      { title: "Network Optimization", href: "/network-optimization" },
-      { title: "Dead Zone Elimination", href: "/dead-zone-elimination" },
-      { title: "Business Networks", href: "/business-networks" },
-    ],
+    id: "computer-repair",
+    title: "Computer Repair",
+    href: "/computer-repair",
+    category: "Tech Support",
+    price: "$79",
+    image: "https://images.unsplash.com/photo-1517077304055-6e89abbf09b0?w=800",
+    description: "Virus removal, upgrades & repairs",
   },
   {
-    icon: Shield,
-    title: "Home Security",
-    description: "Security camera installation and smart security system setup.",
-    href: "/services/home-security",
-    services: [
-      { title: "Security Cameras", href: "/security-cameras" },
-      { title: "Video Doorbells", href: "/video-doorbells" },
-      { title: "Smart Locks", href: "/smart-locks" },
-      { title: "Motion Sensors", href: "/motion-sensors" },
-    ],
+    id: "printer-setup",
+    title: "Printer Setup",
+    href: "/printer-setup",
+    category: "Tech Support",
+    price: "$69",
+    image: "https://images.unsplash.com/photo-1517077304055-6e89abbf09b0?w=800",
+    description: "Wireless & network printer setup",
+  },
+  // Outdoors
+  {
+    id: "landscaping",
+    title: "Landscaping",
+    href: "/landscaping",
+    category: "Outdoors",
+    price: "$199",
+    image: "https://images.unsplash.com/photo-1416879595882-3373a0480b5b?w=800",
+    description: "Lawn care, planting & design",
   },
   {
-    icon: Monitor,
-    title: "Computers & Printers",
-    description: "Computer repair, maintenance, and printer setup services.",
-    href: "/services/computers-printers",
-    services: [
-      { title: "Computer Repair", href: "/computer-repair" },
-      { title: "Virus Removal", href: "/virus-removal" },
-      { title: "Printer Setup", href: "/printer-setup" },
-      { title: "Data Backup", href: "/data-backup" },
-    ],
+    id: "deck-patio",
+    title: "Deck & Patio Building",
+    href: "/deck-patio-building",
+    category: "Outdoors",
+    price: "$1,999",
+    image: "https://images.unsplash.com/photo-1600585154340-be6161a56a0c?w=800",
+    description: "Custom deck & patio construction",
   },
   {
-    icon: Briefcase,
-    title: "Business Services",
-    description: "Professional business technology solutions and support.",
-    href: "/services/business",
-    services: [
-      { title: "Website Design", href: "/website-design" },
-      { title: "Remote Support", href: "/remote-support-service" },
-      { title: "Business IT Solutions", href: "/business-it-solutions" },
-      { title: "Custom Solutions", href: "/custom-solutions" },
-    ],
+    id: "fence-installation",
+    title: "Fence Installation",
+    href: "/fence-installation",
+    category: "Outdoors",
+    price: "$899",
+    image: "https://images.unsplash.com/photo-1600585154340-be6161a56a0c?w=800",
+    description: "Privacy & security fencing",
+  },
+  {
+    id: "pressure-washing",
+    title: "Pressure Washing",
+    href: "/pressure-washing",
+    category: "Outdoors",
+    price: "$149",
+    image: "https://images.unsplash.com/photo-1600585154340-be6161a56a0c?w=800",
+    description: "Exterior cleaning & maintenance",
   },
 ];
 
+// Recent activity data
+const recentActivities = [
+  { zip: "90210", service: "TV Mounting" },
+  { zip: "10001", service: "Smart Home Installation" },
+  { zip: "60601", service: "Plumbing" },
+  { zip: "75201", service: "Electrical" },
+  { zip: "30301", service: "Handyman Services" },
+  { zip: "98101", service: "WiFi & Network Setup" },
+  { zip: "02101", service: "Security Cameras" },
+  { zip: "33101", service: "Home Theater Setup" },
+];
+
 const Services = () => {
+  const [searchQuery, setSearchQuery] = useState("");
+  const [selectedFilter, setSelectedFilter] = useState("All");
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [selectedService, setSelectedService] = useState("");
+  const [selectedServiceValue, setSelectedServiceValue] = useState("");
+
+  // Filter services based on search and category
+  const filteredServices = useMemo(() => {
+    let filtered = services;
+
+    // Apply category filter
+    if (selectedFilter !== "All") {
+      filtered = filtered.filter((service) => service.category === selectedFilter);
+    }
+
+    // Apply search filter
+    if (searchQuery.trim()) {
+      const query = searchQuery.toLowerCase();
+      filtered = filtered.filter(
+        (service) =>
+          service.title.toLowerCase().includes(query) ||
+          service.description.toLowerCase().includes(query)
+      );
+    }
+
+    return filtered;
+  }, [searchQuery, selectedFilter]);
+
+  // Get random recent activity
+  const getRandomActivity = () => {
+    return recentActivities[Math.floor(Math.random() * recentActivities.length)];
+  };
+
+  const [currentActivity, setCurrentActivity] = useState(getRandomActivity());
+
+  // Rotate activity every 5 seconds
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setCurrentActivity(getRandomActivity());
+    }, 5000);
+    return () => clearInterval(interval);
+  }, []);
+
+  const handleBookNow = (service: Service) => {
+    // Map service to modal service value
+    const serviceMap: Record<string, string> = {
+      handyman: "handyman",
+      plumbing: "plumbing",
+      electrical: "electrical",
+      hvac: "hvac",
+      "smart-home": "smart-home",
+      "tv-mounting": "tv-mounting",
+      "security-cameras": "security",
+      "home-theater": "home-theater",
+      "wifi-network": "wifi-network",
+      "computer-repair": "computer-repair",
+    };
+
+    setSelectedService(service.title);
+    setSelectedServiceValue(serviceMap[service.id] || "other");
+    setIsModalOpen(true);
+  };
+
+  const filterCategories = ["All", "Home Repair", "Smart Home", "Tech Support", "Outdoors"];
+
   return (
     <>
       <Helmet>
-        <title>Premium Home Services | Carefully Vetted Local Professionals | Deals Of Quality</title>
+        <title>Your Home, Handled | Premium Home Services | Deals Of Quality</title>
         <meta
           name="description"
-          content="Browse our comprehensive range of premium home services. From plumbing and electrical to remodeling, cleaning, and smart home installation. Carefully vetted professionals you can trust."
+          content="Browse our comprehensive range of premium home services. From plumbing and electrical to smart home installation. Book in 60 seconds with vetted professionals."
         />
-        <meta name="keywords" content="home services, premium services, plumbing, electrical, HVAC, remodeling, cleaning, handyman, TV mounting, smart home, local professionals" />
       </Helmet>
 
       <Header />
 
-      {/* Service Categories */}
-      <section className="section-padding bg-background pt-24 md:pt-32">
-        <div className="container-max">
-          <div className="text-center mb-12">
-            <h2 className="font-display text-3xl md:text-4xl font-bold text-foreground mb-4">
-              Our Services
-            </h2>
-            <p className="text-muted-foreground text-lg max-w-2xl mx-auto">
-              Select a service to view details and book an appointment
-            </p>
+      {/* Hero Section */}
+      <section className="relative pt-24 md:pt-32 pb-16 bg-gradient-to-b from-background to-secondary/30">
+        <div className="container-max max-w-4xl mx-auto px-4">
+          <div className="text-center space-y-6">
+            <motion.h1
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.6 }}
+              className="font-display text-4xl md:text-6xl font-bold text-foreground"
+            >
+              Your Home, Handled.
+            </motion.h1>
+            <motion.p
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.6, delay: 0.1 }}
+              className="text-lg md:text-xl text-muted-foreground"
+            >
+              Browse our vetted professionals or search for a specific project below.
+            </motion.p>
+
+            {/* Search Input */}
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.6, delay: 0.2 }}
+              className="relative max-w-2xl mx-auto"
+            >
+              <Search className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-muted-foreground" />
+              <Input
+                type="text"
+                placeholder="Search Services..."
+                value={searchQuery}
+                onChange={(e) => setSearchQuery(e.target.value)}
+                className="h-14 pl-12 text-base border-2 focus-visible:ring-2 focus-visible:ring-accent"
+              />
+            </motion.div>
           </div>
+                        </div>
+      </section>
 
-          <div className="space-y-16">
-            {serviceCategories.map((category, categoryIndex) => {
-              // Home Services: Keep the special 3-column layout with 10 services per column
-              if (category.title === "Home Services") {
-                return (
-                  <div key={category.title} className="animate-fade-in-up" style={{ animationDelay: `${categoryIndex * 100}ms` }}>
-                    {/* Category Header */}
-                    <Link to={category.href} className="group">
-                      <div className="flex items-center gap-4 mb-8 pb-4 border-b border-border">
-                        <div className="w-16 h-16 bg-accent/10 rounded-2xl flex items-center justify-center group-hover:bg-accent/20 transition-colors">
-                          <category.icon className="w-8 h-8 text-accent" />
-                        </div>
-                        <div>
-                          <h3 className="font-display text-2xl md:text-3xl font-bold text-foreground group-hover:text-accent transition-colors">
-                            {category.title}
-                          </h3>
-                          <p className="text-muted-foreground mt-1">
-                            {category.description}
-                          </p>
-                        </div>
-                      </div>
-                    </Link>
-
-                    {/* Home Services: 3 columns with 10 services each */}
-                    <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-                      {[0, 1, 2].map((colIndex) => (
-                        <div key={colIndex} className="space-y-1">
-                          {category.services.slice(colIndex * 10, (colIndex + 1) * 10).map((service) => (
-                            <Link
-                              key={service.href}
-                              to={service.href}
-                              className="block py-2 px-1 text-foreground hover:text-accent transition-colors duration-200 border-b border-transparent hover:border-accent/20"
-                            >
-                              {service.title}
-                            </Link>
-                          ))}
-                        </div>
+      {/* Filter Pills */}
+      <section className="sticky top-0 z-40 bg-background/95 backdrop-blur-sm border-b border-border py-4">
+        <div className="container-max">
+          <div className="flex flex-wrap gap-3 justify-center">
+            {filterCategories.map((category) => (
+              <button
+                key={category}
+                onClick={() => setSelectedFilter(category)}
+                className={`px-6 py-2.5 rounded-full font-medium transition-all duration-300 ${
+                  selectedFilter === category
+                    ? "bg-accent text-accent-foreground shadow-md"
+                    : "bg-card text-foreground hover:bg-accent/10 border border-border"
+                }`}
+              >
+                {category}
+              </button>
                       ))}
                     </div>
                   </div>
-                );
-              }
-              return null;
-            })}
+      </section>
 
-            {/* Other Categories: Display in 3-column grid */}
-            {(() => {
-              const otherCategories = serviceCategories.filter(cat => cat.title !== "Home Services");
-              const rows = [];
-              for (let i = 0; i < otherCategories.length; i += 3) {
-                rows.push(otherCategories.slice(i, i + 3));
-              }
-              return rows.map((row, rowIndex) => (
-                <div key={rowIndex} className="grid grid-cols-1 md:grid-cols-3 gap-8">
-                  {row.map((category, colIndex) => (
-                    <div 
-                      key={category.title} 
-                      className="animate-fade-in-up" 
-                      style={{ animationDelay: `${(serviceCategories.findIndex(c => c.title === category.title)) * 100}ms` }}
+      {/* Services Grid */}
+      <section className="section-padding bg-background">
+        <div className="container-max">
+          {filteredServices.length === 0 ? (
+            <div className="text-center py-16">
+              <p className="text-muted-foreground text-lg">No services found. Try a different search.</p>
+            </div>
+          ) : (
+            <motion.div
+              layout
+              className="grid grid-cols-1 md:grid-cols-3 gap-8"
+            >
+              <AnimatePresence mode="popLayout">
+                {filteredServices.map((service, index) => (
+                  <motion.div
+                    key={service.id}
+                    layout
+                    initial={{ opacity: 0, scale: 0.9 }}
+                    animate={{ opacity: 1, scale: 1 }}
+                    exit={{ opacity: 0, scale: 0.9 }}
+                    transition={{ duration: 0.3, delay: index * 0.05 }}
+                    className="group relative h-96 rounded-2xl overflow-hidden cursor-pointer"
+                  >
+                    {/* Background Image with Overlay */}
+                    <div
+                      className="absolute inset-0 bg-cover bg-center transition-transform duration-500 group-hover:scale-110"
+                      style={{ backgroundImage: `url(${service.image})` }}
                     >
-                      {/* Category Header */}
-                      <Link to={category.href} className="group">
-                        <div className="flex items-center gap-4 mb-6 pb-4 border-b border-border">
-                          <div className="w-12 h-12 bg-accent/10 rounded-xl flex items-center justify-center group-hover:bg-accent/20 transition-colors">
-                            <category.icon className="w-6 h-6 text-accent" />
+                      <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/50 to-black/40" />
                           </div>
-                          <div>
-                            <h3 className="font-display text-xl md:text-2xl font-bold text-foreground group-hover:text-accent transition-colors">
-                              {category.title}
-                            </h3>
-                            <p className="text-muted-foreground text-sm mt-1">
-                              {category.description}
-                            </p>
-                          </div>
-                        </div>
-                      </Link>
 
-                      {/* Services List */}
-                      <div className="space-y-1">
-                        {category.services.map((service) => (
-                          <Link
-                            key={service.href}
-                            to={service.href}
-                            className="block py-2 px-1 text-foreground hover:text-accent transition-colors duration-200 border-b border-transparent hover:border-accent/20"
-                          >
-                            {service.title}
-                          </Link>
-                        ))}
-                      </div>
+                    {/* Price Tag */}
+                    <div className="absolute top-4 right-4 bg-accent text-accent-foreground px-4 py-2 rounded-full font-bold text-lg shadow-lg">
+                      Starting at {service.price}
+                          </div>
+
+                    {/* Content */}
+                    <div className="absolute inset-0 flex flex-col justify-end p-6 text-white">
+                      <h3 className="font-display text-2xl font-bold mb-2">{service.title}</h3>
+                      <p className="text-white/90 mb-4 text-sm">{service.description}</p>
+
+                      {/* Book Button */}
+                      <Button
+                        onClick={(e) => {
+                          e.stopPropagation();
+                          handleBookNow(service);
+                        }}
+                        className="bg-white text-foreground hover:bg-white/90 font-semibold w-full"
+                        size="lg"
+                      >
+                        <Clock className="w-4 h-4 mr-2" />
+                        Book in 60 Seconds
+                      </Button>
                     </div>
-                  ))}
+                  </motion.div>
+                ))}
+              </AnimatePresence>
+            </motion.div>
+          )}
+
+          {/* Recent Activity Feed */}
+          {filteredServices.length > 0 && (
+            <motion.div
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              transition={{ delay: 0.5 }}
+              className="mt-12 pt-8 border-t border-border"
+            >
+              <div className="flex items-center justify-center gap-2 text-muted-foreground">
+                <div className="flex items-center gap-2">
+                  <div className="w-2 h-2 bg-success rounded-full animate-pulse" />
+                  <span className="text-sm font-medium">
+                    Someone in {currentActivity.zip} just booked {currentActivity.service}
+                  </span>
                 </div>
-              ));
-            })()}
           </div>
+            </motion.div>
+          )}
         </div>
       </section>
 
+      {/* Satisfaction Guarantee Sticky Bar */}
+      <div className="fixed bottom-0 left-0 right-0 z-50 bg-accent text-accent-foreground py-3 px-4 shadow-lg">
+        <div className="container-max flex items-center justify-center gap-2">
+          <ShieldCheck className="w-5 h-5" />
+          <span className="text-sm font-medium">
+            Satisfaction Guarantee: If you're not 100% happy, we'll make it right or refund your money.
+          </span>
+        </div>
+      </div>
+
+      {/* Add bottom padding to account for sticky bar */}
+      <div className="pb-16" />
+
       <Footer />
+
+      {/* Booking Modal */}
+      <BookingModal
+        isOpen={isModalOpen}
+        onClose={() => setIsModalOpen(false)}
+        initialService={selectedServiceValue}
+        initialZip=""
+        customServiceText={selectedServiceValue === "other" ? selectedService : ""}
+        initialStep={2}
+      />
     </>
   );
 };
