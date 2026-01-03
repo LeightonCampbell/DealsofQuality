@@ -196,12 +196,16 @@ const VerifiedReviews = () => {
   // Calculate transform for smooth scrolling
   const getTransform = () => {
     if (isMobile) {
+      // Mobile: show 1 testimonial at a time, fully visible
       return `translateX(-${currentIndex * 100}%)`;
     }
-    // For desktop, show 3 at a time - each slide is 33.333% wide (accounting for padding)
-    // We need to calculate based on the actual width including padding
+    // Desktop: show 3 testimonials, center the current one
+    // To center the current testimonial, we offset by (currentIndex - 1) * slideWidth
+    // This positions: prev, current (center), next
     const slideWidth = 100 / itemsPerView; // 33.333%
-    const offset = currentIndex * slideWidth;
+    // Handle edge cases: for first testimonial, we can't show previous, so offset is 0
+    // For others, offset by (currentIndex - 1) to center the current one
+    const offset = currentIndex === 0 ? 0 : (currentIndex - 1) * slideWidth;
     return `translateX(-${offset}%)`;
   };
 
@@ -241,16 +245,29 @@ const VerifiedReviews = () => {
                 transform: getTransform(),
               }}
             >
-              {testimonials.map((testimonial, index) => (
+              {testimonials.map((testimonial, index) => {
+                // On desktop: show 3 testimonials (prev, current, next) with current centered
+                // On mobile: show only the current testimonial
+                const isCenter = !isMobile && index === currentIndex;
+                
+                return (
                 <div
                   key={`${testimonial.author}-${index}`}
-                  className="min-w-full md:min-w-[calc(33.333%-0.5rem)] px-2 flex-shrink-0"
+                  className={`min-w-full md:min-w-[calc(33.333%-0.5rem)] px-2 flex-shrink-0 transition-all duration-500 ${
+                    isMobile && index !== currentIndex ? 'opacity-0 pointer-events-none' : ''
+                  }`}
                   role="group"
                   aria-roledescription="slide"
                   aria-label={`Testimonial ${index + 1} of ${testimonials.length}`}
                 >
                   <article
-                    className="bg-card rounded-2xl border border-border p-6 md:p-8 hover:shadow-lg transition-shadow duration-300 h-full"
+                    className={`bg-card rounded-2xl border p-6 md:p-8 hover:shadow-lg transition-all duration-500 h-full ${
+                      isCenter 
+                        ? 'border-accent shadow-xl scale-105 z-10 relative md:ring-2 md:ring-accent/20' 
+                        : isMobile 
+                        ? 'border-border scale-100'
+                        : 'border-border scale-95 opacity-80'
+                    }`}
                   >
                     {/* Header with Service Tag */}
                     <div className="flex items-start justify-between mb-4">
@@ -300,7 +317,7 @@ const VerifiedReviews = () => {
                     </div>
                   </article>
                 </div>
-              ))}
+              )})}
             </div>
           </div>
 
