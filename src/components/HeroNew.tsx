@@ -95,6 +95,7 @@ const HeroNew = () => {
   const isMobile = useIsMobile();
   const zipInputRef = useRef<HTMLInputElement>(null);
   const otherServiceInputRef = useRef<HTMLInputElement>(null);
+  const serviceDropdownRef = useRef<HTMLDivElement>(null);
   
   const [selectedService, setSelectedService] = useState("");
   const [customServiceText, setCustomServiceText] = useState("");
