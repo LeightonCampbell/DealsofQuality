@@ -11,7 +11,7 @@ import {
   Lock, 
   Thermometer, 
   Video, 
-  Doorbell, 
+  BellRing,
   Lightbulb, 
   AlertCircle, 
   Sprout, 
@@ -162,7 +162,7 @@ export const serviceCategories: Category[] = [
         id: "video-doorbell", 
         label: "Video Doorbell Setup", 
         href: "/video-doorbell-installation", 
-        icon: Doorbell,
+        icon: BellRing,
         price: "$149",
         description: "Video doorbell installation",
         image: "https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=800"
