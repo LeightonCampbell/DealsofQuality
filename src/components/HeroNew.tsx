@@ -196,6 +196,7 @@ const HeroNew = () => {
   // Handle service input change with autosuggest
   const handleServiceInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const value = e.target.value;
+    // Always update the input value - allow all normal text input including spaces
     setServiceInputValue(value);
     
     // Show dropdown when user types
@@ -208,20 +209,20 @@ const HeroNew = () => {
       return;
     }
     
-    // Check if the input matches a service exactly
-    const exactMatch = allServices.find(s => s.label.toLowerCase() === value.toLowerCase());
+    // Check if the input matches a service exactly (trimmed for comparison)
+    const exactMatch = allServices.find(s => s.label.toLowerCase() === value.toLowerCase().trim());
     if (exactMatch) {
       setSelectedService(exactMatch.value);
       setCustomServiceText("");
     } else {
       // User is typing a custom service - store the text
       setCustomServiceText(value);
-      // Check if there are any matching suggestions
+      // Check if there are any matching suggestions (allow partial matches)
       const currentFiltered = allServices
-        .filter(s => s.label.toLowerCase().includes(value.toLowerCase()))
+        .filter(s => s.label.toLowerCase().includes(value.toLowerCase().trim()))
         .slice(0, 8);
       // Only set to "other" if there are no matching suggestions
-      if (currentFiltered.length === 0 && value.length > 0) {
+      if (currentFiltered.length === 0 && value.trim().length > 0) {
         setSelectedService("other");
       } else {
         // Clear selected service if there are suggestions - let user choose
@@ -371,9 +372,11 @@ const HeroNew = () => {
                       }}
                       className="w-full h-14 border-0 bg-transparent text-base px-4 focus:ring-0 focus:ring-offset-0"
                       onKeyDown={(e) => {
+                        // Only handle Escape key - allow all other keys (spaces, arrows, etc.) to work normally
                         if (e.key === "Escape") {
                           setIsServiceDropdownOpen(false);
                         }
+                        // Don't prevent default for any other keys - allow normal text editing
                       }}
                     />
                     {isServiceDropdownOpen && filteredServices.length > 0 && (
