@@ -140,13 +140,22 @@ const HeroNew = () => {
   // Close dropdown when clicking outside
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
-      if (otherServiceInputRef.current && !otherServiceInputRef.current.contains(event.target as Node)) {
+      const target = event.target as Node;
+      // Check if click is outside both the input and the dropdown
+      if (
+        serviceDropdownRef.current &&
+        !serviceDropdownRef.current.contains(target) &&
+        otherServiceInputRef.current &&
+        !otherServiceInputRef.current.contains(target)
+      ) {
         setIsServiceDropdownOpen(false);
       }
     };
-    document.addEventListener("mousedown", handleClickOutside);
-    return () => document.removeEventListener("mousedown", handleClickOutside);
-  }, []);
+    if (isServiceDropdownOpen) {
+      document.addEventListener("mousedown", handleClickOutside);
+      return () => document.removeEventListener("mousedown", handleClickOutside);
+    }
+  }, [isServiceDropdownOpen]);
 
   // Handle service selection from autosuggest
   const handleServiceSelect = (service: typeof allServices[0]) => {
@@ -345,7 +354,7 @@ const HeroNew = () => {
             <div className="max-w-3xl mx-auto animate-fade-in-up animation-delay-300">
               <div className="bg-card rounded-xl border border-border shadow-lg p-2 flex flex-col md:flex-row gap-2">
                 {/* Service Input with Autosuggest */}
-                <div className="flex-1 relative">
+                <div className="flex-1 relative" ref={serviceDropdownRef}>
                   <div className="relative">
                     <Input
                       ref={otherServiceInputRef}
