@@ -176,12 +176,7 @@ const HeroNew = () => {
     setTimeout(() => {
       setZipCodeFocused(false);
     }, 3000);
-    // Blur the service input to ensure state updates are visible
-    setTimeout(() => {
-      if (otherServiceInputRef.current) {
-        otherServiceInputRef.current.blur();
-      }
-    }, 0);
+    // Don't blur the input - allow user to continue editing if needed
   };
 
   // Filter services based on input for autosuggest
