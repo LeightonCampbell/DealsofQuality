@@ -96,6 +96,13 @@ import PestControl from "./pages/service/PestControl";
 import OrganizationServices from "./pages/service/OrganizationServices";
 import Landscaping from "./pages/service/Landscaping";
 import SnowRemoval from "./pages/service/SnowRemoval";
+import FurnitureAssembly from "./pages/service/FurnitureAssembly";
+import ACTuneUp from "./pages/service/ACTuneUp";
+import LeakDetection from "./pages/service/LeakDetection";
+import LightFixtureReplacement from "./pages/service/LightFixtureReplacement";
+import SmokeDetectorInstallation from "./pages/service/SmokeDetectorInstallation";
+import SmartIrrigationInstallation from "./pages/service/SmartIrrigationInstallation";
+import HolidayLightingInstallation from "./pages/service/HolidayLightingInstallation";
 
 const queryClient = new QueryClient();
 
@@ -170,6 +177,13 @@ const App = () => (
           <Route path="/organization-services" element={<OrganizationServices />} />
           <Route path="/landscaping" element={<Landscaping />} />
           <Route path="/snow-removal" element={<SnowRemoval />} />
+          <Route path="/furniture-assembly" element={<FurnitureAssembly />} />
+          <Route path="/ac-tune-up" element={<ACTuneUp />} />
+          <Route path="/leak-detection" element={<LeakDetection />} />
+          <Route path="/light-fixture-replacement" element={<LightFixtureReplacement />} />
+          <Route path="/smoke-detector-installation" element={<SmokeDetectorInstallation />} />
+          <Route path="/smart-irrigation-installation" element={<SmartIrrigationInstallation />} />
+          <Route path="/holiday-lighting-installation" element={<HolidayLightingInstallation />} />
           
           {/* TV Mounting Services - Root Level */}
           <Route path="/tv-mounting-up-to-50" element={<TVMountingSmall />} />

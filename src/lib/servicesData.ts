@@ -42,7 +42,7 @@ export const serviceCategories: Category[] = [
       { 
         id: "appliance-install", 
         label: "Appliance Install", 
-        href: "/appliance-installation", 
+        href: "/appliance-repair", 
         icon: Home,
         price: "$149",
         description: "Professional installation of major appliances",
@@ -51,7 +51,7 @@ export const serviceCategories: Category[] = [
       { 
         id: "cabinet-hardware", 
         label: "Cabinet Hardware", 
-        href: "/cabinet-hardware-installation", 
+        href: "/cabinet-installation", 
         icon: Wrench,
         price: "$99",
         description: "Cabinet hardware installation and repair",
@@ -134,7 +134,7 @@ export const serviceCategories: Category[] = [
       { 
         id: "smart-lock", 
         label: "Smart Lock Install", 
-        href: "/smart-lock-installation", 
+        href: "/smart-locks", 
         icon: Lock,
         price: "$149",
         description: "Smart lock installation and setup",
@@ -161,7 +161,7 @@ export const serviceCategories: Category[] = [
       { 
         id: "video-doorbell", 
         label: "Video Doorbell Setup", 
-        href: "/video-doorbell-installation", 
+        href: "/video-doorbells", 
         icon: BellRing,
         price: "$149",
         description: "Video doorbell installation",

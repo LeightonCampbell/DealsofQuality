@@ -1,4 +1,4 @@
-import { useState, useEffect, useRef } from "react";
+import { useState, useEffect, useRef, useMemo } from "react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { MapPin, ChevronDown, Navigation, Loader2 } from "lucide-react";
@@ -179,28 +179,40 @@ const HeroNew = () => {
     const value = e.target.value;
     setServiceInputValue(value);
     
+    // Show dropdown when user types
+    if (value.length > 0) {
+      setIsServiceDropdownOpen(true);
+    } else {
+      setIsServiceDropdownOpen(false);
+      setSelectedService("");
+      setCustomServiceText("");
+      return;
+    }
+    
     // Check if the input matches a service exactly
     const exactMatch = allServices.find(s => s.label.toLowerCase() === value.toLowerCase());
     if (exactMatch) {
       setSelectedService(exactMatch.value);
       setCustomServiceText("");
-    } else if (value.length > 0) {
-      // User is typing a custom service
-      setSelectedService("other");
-      setCustomServiceText(value);
-      setIsServiceDropdownOpen(true);
     } else {
-      setSelectedService("");
-      setCustomServiceText("");
+      // User is typing a custom service - don't set "other" yet, wait for them to finish or select
+      // This allows them to see suggestions while typing
+      setCustomServiceText(value);
+      // Only set to "other" if they've typed something and there are no matching suggestions
+      if (filteredServices.length === 0 && value.length > 0) {
+        setSelectedService("other");
+      }
     }
   };
 
   // Filter services based on input for autosuggest
-  const filteredServices = serviceInputValue.length > 0
-    ? allServices.filter(s => 
-        s.label.toLowerCase().includes(serviceInputValue.toLowerCase())
-      ).slice(0, 8) // Limit to 8 suggestions
-    : [];
+  const filteredServices = useMemo(() => {
+    if (serviceInputValue.length === 0) return [];
+    const query = serviceInputValue.toLowerCase();
+    return allServices
+      .filter(s => s.label.toLowerCase().includes(query))
+      .slice(0, 8); // Limit to 8 suggestions
+  }, [serviceInputValue]);
 
   // Handle zip code change with validation
   const handleZipChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -364,7 +376,7 @@ const HeroNew = () => {
                             {service.label}
                           </button>
                         ))}
-                        {serviceInputValue.length > 0 && !allServices.find(s => s.label.toLowerCase() === serviceInputValue.toLowerCase()) && (
+                        {serviceInputValue.length > 0 && filteredServices.length === 0 && (
                           <button
                             type="button"
                             onClick={(e) => {
@@ -373,8 +385,13 @@ const HeroNew = () => {
                               setSelectedService("other");
                               setCustomServiceText(serviceInputValue);
                               setIsServiceDropdownOpen(false);
+                              // Trigger glow effect
+                              setZipCodeFocused(true);
+                              setTimeout(() => {
+                                setZipCodeFocused(false);
+                              }, 3000);
                             }}
-                            className="w-full text-left px-4 py-3 hover:bg-accent/10 transition-colors text-base border-t border-border"
+                            className="w-full text-left px-4 py-3 hover:bg-accent/10 transition-colors text-base border-t border-border font-medium"
                           >
                             Use "{serviceInputValue}"
                           </button>
