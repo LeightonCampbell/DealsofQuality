@@ -174,6 +174,15 @@ const HeroNew = () => {
     }, 0);
   };
 
+  // Filter services based on input for autosuggest
+  const filteredServices = useMemo(() => {
+    if (serviceInputValue.length === 0) return [];
+    const query = serviceInputValue.toLowerCase();
+    return allServices
+      .filter(s => s.label.toLowerCase().includes(query))
+      .slice(0, 8); // Limit to 8 suggestions
+  }, [serviceInputValue]);
+
   // Handle service input change with autosuggest
   const handleServiceInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const value = e.target.value;
@@ -195,24 +204,21 @@ const HeroNew = () => {
       setSelectedService(exactMatch.value);
       setCustomServiceText("");
     } else {
-      // User is typing a custom service - don't set "other" yet, wait for them to finish or select
-      // This allows them to see suggestions while typing
+      // User is typing a custom service - store the text
       setCustomServiceText(value);
-      // Only set to "other" if they've typed something and there are no matching suggestions
-      if (filteredServices.length === 0 && value.length > 0) {
+      // Check if there are any matching suggestions
+      const currentFiltered = allServices
+        .filter(s => s.label.toLowerCase().includes(value.toLowerCase()))
+        .slice(0, 8);
+      // Only set to "other" if there are no matching suggestions
+      if (currentFiltered.length === 0 && value.length > 0) {
         setSelectedService("other");
+      } else {
+        // Clear selected service if there are suggestions - let user choose
+        setSelectedService("");
       }
     }
   };
-
-  // Filter services based on input for autosuggest
-  const filteredServices = useMemo(() => {
-    if (serviceInputValue.length === 0) return [];
-    const query = serviceInputValue.toLowerCase();
-    return allServices
-      .filter(s => s.label.toLowerCase().includes(query))
-      .slice(0, 8); // Limit to 8 suggestions
-  }, [serviceInputValue]);
 
   // Handle zip code change with validation
   const handleZipChange = (e: React.ChangeEvent<HTMLInputElement>) => {
