@@ -4,13 +4,17 @@ import { Phone, Menu, X, ChevronDown } from "lucide-react";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import logo from "@/assets/logo.png";
 import BookingModal from "@/components/BookingModal";
+import ServicesMegaMenu from "@/components/ServicesMegaMenu";
+import { useIsMobile } from "@/hooks/use-mobile";
 
 const Header = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isMobileServicesOpen, setIsMobileServicesOpen] = useState(false);
   const [isBookingModalOpen, setIsBookingModalOpen] = useState(false);
+  const [isMegaMenuOpen, setIsMegaMenuOpen] = useState(false);
   const location = useLocation();
   const navigate = useNavigate();
+  const isMobile = useIsMobile();
 
   const navLinks = [
     { label: "Services", href: "/services" },
@@ -38,16 +42,36 @@ const Header = () => {
           </Link>
 
           {/* Desktop Navigation */}
-          <nav className="hidden lg:flex items-center gap-8">
-            {navLinks.map((link) => (
-              <Link
-                key={link.label}
-                to={link.href}
-                className="text-foreground/80 hover:text-primary font-medium transition-colors duration-200"
-              >
-                {link.label}
-              </Link>
-            ))}
+          <nav className="hidden lg:flex items-center gap-8 relative">
+            {navLinks.map((link) => {
+              if (link.label === "Services") {
+                return (
+                  <div
+                    key={link.label}
+                    className="relative"
+                    onMouseEnter={() => setIsMegaMenuOpen(true)}
+                    onMouseLeave={() => setIsMegaMenuOpen(false)}
+                  >
+                    <Link
+                      to={link.href}
+                      className="text-foreground/80 hover:text-primary font-medium transition-colors duration-200"
+                    >
+                      {link.label}
+                    </Link>
+                    <ServicesMegaMenu isOpen={isMegaMenuOpen} onClose={() => setIsMegaMenuOpen(false)} />
+                  </div>
+                );
+              }
+              return (
+                <Link
+                  key={link.label}
+                  to={link.href}
+                  className="text-foreground/80 hover:text-primary font-medium transition-colors duration-200"
+                >
+                  {link.label}
+                </Link>
+              );
+            })}
           </nav>
 
           {/* Desktop CTA */}
@@ -78,47 +102,14 @@ const Header = () => {
         {isMenuOpen && (
           <nav className="lg:hidden mt-4 pb-4 border-t border-border pt-4 animate-fade-in">
             <div className="flex flex-col gap-4">
-              {/* Mobile Services Dropdown */}
-              <div>
-                <button
-                  className="flex items-center justify-between w-full text-foreground/80 hover:text-primary font-medium transition-colors duration-200 py-2"
-                  onClick={() => setIsMobileServicesOpen(!isMobileServicesOpen)}
-                >
-                  Services
-                  <ChevronDown
-                    className={`w-4 h-4 transition-transform duration-200 ${
-                      isMobileServicesOpen ? "rotate-180" : ""
-                    }`}
-                  />
-                </button>
-                {isMobileServicesOpen && (
-                  <div className="pl-4 mt-2 space-y-2 border-l-2 border-border">
-                    <Link
-                      to="/services"
-                      className="block text-accent font-medium text-sm py-1 transition-colors"
-                      onClick={() => {
-                        setIsMenuOpen(false);
-                        setIsMobileServicesOpen(false);
-                      }}
-                    >
-                      All Services
-                    </Link>
-                    {mobileServiceCategories.map((service) => (
-                      <Link
-                        key={service.label}
-                        to={service.href}
-                        className="block text-muted-foreground hover:text-primary text-sm py-1 transition-colors"
-                        onClick={() => {
-                          setIsMenuOpen(false);
-                          setIsMobileServicesOpen(false);
-                        }}
-                      >
-                        {service.label}
-                      </Link>
-                    ))}
-                  </div>
-                )}
-              </div>
+              {/* Mobile Services - Direct Link (No Mega Menu on Mobile) */}
+              <Link
+                to="/services"
+                className="text-foreground/80 hover:text-primary font-medium transition-colors duration-200 py-2"
+                onClick={() => setIsMenuOpen(false)}
+              >
+                Services
+              </Link>
 
               <Link
                 to="/faqs"

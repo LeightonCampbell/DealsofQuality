@@ -154,7 +154,19 @@ const HeroNew = () => {
     setSelectedService(service.value);
     setCustomServiceText("");
     setIsServiceDropdownOpen(false);
-    // Focus back on input to ensure state updates are visible
+    // Trigger glow effect on zip code field
+    setZipCodeFocused(true);
+    // Auto-focus zip code on mobile when service is selected
+    if (isMobile && zipInputRef.current) {
+      setTimeout(() => {
+        zipInputRef.current?.focus();
+      }, 100);
+    }
+    // Remove glow after 3 seconds
+    setTimeout(() => {
+      setZipCodeFocused(false);
+    }, 3000);
+    // Blur the service input to ensure state updates are visible
     setTimeout(() => {
       if (otherServiceInputRef.current) {
         otherServiceInputRef.current.blur();
