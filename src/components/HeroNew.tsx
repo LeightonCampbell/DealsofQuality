@@ -342,7 +342,7 @@ const HeroNew = () => {
             <div className="text-center">
               {/* Headline */}
               <h1 className="font-display text-3xl md:text-4xl lg:text-5xl font-bold text-foreground leading-tight mb-4 animate-fade-in animation-delay-100 tracking-tight">
-                Trusted Local Professionals for Your Home & Business
+                Trusted Local Pros for Any Project
                 <span className="block text-accent mt-2">Get a Quote in Minutes</span>
               </h1>
 
