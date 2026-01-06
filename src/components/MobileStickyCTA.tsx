@@ -35,21 +35,21 @@ const MobileStickyCTA = ({ onGetQuote, heroRef }: MobileStickyCTAProps) => {
   }, [isMobile, heroRef]);
 
   const handleClick = () => {
-    // Scroll to top and focus the service input
+    // Scroll to top smoothly
     window.scrollTo({ top: 0, behavior: "smooth" });
     
-    // Small delay to ensure scroll completes before focusing
+    // Small delay to ensure scroll completes, then trigger quote
     setTimeout(() => {
-      // Trigger the quote action which will open modal
       onGetQuote();
       
-      // Try to focus the service input after a brief delay
+      // After modal opens, try to focus the service input
       setTimeout(() => {
-        const serviceInput = document.querySelector('input[placeholder*="service"]') as HTMLInputElement;
+        const serviceInput = document.querySelector('input[placeholder*="service"], input[placeholder*="What kind"]') as HTMLInputElement;
         if (serviceInput) {
           serviceInput.focus();
+          serviceInput.click(); // Also click to ensure it's active
         }
-      }, 600);
+      }, 800);
     }, 300);
   };
 
