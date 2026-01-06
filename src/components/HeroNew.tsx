@@ -1,7 +1,8 @@
 import { useState, useEffect, useRef, useMemo } from "react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { MapPin, ChevronDown, Navigation, Loader2 } from "lucide-react";
+import { MapPin, ChevronDown, Navigation, Loader2, FileCheck, ShieldCheck, DollarSign } from "lucide-react";
+import MobileStickyCTA from "@/components/MobileStickyCTA";
 import {
   Select,
   SelectContent,
@@ -96,6 +97,7 @@ const HeroNew = () => {
   const zipInputRef = useRef<HTMLInputElement>(null);
   const otherServiceInputRef = useRef<HTMLInputElement>(null);
   const serviceDropdownRef = useRef<HTMLDivElement>(null);
+  const heroSectionRef = useRef<HTMLElement>(null);
   
   const [selectedService, setSelectedService] = useState("");
   const [customServiceText, setCustomServiceText] = useState("");
@@ -324,28 +326,28 @@ const HeroNew = () => {
 
   const handleFindPro = () => {
     if (!isButtonEnabled) return;
+    // Skip steps 1-2, go directly to step 3 (Project Details)
     setIsModalOpen(true);
   };
 
   return (
     <>
-      <section className="relative pt-28 pb-20 md:pt-36 md:pb-28 bg-background">
+      <section ref={heroSectionRef} className="relative pt-28 pb-20 md:pt-36 md:pb-28 bg-background">
         {/* Subtle background pattern */}
         <div className="absolute inset-0 bg-gradient-to-b from-secondary/30 to-background" />
         
         <div className="container-max px-4 relative z-10">
-          <div className="max-w-4xl mx-auto text-center">
-            {/* Headline */}
-            <h1 className="font-display text-4xl md:text-5xl lg:text-6xl font-bold text-foreground leading-tight mb-4 animate-fade-in animation-delay-100">
-              Premium Home Services
-              <span className="block">
-                <span className="text-accent">Hand-Picked Pros. Ready Today.</span>
-              </span>
-            </h1>
+          <div className="max-w-5xl mx-auto">
+            {/* Desktop: Center-left alignment, Mobile: Centered */}
+            <div className="text-center md:text-left">
+              {/* Headline */}
+              <h1 className="font-display text-4xl md:text-5xl lg:text-6xl font-bold text-foreground leading-tight mb-4 animate-fade-in animation-delay-100 tracking-tight">
+                Trusted Local Professionals for Your Home & Business — Get a Quote in Minutes
+              </h1>
 
-            <p className="text-lg text-muted-foreground mb-10 max-w-2xl mx-auto animate-fade-in-up animation-delay-200">
-              From smart home installs to emergency repairs, get expert help with upfront pricing and our 100% Satisfaction Guarantee.
-            </p>
+              <p className="text-lg md:text-xl text-muted-foreground mb-8 max-w-3xl mx-auto md:mx-0 animate-fade-in-up animation-delay-200">
+                Fast, reliable, and vetted professionals for essential home and business services — all backed by quality standards you can rely on.
+              </p>
 
             {/* Dual Search Bar */}
             <div className="max-w-3xl mx-auto animate-fade-in-up animation-delay-300">
@@ -462,32 +464,51 @@ const HeroNew = () => {
                   onClick={handleFindPro}
                   disabled={!isButtonEnabled}
                   size="lg"
-                  className="bg-cta hover:bg-cta/90 text-cta-foreground px-8 py-4 h-14 text-base font-semibold rounded-lg shadow-md hover:shadow-lg transition-all disabled:opacity-50 disabled:cursor-not-allowed"
+                  className="bg-cta hover:bg-cta/90 text-cta-foreground px-8 py-4 h-14 text-base font-semibold rounded-lg shadow-md hover:shadow-lg transition-all disabled:opacity-50 disabled:cursor-not-allowed w-full md:w-auto"
                 >
-                  Find a Pro
+                  Get My Free Quote
                   <span className="relative ml-2 flex h-2 w-2">
                     <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-success opacity-75"></span>
                     <span className="relative inline-flex rounded-full h-2 w-2 bg-success"></span>
                   </span>
                 </Button>
               </div>
-            </div>
 
-            {/* Social proof micro-text */}
-            <p className="text-sm text-muted-foreground mt-6 animate-fade-in-up animation-delay-400">
-              Trusted by 10,000+ homeowners · Same-day availability
-            </p>
+              {/* Trust Row - Below Search Bar */}
+              <div className="flex flex-wrap items-center justify-center md:justify-start gap-6 md:gap-8 mt-6 animate-fade-in-up animation-delay-400">
+                <div className="flex items-center gap-2 text-muted-foreground">
+                  <FileCheck className="w-5 h-5 text-accent flex-shrink-0" />
+                  <span className="text-sm font-medium">No-Obligation Quotes</span>
+                </div>
+                <div className="flex items-center gap-2 text-muted-foreground">
+                  <ShieldCheck className="w-5 h-5 text-accent flex-shrink-0" />
+                  <span className="text-sm font-medium">100% Vetted Pros</span>
+                </div>
+                <div className="flex items-center gap-2 text-muted-foreground">
+                  <DollarSign className="w-5 h-5 text-accent flex-shrink-0" />
+                  <span className="text-sm font-medium">$1,000 Happiness Guarantee</span>
+                </div>
+              </div>
+            </div>
           </div>
         </div>
       </section>
 
-      {/* Progressive Booking Modal */}
+      {/* Progressive Booking Modal - Skip to step 3 (Project Details) */}
       <BookingModal
         isOpen={isModalOpen}
         onClose={() => setIsModalOpen(false)}
         initialService={isOther ? "other" : selectedService}
         initialZip={zipCode}
         customServiceText={isOther ? customServiceText : ""}
+        initialStep={3}
+        skipToProjectDetails={true}
+      />
+      
+      {/* Mobile Sticky CTA */}
+      <MobileStickyCTA
+        onGetQuote={handleFindPro}
+        heroRef={heroSectionRef}
       />
     </>
   );

@@ -46,14 +46,16 @@ interface BookingModalProps {
   initialZip?: string;
   customServiceText?: string; // For "Other" service custom text
   initialStep?: number; // Optional: start at a specific step (1-4)
+  skipToProjectDetails?: boolean; // Skip steps 1-2 and go directly to step 3
 }
 
-const BookingModal = ({ isOpen, onClose, initialService = "", initialZip = "", customServiceText = "", initialStep }: BookingModalProps) => {
+const BookingModal = ({ isOpen, onClose, initialService = "", initialZip = "", customServiceText = "", initialStep, skipToProjectDetails = false }: BookingModalProps) => {
   const navigate = useNavigate();
   const [step, setStep] = useState(initialStep || 1);
   const [isSearching, setIsSearching] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [prosFound, setProsFound] = useState(0);
+  const [isPersonalizing, setIsPersonalizing] = useState(false);
 
   // Form state
   const [service, setService] = useState(initialService);
@@ -91,8 +93,26 @@ const BookingModal = ({ isOpen, onClose, initialService = "", initialZip = "", c
   // Reset form when modal opens
   useEffect(() => {
     if (isOpen) {
-      // If initialStep is provided, use it
-      if (initialStep !== undefined) {
+      // Show "Personalizing your request..." overlay for 0.5s when skipToProjectDetails is true
+      if (skipToProjectDetails) {
+        setIsPersonalizing(true);
+        setTimeout(() => {
+          setIsPersonalizing(false);
+        }, 500);
+      }
+
+      // If skipToProjectDetails is true, go directly to step 3 (Project Details)
+      if (skipToProjectDetails) {
+        setStep(3);
+        setService(initialService || "other");
+        setZipCode(initialZip);
+        if (customServiceText) {
+          setOtherServiceDescription(customServiceText);
+          setProjectDetails(customServiceText);
+        }
+        setIsSearching(false);
+      } else if (initialStep !== undefined) {
+        // If initialStep is provided, use it
         setStep(initialStep);
         setService(initialService);
         setZipCode(initialZip);
@@ -130,8 +150,11 @@ const BookingModal = ({ isOpen, onClose, initialService = "", initialZip = "", c
         }
         setIsSearching(false);
       }
+    } else {
+      // Reset personalizing state when modal closes
+      setIsPersonalizing(false);
     }
-  }, [isOpen, initialService, initialZip, customServiceText, initialStep]);
+  }, [isOpen, initialService, initialZip, customServiceText, initialStep, skipToProjectDetails]);
 
   const handleStep1Next = () => {
     if (!service) {
@@ -219,11 +242,26 @@ const BookingModal = ({ isOpen, onClose, initialService = "", initialZip = "", c
     }
   };
 
-  const progressValue = (step / 4) * 100;
+  // Adjust progress calculation when skipping steps
+  const progressValue = skipToProjectDetails && step === 3 
+    ? 75 // Step 3 of 4 = 75%
+    : (step / 4) * 100;
 
   return (
-    <Dialog open={isOpen} onOpenChange={onClose}>
-      <DialogContent className="sm:max-w-lg p-0 gap-0 overflow-hidden">
+    <>
+      {/* Personalizing Overlay */}
+      {isPersonalizing && (
+        <div className="fixed inset-0 bg-background/80 backdrop-blur-sm z-[100] flex items-center justify-center">
+          <div className="bg-card rounded-lg p-8 shadow-lg border border-border">
+            <Loader2 className="w-8 h-8 text-accent animate-spin mx-auto mb-4" />
+            <p className="text-lg font-medium text-foreground text-center">
+              Personalizing your request...
+            </p>
+          </div>
+        </div>
+      )}
+      <Dialog open={isOpen} onOpenChange={onClose}>
+        <DialogContent className="sm:max-w-lg p-0 gap-0 overflow-hidden">
         {/* Progress bar */}
         <div className="p-4 border-b border-border">
           <Progress value={progressValue} className="h-1.5" />
@@ -345,38 +383,45 @@ const BookingModal = ({ isOpen, onClose, initialService = "", initialZip = "", c
             </div>
           )}
 
-          {/* Step 3: Searching (Labor Illusion) */}
+          {/* Step 3: Project Details (Concierge Flow) */}
           {step === 3 && (
-            <div className="space-y-6 py-8 animate-fade-in">
+            <div className="space-y-6 animate-fade-in">
               <div className="text-center">
-                <div className="w-16 h-16 mx-auto mb-4 rounded-full bg-accent/10 flex items-center justify-center">
-                  <Loader2 className="w-8 h-8 text-accent animate-spin" />
-                </div>
                 <h3 className="font-display text-2xl font-bold text-foreground mb-2">
-                  Searching {prosFound}+ Vetted Pros...
+                  Tell us about your project
                 </h3>
                 <p className="text-muted-foreground">
-                  Finding the best matches in your area
+                  Share details so we can match you with the right professional
                 </p>
               </div>
 
-              <div className="space-y-3 max-w-xs mx-auto">
-                <div className="flex items-center gap-3 text-sm text-muted-foreground animate-fade-in">
-                  <CheckCircle2 className="w-4 h-4 text-success" />
-                  <span>Checking availability...</span>
-                </div>
-                {prosFound > 15 && (
-                  <div className="flex items-center gap-3 text-sm text-muted-foreground animate-fade-in">
-                    <CheckCircle2 className="w-4 h-4 text-success" />
-                    <span>Verifying licenses...</span>
-                  </div>
+              <div className="space-y-4">
+                <Textarea
+                  placeholder="Describe your project needs, timeline, and any specific requirements..."
+                  value={projectDetails}
+                  onChange={(e) => setProjectDetails(e.target.value)}
+                  rows={5}
+                  className="text-base"
+                />
+              </div>
+
+              <div className="flex gap-3">
+                {!skipToProjectDetails && (
+                  <Button variant="outline" onClick={() => setStep(2)} className="flex-1 h-12">
+                    <ArrowLeft className="w-4 h-4 mr-2" />
+                    Back
+                  </Button>
                 )}
-                {prosFound > 30 && (
-                  <div className="flex items-center gap-3 text-sm text-muted-foreground animate-fade-in">
-                    <CheckCircle2 className="w-4 h-4 text-success" />
-                    <span>Reviewing ratings...</span>
-                  </div>
-                )}
+                <Button
+                  onClick={() => {
+                    // Move to step 4 (Contact Info)
+                    setStep(4);
+                  }}
+                  className={`${skipToProjectDetails ? 'w-full' : 'flex-1'} h-12 bg-cta hover:bg-cta/90`}
+                >
+                  Continue
+                  <ArrowRight className="w-4 h-4 ml-2" />
+                </Button>
               </div>
             </div>
           )}
@@ -455,6 +500,7 @@ const BookingModal = ({ isOpen, onClose, initialService = "", initialZip = "", c
         </div>
       </DialogContent>
     </Dialog>
+    </>
   );
 };
 
