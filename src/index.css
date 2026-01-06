@@ -273,15 +273,16 @@
   }
 
   .animate-scroll-left {
-    animation: scrollLeft 30s linear infinite;
+    animation: scrollLeft 40s linear infinite;
+    will-change: transform;
   }
 
   @keyframes scrollLeft {
-    from {
+    0% {
       transform: translateX(0);
     }
-    to {
-      transform: translateX(-50%);
+    100% {
+      transform: translateX(-33.333%);
     }
   }
 }
