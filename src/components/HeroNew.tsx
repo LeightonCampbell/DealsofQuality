@@ -341,8 +341,9 @@ const HeroNew = () => {
             {/* Centered alignment */}
             <div className="text-center">
               {/* Headline */}
-              <h1 className="font-display text-4xl md:text-5xl lg:text-6xl font-bold text-foreground leading-tight mb-4 animate-fade-in animation-delay-100 tracking-tight">
-                Trusted Local Professionals for Your Home & Business — Get a Quote in Minutes
+              <h1 className="font-display text-3xl md:text-4xl lg:text-5xl font-bold text-foreground leading-tight mb-4 animate-fade-in animation-delay-100 tracking-tight">
+                Trusted Local Professionals for Your Home & Business
+                <span className="block text-accent mt-2">Get a Quote in Minutes</span>
               </h1>
 
               <p className="text-lg md:text-xl text-muted-foreground mb-8 max-w-3xl mx-auto animate-fade-in-up animation-delay-200">
