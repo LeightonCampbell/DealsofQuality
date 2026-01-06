@@ -177,15 +177,26 @@ const VerifiedReviews = () => {
   // Keyboard navigation
   useEffect(() => {
     const handleKeyDown = (e: KeyboardEvent) => {
-      if (e.key === "ArrowLeft") {
-        e.preventDefault();
-        goToPrevious();
-      } else if (e.key === "ArrowRight") {
-        e.preventDefault();
-        goToNext();
-      } else if (e.key === " ") {
-        e.preventDefault();
-        setIsPaused((prev) => !prev);
+      // Don't interfere if user is typing in an input, textarea, or select
+      const target = e.target as HTMLElement;
+      const isInputElement = 
+        target.tagName === 'INPUT' || 
+        target.tagName === 'TEXTAREA' || 
+        target.tagName === 'SELECT' ||
+        target.isContentEditable;
+      
+      // Only handle keyboard shortcuts if NOT in an input field
+      if (!isInputElement) {
+        if (e.key === "ArrowLeft") {
+          e.preventDefault();
+          goToPrevious();
+        } else if (e.key === "ArrowRight") {
+          e.preventDefault();
+          goToNext();
+        } else if (e.key === " ") {
+          e.preventDefault();
+          setIsPaused((prev) => !prev);
+        }
       }
     };
 
