@@ -338,19 +338,19 @@ const HeroNew = () => {
         
         <div className="container-max px-4 relative z-10">
           <div className="max-w-5xl mx-auto">
-            {/* Desktop: Center-left alignment, Mobile: Centered */}
-            <div className="text-center md:text-left">
+            {/* Centered alignment */}
+            <div className="text-center">
               {/* Headline */}
               <h1 className="font-display text-4xl md:text-5xl lg:text-6xl font-bold text-foreground leading-tight mb-4 animate-fade-in animation-delay-100 tracking-tight">
                 Trusted Local Professionals for Your Home & Business — Get a Quote in Minutes
               </h1>
 
-              <p className="text-lg md:text-xl text-muted-foreground mb-8 max-w-3xl mx-auto md:mx-0 animate-fade-in-up animation-delay-200">
+              <p className="text-lg md:text-xl text-muted-foreground mb-8 max-w-3xl mx-auto animate-fade-in-up animation-delay-200">
                 Fast, reliable, and vetted professionals for essential home and business services — all backed by quality standards you can rely on.
               </p>
 
               {/* Dual Search Bar */}
-              <div className="max-w-3xl mx-auto md:mx-0 animate-fade-in-up animation-delay-300">
+              <div className="max-w-3xl mx-auto animate-fade-in-up animation-delay-300">
               <div className="bg-card rounded-xl border border-border shadow-lg p-2 flex flex-col md:flex-row gap-2">
                 {/* Service Input with Autosuggest */}
                 <div className="flex-1 relative" ref={serviceDropdownRef}>
@@ -472,22 +472,6 @@ const HeroNew = () => {
                     <span className="relative inline-flex rounded-full h-2 w-2 bg-success"></span>
                   </span>
                 </Button>
-              </div>
-              </div>
-
-              {/* Trust Row - Below Search Bar */}
-              <div className="flex flex-wrap items-center justify-center md:justify-start gap-6 md:gap-8 mt-6 animate-fade-in-up animation-delay-400">
-              <div className="flex items-center gap-2 text-muted-foreground">
-                <FileCheck className="w-5 h-5 text-accent flex-shrink-0" />
-                <span className="text-sm font-medium">No-Obligation Quotes</span>
-              </div>
-              <div className="flex items-center gap-2 text-muted-foreground">
-                <ShieldCheck className="w-5 h-5 text-accent flex-shrink-0" />
-                <span className="text-sm font-medium">100% Vetted Pros</span>
-              </div>
-              <div className="flex items-center gap-2 text-muted-foreground">
-                <DollarSign className="w-5 h-5 text-accent flex-shrink-0" />
-                <span className="text-sm font-medium">$1,000 Happiness Guarantee</span>
               </div>
               </div>
             </div>
