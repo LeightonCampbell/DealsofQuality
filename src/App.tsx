@@ -6,103 +6,115 @@ import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import ScrollToTop from "./components/ScrollToTop";
 import Index from "./pages/Index";
-import Services from "./pages/Services";
-import FAQs from "./pages/FAQs";
-import ContactSales from "./pages/ContactSales";
-import Contact from "./pages/Contact";
-import JoinAsPro from "./pages/JoinAsPro";
-import Terms from "./pages/Terms";
-import Privacy from "./pages/Privacy";
-import RemoteSupportPage from "./pages/RemoteSupport";
-import NotFound from "./pages/NotFound";
-import Blog from "./pages/Blog";
-import ModernWebsite2026 from "./pages/blog/ModernWebsite2026";
-import ComputerNeedsSupport from "./pages/blog/ComputerNeedsSupport";
-import TVMountingDoneRight from "./pages/blog/TVMountingDoneRight";
-import TVMountingMistakes from "./pages/blog/TVMountingMistakes";
-import SuccessPage from "./pages/SuccessPage";
+
+// Loading fallback component
+const PageLoader = () => (
+  <div className="min-h-screen flex items-center justify-center bg-background">
+    <div className="flex flex-col items-center gap-4">
+      <div className="w-12 h-12 border-4 border-accent border-t-transparent rounded-full animate-spin" />
+      <p className="text-muted-foreground">Loading...</p>
+    </div>
+  </div>
+);
+
+// Lazy load pages for better code splitting
+const Services = lazy(() => import("./pages/Services"));
+const FAQs = lazy(() => import("./pages/FAQs"));
+const ContactSales = lazy(() => import("./pages/ContactSales"));
+const Contact = lazy(() => import("./pages/Contact"));
+const JoinAsPro = lazy(() => import("./pages/JoinAsPro"));
+const Terms = lazy(() => import("./pages/Terms"));
+const Privacy = lazy(() => import("./pages/Privacy"));
+const RemoteSupportPage = lazy(() => import("./pages/RemoteSupport"));
+const NotFound = lazy(() => import("./pages/NotFound"));
+const Blog = lazy(() => import("./pages/Blog"));
+const ModernWebsite2026 = lazy(() => import("./pages/blog/ModernWebsite2026"));
+const ComputerNeedsSupport = lazy(() => import("./pages/blog/ComputerNeedsSupport"));
+const TVMountingDoneRight = lazy(() => import("./pages/blog/TVMountingDoneRight"));
+const TVMountingMistakes = lazy(() => import("./pages/blog/TVMountingMistakes"));
+const SuccessPage = lazy(() => import("./pages/SuccessPage"));
 
 // Admin Pages (lazy loaded to avoid React instance conflicts)
 const AdminLogin = lazy(() => import("./pages/admin/AdminLogin"));
 const AdminDashboard = lazy(() => import("./pages/admin/AdminDashboard"));
 
-// Category Pages
-import TVMountingCategory from "./pages/category/TVMountingCategory";
-import SmartHomeCategory from "./pages/category/SmartHomeCategory";
-import AudioVideoCategory from "./pages/category/AudioVideoCategory";
-import WifiNetworkCategory from "./pages/category/WifiNetworkCategory";
-import HomeSecurityCategory from "./pages/category/HomeSecurityCategory";
-import ComputersPrintersCategory from "./pages/category/ComputersPrintersCategory";
-import BusinessCategory from "./pages/category/BusinessCategory";
-import HomeServicesCategory from "./pages/category/HomeServicesCategory";
+// Category Pages (lazy loaded)
+const TVMountingCategory = lazy(() => import("./pages/category/TVMountingCategory"));
+const SmartHomeCategory = lazy(() => import("./pages/category/SmartHomeCategory"));
+const AudioVideoCategory = lazy(() => import("./pages/category/AudioVideoCategory"));
+const WifiNetworkCategory = lazy(() => import("./pages/category/WifiNetworkCategory"));
+const HomeSecurityCategory = lazy(() => import("./pages/category/HomeSecurityCategory"));
+const ComputersPrintersCategory = lazy(() => import("./pages/category/ComputersPrintersCategory"));
+const BusinessCategory = lazy(() => import("./pages/category/BusinessCategory"));
+const HomeServicesCategory = lazy(() => import("./pages/category/HomeServicesCategory"));
 
-// Service Pages
-import TVMountingSmall from "./pages/service/TVMountingSmall";
-import TVMountingMedium from "./pages/service/TVMountingMedium";
-import TVMountingLarge from "./pages/service/TVMountingLarge";
-import TVCableConcealment from "./pages/service/TVCableConcealment";
-import SoundbarInstallation from "./pages/service/SoundbarInstallation";
-import TVDismountRemount from "./pages/service/TVDismountRemount";
-import SmartThermostats from "./pages/service/SmartThermostats";
-import VideoDoorbells from "./pages/service/VideoDoorbells";
-import SmartLocks from "./pages/service/SmartLocks";
-import SmartHomeIntegration from "./pages/service/SmartHomeIntegration";
-import HomeTheater from "./pages/service/HomeTheater";
-import SurroundSound from "./pages/service/SurroundSound";
-import StreamingSetup from "./pages/service/StreamingSetup";
-import GamingSetup from "./pages/service/GamingSetup";
-import RouterSetup from "./pages/service/RouterSetup";
-import NetworkOptimization from "./pages/service/NetworkOptimization";
-import DeadZoneElimination from "./pages/service/DeadZoneElimination";
-import BusinessNetworks from "./pages/service/BusinessNetworks";
-import SecurityCameras from "./pages/service/SecurityCameras";
-import MotionSensors from "./pages/service/MotionSensors";
-import ComputerRepair from "./pages/service/ComputerRepair";
-import VirusRemoval from "./pages/service/VirusRemoval";
-import PrinterSetup from "./pages/service/PrinterSetup";
-import DataBackup from "./pages/service/DataBackup";
-import WebsiteDesign from "./pages/service/WebsiteDesign";
-import RemoteSupport from "./pages/service/RemoteSupport";
-import ITSolutions from "./pages/service/ITSolutions";
-import CustomSolutions from "./pages/service/CustomSolutions";
-// New Home Service Pages
-import HandymanServices from "./pages/service/HandymanServices";
-import Painting from "./pages/service/Painting";
-import FlooringInstallation from "./pages/service/FlooringInstallation";
-import DrywallInstallation from "./pages/service/DrywallInstallation";
-import CabinetInstallation from "./pages/service/CabinetInstallation";
-import TileWork from "./pages/service/TileWork";
-import WindowDoorReplacement from "./pages/service/WindowDoorReplacement";
-import DeckPatioBuilding from "./pages/service/DeckPatioBuilding";
-import FenceInstallation from "./pages/service/FenceInstallation";
-import BathroomRemodeling from "./pages/service/BathroomRemodeling";
-import KitchenRemodeling from "./pages/service/KitchenRemodeling";
-import Plumbing from "./pages/service/Plumbing";
-import Electrical from "./pages/service/Electrical";
-import HVAC from "./pages/service/HVAC";
-import Roofing from "./pages/service/Roofing";
-import ApplianceRepair from "./pages/service/ApplianceRepair";
-import WaterHeaterInstallation from "./pages/service/WaterHeaterInstallation";
-import GutterInstallation from "./pages/service/GutterInstallation";
-import SidingInstallation from "./pages/service/SidingInstallation";
-import GarageDoorInstallation from "./pages/service/GarageDoorInstallation";
-import SolarPanelInstallation from "./pages/service/SolarPanelInstallation";
-import HouseCleaning from "./pages/service/HouseCleaning";
-import CarpetCleaning from "./pages/service/CarpetCleaning";
-import JunkRemoval from "./pages/service/JunkRemoval";
-import PressureWashing from "./pages/service/PressureWashing";
-import GutterCleaning from "./pages/service/GutterCleaning";
-import PestControl from "./pages/service/PestControl";
-import OrganizationServices from "./pages/service/OrganizationServices";
-import Landscaping from "./pages/service/Landscaping";
-import SnowRemoval from "./pages/service/SnowRemoval";
-import FurnitureAssembly from "./pages/service/FurnitureAssembly";
-import ACTuneUp from "./pages/service/ACTuneUp";
-import LeakDetection from "./pages/service/LeakDetection";
-import LightFixtureReplacement from "./pages/service/LightFixtureReplacement";
-import SmokeDetectorInstallation from "./pages/service/SmokeDetectorInstallation";
-import SmartIrrigationInstallation from "./pages/service/SmartIrrigationInstallation";
-import HolidayLightingInstallation from "./pages/service/HolidayLightingInstallation";
+// Service Pages (lazy loaded for better performance)
+const TVMountingSmall = lazy(() => import("./pages/service/TVMountingSmall"));
+const TVMountingMedium = lazy(() => import("./pages/service/TVMountingMedium"));
+const TVMountingLarge = lazy(() => import("./pages/service/TVMountingLarge"));
+const TVCableConcealment = lazy(() => import("./pages/service/TVCableConcealment"));
+const SoundbarInstallation = lazy(() => import("./pages/service/SoundbarInstallation"));
+const TVDismountRemount = lazy(() => import("./pages/service/TVDismountRemount"));
+const SmartThermostats = lazy(() => import("./pages/service/SmartThermostats"));
+const VideoDoorbells = lazy(() => import("./pages/service/VideoDoorbells"));
+const SmartLocks = lazy(() => import("./pages/service/SmartLocks"));
+const SmartHomeIntegration = lazy(() => import("./pages/service/SmartHomeIntegration"));
+const HomeTheater = lazy(() => import("./pages/service/HomeTheater"));
+const SurroundSound = lazy(() => import("./pages/service/SurroundSound"));
+const StreamingSetup = lazy(() => import("./pages/service/StreamingSetup"));
+const GamingSetup = lazy(() => import("./pages/service/GamingSetup"));
+const RouterSetup = lazy(() => import("./pages/service/RouterSetup"));
+const NetworkOptimization = lazy(() => import("./pages/service/NetworkOptimization"));
+const DeadZoneElimination = lazy(() => import("./pages/service/DeadZoneElimination"));
+const BusinessNetworks = lazy(() => import("./pages/service/BusinessNetworks"));
+const SecurityCameras = lazy(() => import("./pages/service/SecurityCameras"));
+const MotionSensors = lazy(() => import("./pages/service/MotionSensors"));
+const ComputerRepair = lazy(() => import("./pages/service/ComputerRepair"));
+const VirusRemoval = lazy(() => import("./pages/service/VirusRemoval"));
+const PrinterSetup = lazy(() => import("./pages/service/PrinterSetup"));
+const DataBackup = lazy(() => import("./pages/service/DataBackup"));
+const WebsiteDesign = lazy(() => import("./pages/service/WebsiteDesign"));
+const RemoteSupport = lazy(() => import("./pages/service/RemoteSupport"));
+const ITSolutions = lazy(() => import("./pages/service/ITSolutions"));
+const CustomSolutions = lazy(() => import("./pages/service/CustomSolutions"));
+// New Home Service Pages (lazy loaded)
+const HandymanServices = lazy(() => import("./pages/service/HandymanServices"));
+const Painting = lazy(() => import("./pages/service/Painting"));
+const FlooringInstallation = lazy(() => import("./pages/service/FlooringInstallation"));
+const DrywallInstallation = lazy(() => import("./pages/service/DrywallInstallation"));
+const CabinetInstallation = lazy(() => import("./pages/service/CabinetInstallation"));
+const TileWork = lazy(() => import("./pages/service/TileWork"));
+const WindowDoorReplacement = lazy(() => import("./pages/service/WindowDoorReplacement"));
+const DeckPatioBuilding = lazy(() => import("./pages/service/DeckPatioBuilding"));
+const FenceInstallation = lazy(() => import("./pages/service/FenceInstallation"));
+const BathroomRemodeling = lazy(() => import("./pages/service/BathroomRemodeling"));
+const KitchenRemodeling = lazy(() => import("./pages/service/KitchenRemodeling"));
+const Plumbing = lazy(() => import("./pages/service/Plumbing"));
+const Electrical = lazy(() => import("./pages/service/Electrical"));
+const HVAC = lazy(() => import("./pages/service/HVAC"));
+const Roofing = lazy(() => import("./pages/service/Roofing"));
+const ApplianceRepair = lazy(() => import("./pages/service/ApplianceRepair"));
+const WaterHeaterInstallation = lazy(() => import("./pages/service/WaterHeaterInstallation"));
+const GutterInstallation = lazy(() => import("./pages/service/GutterInstallation"));
+const SidingInstallation = lazy(() => import("./pages/service/SidingInstallation"));
+const GarageDoorInstallation = lazy(() => import("./pages/service/GarageDoorInstallation"));
+const SolarPanelInstallation = lazy(() => import("./pages/service/SolarPanelInstallation"));
+const HouseCleaning = lazy(() => import("./pages/service/HouseCleaning"));
+const CarpetCleaning = lazy(() => import("./pages/service/CarpetCleaning"));
+const JunkRemoval = lazy(() => import("./pages/service/JunkRemoval"));
+const PressureWashing = lazy(() => import("./pages/service/PressureWashing"));
+const GutterCleaning = lazy(() => import("./pages/service/GutterCleaning"));
+const PestControl = lazy(() => import("./pages/service/PestControl"));
+const OrganizationServices = lazy(() => import("./pages/service/OrganizationServices"));
+const Landscaping = lazy(() => import("./pages/service/Landscaping"));
+const SnowRemoval = lazy(() => import("./pages/service/SnowRemoval"));
+const FurnitureAssembly = lazy(() => import("./pages/service/FurnitureAssembly"));
+const ACTuneUp = lazy(() => import("./pages/service/ACTuneUp"));
+const LeakDetection = lazy(() => import("./pages/service/LeakDetection"));
+const LightFixtureReplacement = lazy(() => import("./pages/service/LightFixtureReplacement"));
+const SmokeDetectorInstallation = lazy(() => import("./pages/service/SmokeDetectorInstallation"));
+const SmartIrrigationInstallation = lazy(() => import("./pages/service/SmartIrrigationInstallation"));
+const HolidayLightingInstallation = lazy(() => import("./pages/service/HolidayLightingInstallation"));
 
 const queryClient = new QueryClient();
 
@@ -113,9 +125,10 @@ const App = () => (
       <Sonner />
       <BrowserRouter>
         <ScrollToTop />
-        <Routes>
-          <Route path="/" element={<Index />} />
-          <Route path="/services" element={<Services />} />
+        <Suspense fallback={<PageLoader />}>
+          <Routes>
+            <Route path="/" element={<Index />} />
+            <Route path="/services" element={<Services />} />
           <Route path="/faqs" element={<FAQs />} />
           <Route path="/join-as-pro" element={<JoinAsPro />} />
           <Route path="/services/contact-sales" element={<ContactSales />} />
@@ -133,8 +146,8 @@ const App = () => (
           <Route path="/success" element={<SuccessPage />} />
           
           {/* Admin Routes */}
-          <Route path="/admin" element={<Suspense fallback={<div className="min-h-screen flex items-center justify-center">Loading...</div>}><AdminLogin /></Suspense>} />
-          <Route path="/admin/dashboard" element={<Suspense fallback={<div className="min-h-screen flex items-center justify-center">Loading...</div>}><AdminDashboard /></Suspense>} />
+          <Route path="/admin" element={<AdminLogin />} />
+          <Route path="/admin/dashboard" element={<AdminDashboard />} />
           
           {/* Category Pages - Keep for backward compatibility but redirect will be handled */}
           <Route path="/services/home-services" element={<HomeServicesCategory />} />
@@ -230,6 +243,7 @@ const App = () => (
           {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
           <Route path="*" element={<NotFound />} />
         </Routes>
+        </Suspense>
       </BrowserRouter>
     </TooltipProvider>
   </QueryClientProvider>

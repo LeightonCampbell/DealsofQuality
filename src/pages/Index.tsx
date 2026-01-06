@@ -23,7 +23,7 @@ const Index = () => {
         />
         <meta name="keywords" content="home services, local professionals, plumbing, electrical, HVAC, remodeling, handyman, house cleaning, TV mounting, smart home installation, premium home services" />
       </Helmet>
-      <main className="min-h-screen">
+      <main id="main-content" className="min-h-screen">
         <Header />
         <HeroNew />
         <TrustRibbon />

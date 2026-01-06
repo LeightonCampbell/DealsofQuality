@@ -4,6 +4,13 @@
     <meta charset="UTF-8" />
     <link rel="icon" type="image/png" href="/favicon.png" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    
+    <!-- Preconnect to external domains for faster loading -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link rel="dns-prefetch" href="https://api.bigdatacloud.net" />
+    <link rel="dns-prefetch" href="https://nominatim.openstreetmap.org" />
+    
     <title>Premium Home Services | Hire Vetted Local Professionals | Deals Of Quality</title>
     <meta name="description" content="Carefully vetted, local professionals for homeowners who demand quality service. From plumbing and electrical to remodeling, cleaning, and smart home installation. Same-day service available." />
     <meta name="keywords" content="home services, premium services, plumbing, electrical, HVAC, remodeling, cleaning, handyman, TV mounting, smart home, local professionals, vetted professionals" />
@@ -80,5 +87,15 @@
   <body>
     <div id="root"></div>
     <script type="module" src="/src/main.tsx"></script>
+    
+    <!-- Performance optimization: Preload critical resources -->
+    <link rel="modulepreload" href="/src/main.tsx" />
+    
+    <!-- Accessibility: Skip to main content link -->
+    <noscript>
+      <div style="padding: 20px; text-align: center; background: #fff3cd; color: #856404;">
+        <strong>JavaScript Required:</strong> This website requires JavaScript to function properly. Please enable JavaScript in your browser settings.
+      </div>
+    </noscript>
   </body>
 </html>

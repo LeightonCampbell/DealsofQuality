@@ -33,12 +33,29 @@ const Header = () => {
   ];
 
   return (
-    <header className="fixed top-0 left-0 right-0 z-50 bg-background/95 backdrop-blur-md border-b border-border">
-      <div className="container-max section-padding !py-4">
+    <>
+      {/* Skip to main content link for accessibility */}
+      <a
+        href="#main-content"
+        className="sr-only focus:not-sr-only focus:absolute focus:top-4 focus:left-4 focus:z-[100] focus:px-4 focus:py-2 focus:bg-accent focus:text-accent-foreground focus:rounded-md focus:shadow-lg"
+      >
+        Skip to main content
+      </a>
+      
+      <header className="fixed top-0 left-0 right-0 z-50 bg-background/95 backdrop-blur-md border-b border-border" role="banner">
+        <div className="container-max section-padding !py-4">
         <div className="flex items-center justify-between">
           {/* Logo */}
-          <Link to="/" className="flex items-center">
-            <img src={logo} alt="DoQuality" className="h-10 md:h-12 w-auto" />
+          <Link to="/" className="flex items-center" aria-label="Go to homepage">
+            <img 
+              src={logo} 
+              alt="Deals Of Quality - Premium Home Services" 
+              className="h-10 md:h-12 w-auto" 
+              width="150" 
+              height="48"
+              loading="eager"
+              fetchpriority="high"
+            />
           </Link>
 
           {/* Desktop Navigation */}
@@ -150,6 +167,7 @@ const Header = () => {
         initialZip=""
       />
     </header>
+    </>
   );
 };
 

@@ -332,9 +332,9 @@ const HeroNew = () => {
 
   return (
     <>
-      <section ref={heroSectionRef} className="relative pt-28 pb-20 md:pt-36 md:pb-28 bg-background">
+      <section ref={heroSectionRef} className="relative pt-28 pb-20 md:pt-36 md:pb-28 bg-background" aria-label="Hero section - Find local professionals">
         {/* Subtle background pattern */}
-        <div className="absolute inset-0 bg-gradient-to-b from-secondary/30 to-background" />
+        <div className="absolute inset-0 bg-gradient-to-b from-secondary/30 to-background" aria-hidden="true" />
         
         <div className="container-max px-4 relative z-10">
           <div className="max-w-5xl mx-auto">
@@ -352,7 +352,7 @@ const HeroNew = () => {
 
               {/* Dual Search Bar */}
               <div className="max-w-3xl mx-auto animate-fade-in-up animation-delay-300">
-              <div className="bg-card rounded-xl border border-border shadow-lg p-2 flex flex-col md:flex-row gap-2">
+              <form onSubmit={(e) => { e.preventDefault(); handleFindPro(); }} className="bg-card rounded-xl border border-border shadow-lg p-2 flex flex-col md:flex-row gap-2" role="search" aria-label="Service search form">
                 {/* Service Input with Autosuggest */}
                 <div className="flex-1 relative" ref={serviceDropdownRef}>
                   <div className="relative">
@@ -362,6 +362,10 @@ const HeroNew = () => {
                       placeholder="What kind of service do you need?"
                       value={serviceInputValue}
                       onChange={handleServiceInputChange}
+                      aria-label="Service type"
+                      aria-autocomplete="list"
+                      aria-controls="service-suggestions"
+                      aria-expanded={isServiceDropdownOpen && filteredServices.length > 0}
                       onFocus={() => {
                         // Only show dropdown if there's text to filter
                         if (serviceInputValue.length > 0) {
@@ -378,7 +382,7 @@ const HeroNew = () => {
                       }}
                     />
                     {isServiceDropdownOpen && filteredServices.length > 0 && (
-                      <div className="absolute top-full left-0 right-0 mt-1 bg-card border border-border rounded-lg shadow-lg z-50 max-h-60 overflow-y-auto">
+                      <div id="service-suggestions" className="absolute top-full left-0 right-0 mt-1 bg-card border border-border rounded-lg shadow-lg z-50 max-h-60 overflow-y-auto" role="listbox" aria-label="Service suggestions">
                         {filteredServices.map((service) => (
                           <button
                             key={service.value}
@@ -440,6 +444,9 @@ const HeroNew = () => {
                       onChange={handleZipChange}
                       maxLength={5}
                       className="w-28 py-4 text-foreground placeholder:text-muted-foreground bg-transparent border-0 focus:outline-none focus:ring-0 text-base"
+                      aria-label="ZIP Code"
+                      aria-invalid={zipCodeError ? "true" : "false"}
+                      aria-describedby={zipCodeError ? "zip-error" : undefined}
                     />
                     <button
                       onClick={handleLocateMe}
@@ -456,7 +463,7 @@ const HeroNew = () => {
                     </button>
                   </div>
                   {zipCodeError && (
-                    <p className="text-xs text-red-500 mt-1 px-4">{zipCodeError}</p>
+                    <p id="zip-error" className="text-xs text-red-500 mt-1 px-4" role="alert">{zipCodeError}</p>
                   )}
                 </div>
 
@@ -473,7 +480,7 @@ const HeroNew = () => {
                     <span className="relative inline-flex rounded-full h-2 w-2 bg-success"></span>
                   </span>
                 </Button>
-              </div>
+              </form>
               </div>
             </div>
           </div>

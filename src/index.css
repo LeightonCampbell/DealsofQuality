@@ -1,5 +1,16 @@
 @import url('https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,100..1000;1,9..40,100..1000&family=Inter:wght@300;400;500;600;700&display=swap');
 
+/* Ensure font-display: swap for better performance */
+@font-face {
+  font-family: 'Inter';
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'DM Sans';
+  font-display: swap;
+}
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
@@ -277,6 +288,11 @@
     will-change: transform;
   }
 
+  /* Pause animation on hover for better UX */
+  .animate-scroll-left:hover {
+    animation-play-state: paused;
+  }
+
   @keyframes scrollLeft {
     0% {
       transform: translateX(0);
@@ -284,5 +300,34 @@
     100% {
       transform: translateX(-33.333%);
     }
+  }
+
+  /* Reduce motion for users who prefer it (accessibility) */
+  @media (prefers-reduced-motion: reduce) {
+    .animate-fade-in,
+    .animate-fade-in-up,
+    .animate-slide-in-left,
+    .animate-slide-in-right,
+    .animate-scale-in,
+    .animate-slide-up,
+    .animate-scroll-left {
+      animation: none !important;
+      opacity: 1 !important;
+      transform: none !important;
+    }
+  }
+
+  /* Enhanced focus styles for better accessibility */
+  *:focus-visible {
+    outline: 2px solid hsl(var(--accent));
+    outline-offset: 2px;
+    border-radius: 4px;
+  }
+
+  /* Improve button and link contrast */
+  button:focus-visible,
+  a:focus-visible {
+    outline: 3px solid hsl(var(--accent));
+    outline-offset: 3px;
   }
 }

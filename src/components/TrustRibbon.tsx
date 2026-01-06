@@ -28,17 +28,19 @@ const TrustRibbon = () => {
   const duplicatedItems = [...trustItems, ...trustItems, ...trustItems];
 
   return (
-    <section className="py-6 bg-card border-y border-border overflow-hidden">
+    <section className="py-6 bg-card border-y border-border overflow-hidden" aria-label="Trust indicators">
       <div className="container-max px-4">
         {/* Continuous left-scrolling carousel */}
         <div className="relative">
-          <div className="flex items-center gap-8 md:gap-12 lg:gap-16 animate-scroll-left">
+          <div className="flex items-center gap-8 md:gap-12 lg:gap-16 animate-scroll-left" role="list">
             {duplicatedItems.map(({ icon: Icon, label }, index) => (
               <div
                 key={`${label}-${index}`}
                 className="flex items-center gap-3 text-muted-foreground hover:text-foreground transition-colors flex-shrink-0"
+                role="listitem"
+                aria-label={label}
               >
-                <div className="w-10 h-10 rounded-full bg-success/10 flex items-center justify-center flex-shrink-0">
+                <div className="w-10 h-10 rounded-full bg-success/10 flex items-center justify-center flex-shrink-0" aria-hidden="true">
                   <Icon className="w-5 h-5 text-success" />
                 </div>
                 <span className="text-sm font-medium whitespace-nowrap">
