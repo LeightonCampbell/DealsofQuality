@@ -1,4 +1,4 @@
-import { ShieldCheck, FileCheck, DollarSign, Award } from "lucide-react";
+import { ShieldCheck, FileCheck, DollarSign } from "lucide-react";
 
 const trustItems = [
   {
@@ -14,20 +14,12 @@ const trustItems = [
     label: "$1,000 Happiness Guarantee",
   },
   {
-    icon: ShieldCheck,
-    label: "100% Background Checked",
-  },
-  {
     icon: FileCheck,
     label: "Licensed & Insured",
   },
   {
     icon: DollarSign,
     label: "Upfront Pricing",
-  },
-  {
-    icon: Award,
-    label: "Happiness Guarantee",
   },
 ];
 
