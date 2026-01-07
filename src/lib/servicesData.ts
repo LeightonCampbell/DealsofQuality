@@ -55,13 +55,13 @@ import {
   Droplet,
   Paintbrush,
   SquareStack,
-  Window,
+  Square,
   Fence,
   Bath,
-  ChefHat,
-  Carpet,
+  UtensilsCrossed,
+  Layers,
   Trash2,
-  TreePine
+  Sprout
 } from "lucide-react";
 
 export const serviceCategories: Category[] = [
@@ -79,14 +79,14 @@ export const serviceCategories: Category[] = [
         id: "landscaping", 
         label: "Landscaping", 
         href: "/landscaping", 
-        icon: TreePine,
+        icon: Sprout,
         description: "Landscape design and maintenance",
       },
       { 
         id: "window-cleaning", 
         label: "Window Cleaning", 
         href: "/window-cleaning", 
-        icon: Window,
+        icon: Square,
         description: "Interior and exterior window cleaning",
       },
       { 
@@ -187,7 +187,7 @@ export const serviceCategories: Category[] = [
         id: "kitchen-remodeling", 
         label: "Kitchen Remodeling", 
         href: "/kitchen-remodeling", 
-        icon: ChefHat,
+        icon: Home,
         description: "Complete kitchen renovation services",
       },
       { 
@@ -201,7 +201,7 @@ export const serviceCategories: Category[] = [
         id: "carpet-cleaning", 
         label: "Carpet Cleaning", 
         href: "/carpet-cleaning", 
-        icon: Carpet,
+        icon: Layers,
         description: "Professional carpet cleaning services",
       },
     ],

@@ -1,5 +1,5 @@
 import ServicePage from "@/components/ServicePage";
-import { Window } from "lucide-react";
+import { Square } from "lucide-react";
 
 const WindowCleaning = () => (
   <ServicePage
@@ -9,7 +9,7 @@ const WindowCleaning = () => (
     metaKeywords="window cleaning, window washer, interior window cleaning, exterior window cleaning, window maintenance"
     price="$79"
     priceNote="starting at"
-    icon={Window}
+    icon={Square}
     category="Home Services"
     includedServices={[
       "Interior window cleaning",

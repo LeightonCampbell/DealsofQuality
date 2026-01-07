@@ -149,9 +149,8 @@ const Services = () => {
                 </motion.div>
               ))}
             </div>
-          ))}
-        </div>
-      </section>
+          </div>
+        </section>
 
       {/* Satisfaction Guarantee Sticky Bar */}
       <div className="fixed bottom-0 left-0 right-0 z-50 bg-accent text-accent-foreground py-3 px-4 shadow-lg">
