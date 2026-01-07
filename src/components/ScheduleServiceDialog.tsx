@@ -600,6 +600,8 @@ const ScheduleServiceDialog = ({
           </div>
         )}
 
+        {/* Step 3/4: Appointment Details (Date, Time, Address) */}
+        {((initialService && step === 2) || (!initialService && step === 3)) && (
           <div className="space-y-4">
             <div className="grid grid-cols-2 gap-4">
               <div className="space-y-2">
