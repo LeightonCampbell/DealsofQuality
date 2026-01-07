@@ -136,6 +136,7 @@ const ServicePage = ({
                     triggerSize="lg"
                     triggerClassName="w-full"
                     defaultCategory={category}
+                    initialService={title}
                   />
                 </div>
 
@@ -221,6 +222,7 @@ const ServicePage = ({
                 <ScheduleServiceDialog
                   triggerText="Schedule a Service"
                   triggerVariant="hero"
+                  initialService={title}
                   triggerSize="heroLg"
                   defaultCategory={category}
                 />

@@ -19,8 +19,15 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { toast } from "@/hooks/use-toast";
-import { ArrowRight, CheckCircle } from "lucide-react";
+import { ArrowRight, CheckCircle, MapPin } from "lucide-react";
 import { supabase } from "@/integrations/supabase/client";
+
+// Validate US ZIP code (5 digits, range 00501-99950)
+const isValidUSZipCode = (zip: string): boolean => {
+  if (!zip || zip.length !== 5) return false;
+  const zipNum = parseInt(zip, 10);
+  return zipNum >= 501 && zipNum <= 99950 && !isNaN(zipNum);
+};
 
 const serviceCategories = [
   {
@@ -134,6 +141,7 @@ interface ScheduleServiceDialogProps {
   triggerClassName?: string;
   children?: React.ReactNode;
   defaultCategory?: string;
+  initialService?: string; // Service name when accessed from a service page
 }
 
 const ScheduleServiceDialog = ({
@@ -143,16 +151,21 @@ const ScheduleServiceDialog = ({
   triggerClassName,
   children,
   defaultCategory,
+  initialService,
 }: ScheduleServiceDialogProps) => {
+  // If service is provided, start at step 1 (zipcode), otherwise start at step 0 (service selection)
+  const initialStep = initialService ? 1 : 0;
   const [open, setOpen] = useState(false);
-  const [step, setStep] = useState(1);
+  const [step, setStep] = useState(initialStep);
   const [showThankYou, setShowThankYou] = useState(false);
+  const [zipCodeError, setZipCodeError] = useState("");
   const [formData, setFormData] = useState({
+    zipCode: "",
     name: "",
     email: "",
     phone: "",
     category: defaultCategory || "",
-    service: "",
+    service: initialService || "",
     preferredDate: "",
     preferredTime: "",
     address: "",
@@ -161,37 +174,48 @@ const ScheduleServiceDialog = ({
 
   const [availableServices, setAvailableServices] = useState<string[]>([]);
 
+  // Reset form when dialog opens/closes
+  useEffect(() => {
+    if (open) {
+      setStep(initialStep);
+      setFormData({
+        zipCode: "",
+        name: "",
+        email: "",
+        phone: "",
+        category: defaultCategory || "",
+        service: initialService || "",
+        preferredDate: "",
+        preferredTime: "",
+        address: "",
+        details: "",
+      });
+      setZipCodeError("");
+    }
+  }, [open, initialService, defaultCategory, initialStep]);
+
   useEffect(() => {
     if (formData.category) {
       const categoryData = serviceCategories.find(
         (cat) => cat.category === formData.category
       );
       setAvailableServices(categoryData?.services || []);
-      // Reset service when category changes
-      if (!categoryData?.services.includes(formData.service)) {
+      // Reset service when category changes (only if not using initialService)
+      if (!initialService && !categoryData?.services.includes(formData.service)) {
         setFormData((prev) => ({ ...prev, service: "" }));
       }
     } else {
       setAvailableServices([]);
     }
-  }, [formData.category]);
+  }, [formData.category, initialService]);
 
   const handleInputChange = (field: string, value: string) => {
     setFormData((prev) => ({ ...prev, [field]: value }));
   };
 
   const handleNext = () => {
-    if (step === 1) {
-      if (!formData.name || !formData.email || !formData.phone) {
-        toast({
-          title: "Please fill in all required fields",
-          description: "Name, email, and phone are required.",
-          variant: "destructive",
-        });
-        return;
-      }
-    }
-    if (step === 2) {
+    // Step 0: Service Selection (only if no initialService)
+    if (step === 0) {
       if (!formData.category || !formData.service) {
         toast({
           title: "Please select a service",
@@ -200,6 +224,26 @@ const ScheduleServiceDialog = ({
         });
         return;
       }
+    }
+    // Step 1: Zipcode (always required)
+    if (step === 1) {
+      if (!formData.zipCode || formData.zipCode.length !== 5) {
+        setZipCodeError("Please enter a 5-digit ZIP code");
+        toast({
+          title: "Please enter a valid ZIP code",
+          variant: "destructive",
+        });
+        return;
+      }
+      if (!isValidUSZipCode(formData.zipCode)) {
+        setZipCodeError("Please enter a valid US ZIP code (00501-99950)");
+        toast({
+          title: "Please enter a valid US ZIP code",
+          variant: "destructive",
+        });
+        return;
+      }
+      setZipCodeError("");
     }
     setStep((prev) => prev + 1);
   };
@@ -218,6 +262,7 @@ const ScheduleServiceDialog = ({
         phone: formData.phone,
         service_category: formData.category,
         specific_service: formData.service,
+        zip_code: formData.zipCode,
         preferred_date: formData.preferredDate,
         preferred_time: formData.preferredTime,
         address: formData.address,
@@ -255,18 +300,20 @@ const ScheduleServiceDialog = ({
   };
 
   const resetForm = () => {
-    setStep(1);
+    setStep(initialStep);
     setFormData({
+      zipCode: "",
       name: "",
       email: "",
       phone: "",
       category: defaultCategory || "",
-      service: "",
+      service: initialService || "",
       preferredDate: "",
       preferredTime: "",
       address: "",
       details: "",
     });
+    setZipCodeError("");
   };
 
   const getButtonSize = () => {
@@ -298,67 +345,35 @@ const ScheduleServiceDialog = ({
       <DialogContent className="sm:max-w-[500px]">
         <DialogHeader>
           <DialogTitle className="font-display text-2xl">
-            Schedule a Service
+            {initialService ? `Schedule ${initialService}` : "Schedule a Service"}
           </DialogTitle>
           <DialogDescription>
-            Step {step} of 3 -{" "}
-            {step === 1
-              ? "Your Information"
-              : step === 2
-              ? "Select Service"
-              : "Appointment Details"}
+            {initialService 
+              ? `Step ${step} of 2 - ${step === 1 ? "Service Area" : "Your Information"}`
+              : `Step ${step + 1} of 3 - ${
+                  step === 0
+                    ? "Select Service"
+                    : step === 1
+                    ? "Service Area"
+                    : "Your Information"
+                }`}
           </DialogDescription>
         </DialogHeader>
 
         {/* Progress Bar */}
         <div className="flex gap-2 mb-6">
-          {[1, 2, 3].map((s) => (
+          {(initialService ? [1, 2] : [1, 2, 3]).map((s) => (
             <div
               key={s}
               className={`h-2 flex-1 rounded-full transition-colors ${
-                s <= step ? "bg-accent" : "bg-muted"
+                s <= (initialService ? step : step + 1) ? "bg-accent" : "bg-muted"
               }`}
             />
           ))}
         </div>
 
-        {/* Step 1: Contact Information */}
-        {step === 1 && (
-          <div className="space-y-4">
-            <div className="space-y-2">
-              <Label htmlFor="name">Full Name *</Label>
-              <Input
-                id="name"
-                placeholder="John Doe"
-                value={formData.name}
-                onChange={(e) => handleInputChange("name", e.target.value)}
-              />
-            </div>
-            <div className="space-y-2">
-              <Label htmlFor="email">Email Address *</Label>
-              <Input
-                id="email"
-                type="email"
-                placeholder="john@example.com"
-                value={formData.email}
-                onChange={(e) => handleInputChange("email", e.target.value)}
-              />
-            </div>
-            <div className="space-y-2">
-              <Label htmlFor="phone">Phone Number *</Label>
-              <Input
-                id="phone"
-                type="tel"
-                placeholder="(818) 555-1234"
-                value={formData.phone}
-                onChange={(e) => handleInputChange("phone", e.target.value)}
-              />
-            </div>
-          </div>
-        )}
-
-        {/* Step 2: Service Selection */}
-        {step === 2 && (
+        {/* Step 0: Service Selection (only if no initialService) */}
+        {step === 0 && !initialService && (
           <div className="space-y-4">
             <div className="space-y-2">
               <Label htmlFor="category">Service Category *</Label>
@@ -421,8 +436,169 @@ const ScheduleServiceDialog = ({
           </div>
         )}
 
-        {/* Step 3: Appointment Details */}
-        {step === 3 && (
+        {/* Step 1: Service Area (Zipcode) */}
+        {step === 1 && (
+          <div className="space-y-4">
+            <div className="space-y-2">
+              <Label htmlFor="zipCode">Service Area (ZIP Code) *</Label>
+              <div className="relative">
+                <MapPin className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-muted-foreground" />
+                <Input
+                  id="zipCode"
+                  type="text"
+                  placeholder="Enter ZIP code"
+                  value={formData.zipCode}
+                  onChange={(e) => {
+                    const value = e.target.value.replace(/\D/g, '').slice(0, 5);
+                    handleInputChange("zipCode", value);
+                    
+                    // Validate when user has entered 5 digits
+                    if (value.length === 5) {
+                      if (isValidUSZipCode(value)) {
+                        setZipCodeError("");
+                      } else {
+                        setZipCodeError("Please enter a valid US ZIP code (00501-99950)");
+                      }
+                    } else {
+                      setZipCodeError("");
+                    }
+                  }}
+                  className={`pl-10 ${zipCodeError ? "border-red-500 focus-visible:ring-red-500" : ""}`}
+                  maxLength={5}
+                />
+              </div>
+              {zipCodeError && (
+                <p className="text-sm text-red-500">{zipCodeError}</p>
+              )}
+            </div>
+
+            {initialService && (
+              <div className="bg-secondary/50 rounded-lg p-4 mt-4">
+                <h4 className="font-semibold text-foreground mb-2 flex items-center gap-2">
+                  <CheckCircle className="w-5 h-5 text-success" />
+                  Service: {initialService}
+                </h4>
+                <ul className="text-sm text-muted-foreground space-y-1">
+                  <li>• Professional service by certified technicians</li>
+                  <li>• All necessary equipment and supplies</li>
+                  <li>• Expert guidance and recommendations</li>
+                  <li>• System testing & demonstration</li>
+                  <li>• 30-day satisfaction guarantee</li>
+                </ul>
+              </div>
+            )}
+          </div>
+        )}
+
+        {/* Step 2: Contact Information & Additional Details */}
+        {step === 2 && (
+          <div className="space-y-4">
+            <div className="space-y-2">
+              <Label htmlFor="name">Full Name *</Label>
+              <Input
+                id="name"
+                placeholder="John Doe"
+                value={formData.name}
+                onChange={(e) => handleInputChange("name", e.target.value)}
+              />
+            </div>
+            <div className="space-y-2">
+              <Label htmlFor="email">Email Address *</Label>
+              <Input
+                id="email"
+                type="email"
+                placeholder="john@example.com"
+                value={formData.email}
+                onChange={(e) => handleInputChange("email", e.target.value)}
+              />
+            </div>
+            <div className="space-y-2">
+              <Label htmlFor="phone">Phone Number *</Label>
+              <Input
+                id="phone"
+                type="tel"
+                placeholder="(818) 555-1234"
+                value={formData.phone}
+                onChange={(e) => handleInputChange("phone", e.target.value)}
+              />
+            </div>
+            <div className="space-y-2">
+              <Label htmlFor="details">Additional Details (Optional)</Label>
+              <Textarea
+                id="details"
+                placeholder="Tell us about your specific needs or any special requirements..."
+                value={formData.details}
+                onChange={(e) => handleInputChange("details", e.target.value)}
+                rows={3}
+              />
+            </div>
+          </div>
+        )}
+
+        {/* Step 3: Appointment Details (only if no initialService) */}
+        {step === 3 && !initialService && (
+          <div className="space-y-4">
+            <div className="space-y-2">
+              <Label htmlFor="category">Service Category *</Label>
+              <Select
+                value={formData.category}
+                onValueChange={(value) => handleInputChange("category", value)}
+              >
+                <SelectTrigger>
+                  <SelectValue placeholder="Choose a category" />
+                </SelectTrigger>
+                <SelectContent>
+                  {serviceCategories.map((cat) => (
+                    <SelectItem key={cat.category} value={cat.category}>
+                      {cat.category}
+                    </SelectItem>
+                  ))}
+                </SelectContent>
+              </Select>
+            </div>
+
+            <div className="space-y-2">
+              <Label htmlFor="service">Specific Service *</Label>
+              <Select
+                value={formData.service}
+                onValueChange={(value) => handleInputChange("service", value)}
+                disabled={!formData.category}
+              >
+                <SelectTrigger>
+                  <SelectValue
+                    placeholder={
+                      formData.category
+                        ? "Choose a service"
+                        : "Select a category first"
+                    }
+                  />
+                </SelectTrigger>
+                <SelectContent>
+                  {availableServices.map((service) => (
+                    <SelectItem key={service} value={service}>
+                      {service}
+                    </SelectItem>
+                  ))}
+                </SelectContent>
+              </Select>
+            </div>
+
+            <div className="bg-secondary/50 rounded-lg p-4 mt-4">
+              <h4 className="font-semibold text-foreground mb-2 flex items-center gap-2">
+                <CheckCircle className="w-5 h-5 text-success" />
+                What's Included
+              </h4>
+              <ul className="text-sm text-muted-foreground space-y-1">
+                <li>• Professional service by certified technicians</li>
+                <li>• All necessary equipment and supplies</li>
+                <li>• Expert guidance and recommendations</li>
+                <li>• System testing & demonstration</li>
+                <li>• 30-day satisfaction guarantee</li>
+              </ul>
+            </div>
+          </div>
+        )}
+
           <div className="space-y-4">
             <div className="grid grid-cols-2 gap-4">
               <div className="space-y-2">
@@ -466,35 +642,29 @@ const ScheduleServiceDialog = ({
                 onChange={(e) => handleInputChange("address", e.target.value)}
               />
             </div>
-            <div className="space-y-2">
-              <Label htmlFor="details">Additional Details</Label>
-              <Textarea
-                id="details"
-                placeholder="Tell us about your specific needs or any special requirements..."
-                value={formData.details}
-                onChange={(e) => handleInputChange("details", e.target.value)}
-                rows={3}
-              />
-            </div>
           </div>
         )}
 
         {/* Navigation Buttons */}
         <div className="flex justify-between mt-6">
-          {step > 1 ? (
+          {step > (initialService ? 1 : 0) ? (
             <Button variant="outline" onClick={handleBack}>
               Back
             </Button>
           ) : (
             <div />
           )}
-          {step < 3 ? (
+          {step < (initialService ? 2 : 3) ? (
             <Button variant="cta" onClick={handleNext}>
               Continue
               <ArrowRight className="w-4 h-4 ml-2" />
             </Button>
           ) : (
-            <Button variant="cta" onClick={handleSubmit}>
+            <Button 
+              variant="cta" 
+              onClick={handleSubmit}
+              disabled={!formData.name || !formData.email || !formData.phone}
+            >
               Submit Booking
               <CheckCircle className="w-4 h-4 ml-2" />
             </Button>
