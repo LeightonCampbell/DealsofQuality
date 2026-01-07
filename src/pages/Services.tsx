@@ -1,39 +1,12 @@
-import { useState } from "react";
 import { Helmet } from "react-helmet";
 import { motion } from "framer-motion";
 import { Link } from "react-router-dom";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
-import BookingModal from "@/components/BookingModal";
-import { Button } from "@/components/ui/button";
-import { Clock, ShieldCheck } from "lucide-react";
-import { serviceCategories, ServiceItem } from "@/lib/servicesData";
+import { ShieldCheck } from "lucide-react";
+import { serviceCategories } from "@/lib/servicesData";
 
 const Services = () => {
-  const [isModalOpen, setIsModalOpen] = useState(false);
-  const [selectedService, setSelectedService] = useState("");
-  const [selectedServiceValue, setSelectedServiceValue] = useState("");
-
-  const handleBookNow = (service: ServiceItem) => {
-    // Map service to modal service value
-    const serviceMap: Record<string, string> = {
-      handyman: "handyman",
-      "plumbing-repair": "plumbing",
-      "wifi-networking": "wifi-network",
-      "security-cameras": "security",
-      "home-theater": "home-theater",
-      "tv-mounting": "tv-mounting",
-      "smart-lock": "smart-home",
-      "smart-thermostats": "smart-home",
-      "video-doorbell": "smart-home",
-      "light-fixture": "electrical",
-      "smoke-detector": "electrical",
-    };
-
-    setSelectedService(service.label);
-    setSelectedServiceValue(serviceMap[service.id] || "other");
-    setIsModalOpen(true);
-  };
 
   return (
     <>
@@ -65,7 +38,7 @@ const Services = () => {
               transition={{ duration: 0.6, delay: 0.1 }}
               className="text-lg md:text-xl text-muted-foreground max-w-2xl mx-auto"
             >
-              Browse all services in one place. Pick a project to see details or book in minutes with vetted local pros.
+              Select a service to view more details or book a vetted local pros.
             </motion.p>
           </div>
         </div>
@@ -75,13 +48,6 @@ const Services = () => {
       <section className="section-padding bg-background">
         <div className="container-max max-w-7xl mx-auto">
           <div className="space-y-12">
-            <div className="text-center max-w-3xl mx-auto">
-              <p className="text-md md:text-lg text-muted-foreground">
-                Choose a category and service below. Each option links to a dedicated page with what's included, pricing,
-                and booking options.
-              </p>
-            </div>
-
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-12">
               {serviceCategories.map((category, categoryIndex) => (
                 <motion.div
@@ -101,10 +67,10 @@ const Services = () => {
                     {category.services.map((service) => {
                       const Icon = service.icon;
                       return (
-                        <li key={service.id} className="flex items-center justify-between gap-3">
+                        <li key={service.id}>
                           <Link
                             to={service.href}
-                            className="group flex items-center gap-3 text-sm text-muted-foreground hover:text-accent transition-colors flex-1"
+                            className="group flex items-center gap-3 text-sm text-muted-foreground hover:text-accent transition-colors"
                           >
                             <Icon className="w-4 h-4 flex-shrink-0" />
                             <div className="flex flex-col items-start">
@@ -129,17 +95,6 @@ const Services = () => {
                               )}
                             </div>
                           </Link>
-
-                          {/* Inline Book button to keep quick quote flow */}
-                          <Button
-                            onClick={() => handleBookNow(service)}
-                            variant="outline"
-                            size="icon"
-                            className="shrink-0 hover:bg-accent hover:text-accent-foreground"
-                            aria-label={`Book ${service.label}`}
-                          >
-                            <Clock className="w-4 h-4" />
-                          </Button>
                         </li>
                       );
                     })}
@@ -165,16 +120,6 @@ const Services = () => {
       <div className="pb-16" />
 
       <Footer />
-
-      {/* Booking Modal */}
-      <BookingModal
-        isOpen={isModalOpen}
-        onClose={() => setIsModalOpen(false)}
-        initialService={selectedServiceValue}
-        initialZip=""
-        customServiceText={selectedServiceValue === "other" ? selectedService : ""}
-        initialStep={2}
-      />
     </>
   );
 };

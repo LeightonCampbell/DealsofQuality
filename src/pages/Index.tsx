@@ -1,7 +1,6 @@
 import { Helmet } from "react-helmet";
 import Header from "@/components/Header";
 import HeroNew from "@/components/HeroNew";
-import TrustRibbon from "@/components/TrustRibbon";
 import ServiceGrid from "@/components/ServiceGrid";
 import Process from "@/components/Process";
 import WhyChooseUs from "@/components/WhyChooseUs";
@@ -26,7 +25,6 @@ const Index = () => {
       <main id="main-content" className="min-h-screen">
         <Header />
         <HeroNew />
-        <TrustRibbon />
         <ServiceGrid />
         <Process />
         <WhyChooseUs />
