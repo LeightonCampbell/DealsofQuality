@@ -80,7 +80,7 @@ const ServicesMegaMenu = ({ isOpen, onClose }: ServicesMegaMenuProps) => {
             onClick={onClose}
             className="inline-flex items-center gap-2 text-accent font-semibold hover:text-accent/80 transition-colors group"
           >
-            See All Solutions
+            See All Services
             <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
           </Link>
         </div>
