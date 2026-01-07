@@ -6,12 +6,40 @@ import {
   Zap,
   Wrench,
   Wifi,
-  Theater,
   Camera,
   ArrowRight,
+  Sparkles,
 } from "lucide-react";
 
 const services = [
+  {
+    icon: Home,
+    title: "House Cleaning",
+    description: "Professional house cleaning and maid services",
+    href: "/house-cleaning",
+    popular: true,
+  },
+  {
+    icon: Wrench,
+    title: "Handyman Services",
+    description: "Furniture assembly, repairs & odd jobs",
+    href: "/handyman-services",
+    popular: true,
+  },
+  {
+    icon: Droplet,
+    title: "Plumbing Services",
+    description: "Repairs, installations & emergencies",
+    href: "/plumbing",
+    popular: false,
+  },
+  {
+    icon: Camera,
+    title: "Security Camera Setup",
+    description: "Professional camera installation",
+    href: "/security-cameras",
+    popular: false,
+  },
   {
     icon: Tv,
     title: "TV Mounting",
@@ -20,52 +48,24 @@ const services = [
     popular: true,
   },
   {
-    icon: Home,
-    title: "Smart Home",
-    description: "Thermostats, locks, doorbells & more",
-    href: "/smart-home-integration",
-    popular: true,
-  },
-  {
-    icon: Droplet,
-    title: "Plumbing",
-    description: "Repairs, installations & emergencies",
-    href: "/plumbing",
-    popular: false,
-  },
-  {
     icon: Zap,
-    title: "Electrical",
+    title: "Electrical Services",
     description: "Safe, licensed electrical work",
     href: "/electrical",
     popular: false,
   },
   {
-    icon: Wrench,
-    title: "Handyman",
-    description: "Furniture, repairs & odd jobs",
-    href: "/handyman-services",
+    icon: Sparkles,
+    title: "Smart Home Integration",
+    description: "Thermostats, locks, doorbells & more",
+    href: "/smart-home-integration",
     popular: true,
   },
   {
     icon: Wifi,
-    title: "WiFi & Network",
+    title: "Wi-Fi & Networking",
     description: "Setup, optimization & dead zones",
     href: "/router-setup",
-    popular: false,
-  },
-  {
-    icon: Theater,
-    title: "Home Theater",
-    description: "Surround sound & streaming setup",
-    href: "/home-theater",
-    popular: false,
-  },
-  {
-    icon: Camera,
-    title: "Security Cameras",
-    description: "Professional camera installation",
-    href: "/security-cameras",
     popular: false,
   },
 ];
@@ -105,10 +105,10 @@ const ServiceGrid = () => {
               role="listitem"
               aria-label={`${service.title} - ${service.description}`}
             >
-              {/* Popular Badge */}
+              {/* Hot Badge */}
               {service.popular && (
-                <span className="absolute -top-2 -right-2 bg-cta text-cta-foreground text-xs font-semibold px-2 py-1 rounded-full" aria-label="Popular service">
-                  Popular
+                <span className="absolute -top-2 -right-2 bg-cta text-cta-foreground text-xs font-semibold px-2 py-1 rounded-full" aria-label="Hot service">
+                  Hot
                 </span>
               )}
 
