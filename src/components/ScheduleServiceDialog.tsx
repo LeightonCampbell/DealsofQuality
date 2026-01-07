@@ -177,7 +177,8 @@ const ScheduleServiceDialog = ({
   // Reset form when dialog opens/closes
   useEffect(() => {
     if (open) {
-      setStep(initialStep);
+      const startStep = initialService ? 1 : 0;
+      setStep(startStep);
       setFormData({
         zipCode: "",
         name: "",
@@ -192,7 +193,7 @@ const ScheduleServiceDialog = ({
       });
       setZipCodeError("");
     }
-  }, [open, initialService, defaultCategory, initialStep]);
+  }, [open, initialService, defaultCategory]);
 
   useEffect(() => {
     if (formData.category) {
