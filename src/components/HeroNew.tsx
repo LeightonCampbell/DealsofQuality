@@ -332,7 +332,7 @@ const HeroNew = () => {
 
   return (
     <>
-      <section ref={heroSectionRef} className="relative pt-28 pb-20 md:pt-36 md:pb-28 bg-background" aria-label="Hero section - Find local professionals">
+      <section ref={heroSectionRef} className="relative pt-28 pb-20 md:pt-36 md:pb-28 bg-background border-b border-border" aria-label="Hero section - Find local professionals">
         {/* Subtle background pattern */}
         <div className="absolute inset-0 bg-gradient-to-b from-secondary/30 to-background" aria-hidden="true" />
         
@@ -382,7 +382,7 @@ const HeroNew = () => {
                       }}
                     />
                     {isServiceDropdownOpen && filteredServices.length > 0 && (
-                      <div id="service-suggestions" className="absolute top-full left-0 right-0 mt-1 bg-card border border-border rounded-lg shadow-lg z-50 max-h-60 overflow-y-auto" role="listbox" aria-label="Service suggestions">
+                      <div id="service-suggestions" className="absolute top-full left-0 right-0 mt-1 bg-card/95 backdrop-blur-sm border border-border rounded-lg shadow-lg z-50 max-h-60 overflow-y-auto" role="listbox" aria-label="Service suggestions">
                         {filteredServices.map((service) => (
                           <button
                             key={service.value}
