@@ -67,7 +67,6 @@ const Header = () => {
                     key={link.label}
                     className="relative"
                     onMouseEnter={() => setIsMegaMenuOpen(true)}
-                    onMouseLeave={() => setIsMegaMenuOpen(false)}
                   >
                     <Link
                       to={link.href}
