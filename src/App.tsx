@@ -85,6 +85,7 @@ const DrywallInstallation = lazy(() => import("./pages/service/DrywallInstallati
 const CabinetInstallation = lazy(() => import("./pages/service/CabinetInstallation"));
 const TileWork = lazy(() => import("./pages/service/TileWork"));
 const WindowDoorReplacement = lazy(() => import("./pages/service/WindowDoorReplacement"));
+const WindowCleaning = lazy(() => import("./pages/service/WindowCleaning"));
 const DeckPatioBuilding = lazy(() => import("./pages/service/DeckPatioBuilding"));
 const FenceInstallation = lazy(() => import("./pages/service/FenceInstallation"));
 const BathroomRemodeling = lazy(() => import("./pages/service/BathroomRemodeling"));
@@ -167,6 +168,7 @@ const App = () => (
           <Route path="/cabinet-installation" element={<CabinetInstallation />} />
           <Route path="/tile-work" element={<TileWork />} />
           <Route path="/window-door-replacement" element={<WindowDoorReplacement />} />
+          <Route path="/window-cleaning" element={<WindowCleaning />} />
           <Route path="/deck-patio-building" element={<DeckPatioBuilding />} />
           <Route path="/fence-installation" element={<FenceInstallation />} />
           <Route path="/bathroom-remodeling" element={<BathroomRemodeling />} />

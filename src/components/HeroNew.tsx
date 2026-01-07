@@ -1,7 +1,7 @@
 import { useState, useEffect, useRef, useMemo } from "react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { MapPin, ChevronDown, Navigation, Loader2, FileCheck, ShieldCheck, DollarSign } from "lucide-react";
+import { MapPin, ChevronDown, Navigation, Loader2, FileCheck, ShieldCheck, DollarSign, Clock } from "lucide-react";
 import MobileStickyCTA from "@/components/MobileStickyCTA";
 import {
   Select,
@@ -482,6 +482,26 @@ const HeroNew = () => {
                 </Button>
               </form>
               </div>
+              
+              {/* Trust Badges Row */}
+              <div className="flex flex-wrap items-center justify-center gap-6 md:gap-8 mt-6 animate-fade-in-up animation-delay-400">
+                <div className="flex items-center gap-2 text-sm text-muted-foreground">
+                  <FileCheck className="w-4 h-4 text-success" />
+                  <span>Licensed & Insured</span>
+                </div>
+                <div className="flex items-center gap-2 text-sm text-muted-foreground">
+                  <ShieldCheck className="w-4 h-4 text-success" />
+                  <span>Background-Checked Pros</span>
+                </div>
+                <div className="flex items-center gap-2 text-sm text-muted-foreground">
+                  <DollarSign className="w-4 h-4 text-success" />
+                  <span>Upfront Pricing</span>
+                </div>
+                <div className="flex items-center gap-2 text-sm text-muted-foreground">
+                  <Clock className="w-4 h-4 text-success" />
+                  <span>Same-Day Service Available</span>
+                </div>
+              </div>
             </div>
           </div>
         </div>
@@ -494,7 +514,7 @@ const HeroNew = () => {
         initialService={isOther ? "other" : selectedService}
         initialZip={zipCode}
         customServiceText={isOther ? customServiceText : ""}
-        initialStep={3}
+        initialStep={4}
         skipToProjectDetails={true}
       />
       

@@ -35,77 +35,174 @@ export interface Category {
   services: ServiceItem[];
 }
 
+import { 
+  Wrench, 
+  Home, 
+  Wifi, 
+  Shield, 
+  Tv, 
+  Droplets, 
+  Plug, 
+  Wind, 
+  Lock, 
+  Thermometer, 
+  BellRing,
+  Lightbulb, 
+  AlertCircle, 
+  Sprout, 
+  Sparkles,
+  LucideIcon,
+  Droplet,
+  Paintbrush,
+  SquareStack,
+  Window,
+  Fence,
+  Bath,
+  ChefHat,
+  Carpet,
+  Trash2,
+  TreePine
+} from "lucide-react";
+
 export const serviceCategories: Category[] = [
   {
-    title: "Installations",
+    title: "Home & Property Maintenance",
     services: [
       { 
-        id: "appliance-install", 
-        label: "Appliance Install", 
-        href: "/appliance-repair", 
+        id: "house-cleaning", 
+        label: "House Cleaning / Maid Service", 
+        href: "/house-cleaning", 
         icon: Home,
-        price: "$149",
-        description: "Professional installation of major appliances",
-        image: "https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=800"
+        description: "Professional house cleaning and maid services",
       },
       { 
-        id: "cabinet-hardware", 
-        label: "Cabinet Hardware", 
-        href: "/cabinet-installation", 
+        id: "landscaping", 
+        label: "Landscaping", 
+        href: "/landscaping", 
+        icon: TreePine,
+        description: "Landscape design and maintenance",
+      },
+      { 
+        id: "window-cleaning", 
+        label: "Window Cleaning", 
+        href: "/window-cleaning", 
+        icon: Window,
+        description: "Interior and exterior window cleaning",
+      },
+      { 
+        id: "gutter-cleaning", 
+        label: "Gutter Cleaning", 
+        href: "/gutter-cleaning", 
         icon: Wrench,
-        price: "$99",
-        description: "Cabinet hardware installation and repair",
-        image: "https://images.unsplash.com/photo-1581578731548-c64695cc6952?w=800"
+        description: "Professional gutter cleaning services",
       },
       { 
-        id: "furniture-assembly", 
-        label: "Furniture Assembly", 
-        href: "/furniture-assembly", 
-        icon: Hammer,
-        price: "$75",
-        description: "Expert furniture assembly services",
-        image: "https://images.unsplash.com/photo-1581578731548-c64695cc6952?w=800"
+        id: "junk-removal", 
+        label: "Junk Removal", 
+        href: "/junk-removal", 
+        icon: Trash2,
+        description: "Junk and debris removal services",
       },
       { 
-        id: "ac-tune-up", 
-        label: "AC Tune-Up", 
-        href: "/ac-tune-up", 
-        icon: Wind,
-        price: "$149",
-        description: "HVAC maintenance and tune-ups",
-        image: "https://images.unsplash.com/photo-1621905251918-48416bd8575a?w=800"
+        id: "pressure-washing", 
+        label: "Pressure Washing", 
+        href: "/pressure-washing", 
+        icon: Droplet,
+        description: "Exterior cleaning & maintenance",
       },
     ],
   },
   {
-    title: "Repair & Maintenance",
+    title: "Repairs & Installation",
     services: [
       { 
-        id: "plumbing-repair", 
-        label: "Plumbing Repair", 
+        id: "hvac", 
+        label: "HVAC (Heating & Air Conditioning)", 
+        href: "/hvac", 
+        icon: Wind,
+        description: "HVAC installation, repair, and maintenance",
+      },
+      { 
+        id: "plumbing", 
+        label: "Plumbing Services", 
         href: "/plumbing", 
         icon: Droplets,
-        price: "$99",
         description: "Repairs, installations & emergencies",
-        image: "https://images.unsplash.com/photo-1621905251918-48416bd8575a?w=800"
+      },
+      { 
+        id: "electrical", 
+        label: "Electrical", 
+        href: "/electrical", 
+        icon: Plug,
+        description: "Safe, licensed electrical work",
+      },
+      { 
+        id: "roofing", 
+        label: "Roofing", 
+        href: "/roofing", 
+        icon: Home,
+        description: "Roofing installation and repair",
+      },
+      { 
+        id: "appliance-repair", 
+        label: "Appliance Repair", 
+        href: "/appliance-repair", 
+        icon: Home,
+        description: "Professional appliance repair services",
+      },
+      { 
+        id: "drywall-repair", 
+        label: "Drywall Repair", 
+        href: "/drywall-installation", 
+        icon: SquareStack,
+        description: "Drywall installation and repair",
+      },
+      { 
+        id: "fence-gate", 
+        label: "Fence & Gate Installation", 
+        href: "/fence-installation", 
+        icon: Fence,
+        description: "Fence and gate installation services",
+      },
+    ],
+  },
+  {
+    title: "Home Improvement & Renovation",
+    services: [
+      { 
+        id: "painting", 
+        label: "Painting (Interior & Exterior)", 
+        href: "/painting", 
+        icon: Paintbrush,
+        description: "Interior and exterior painting services",
       },
       { 
         id: "handyman", 
         label: "Handyman Services", 
         href: "/handyman-services", 
         icon: Wrench,
-        price: "$75",
         description: "Furniture assembly, repairs & odd jobs",
-        image: "https://images.unsplash.com/photo-1581578731548-c64695cc6952?w=800"
       },
       { 
-        id: "leak-detection", 
-        label: "Leak Detection", 
-        href: "/leak-detection", 
-        icon: Droplets,
-        price: "$125",
-        description: "Professional leak detection and repair",
-        image: "https://images.unsplash.com/photo-1621905251918-48416bd8575a?w=800"
+        id: "kitchen-remodeling", 
+        label: "Kitchen Remodeling", 
+        href: "/kitchen-remodeling", 
+        icon: ChefHat,
+        description: "Complete kitchen renovation services",
+      },
+      { 
+        id: "bathroom-remodeling", 
+        label: "Bathroom Remodeling", 
+        href: "/bathroom-remodeling", 
+        icon: Bath,
+        description: "Bathroom renovation and remodeling",
+      },
+      { 
+        id: "carpet-cleaning", 
+        label: "Carpet Cleaning", 
+        href: "/carpet-cleaning", 
+        icon: Carpet,
+        description: "Professional carpet cleaning services",
       },
     ],
   },
@@ -118,54 +215,42 @@ export const serviceCategories: Category[] = [
         href: "/router-setup", 
         icon: Wifi, 
         badge: "Hot",
-        price: "$99",
         description: "Setup, optimization & dead zones",
-        image: "https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=800"
       },
       { 
         id: "security-cameras", 
         label: "Security Camera Setup", 
         href: "/security-cameras", 
         icon: Shield,
-        price: "$199",
         description: "Professional camera installation",
-        image: "https://images.unsplash.com/photo-1557804506-669a67965ba0?w=800"
       },
       { 
         id: "smart-lock", 
         label: "Smart Lock Install", 
         href: "/smart-locks", 
         icon: Lock,
-        price: "$149",
         description: "Smart lock installation and setup",
-        image: "https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=800"
       },
       { 
         id: "smart-thermostats", 
         label: "Smart Thermostats", 
         href: "/smart-thermostats", 
         icon: Thermometer,
-        price: "$149",
         description: "Smart thermostat installation",
-        image: "https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=800"
       },
       { 
         id: "home-theater", 
         label: "Home Theater Setup", 
         href: "/home-theater", 
         icon: Tv,
-        price: "$249",
         description: "Surround sound & streaming setup",
-        image: "https://images.unsplash.com/photo-1593359677879-a4bb92f829d1?w=800"
       },
       { 
         id: "video-doorbell", 
         label: "Video Doorbell Setup", 
         href: "/video-doorbells", 
         icon: BellRing,
-        price: "$149",
         description: "Video doorbell installation",
-        image: "https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=800"
       },
     ],
   },
@@ -177,18 +262,14 @@ export const serviceCategories: Category[] = [
         label: "Light Fixture Replace", 
         href: "/light-fixture-replacement", 
         icon: Lightbulb,
-        price: "$125",
         description: "Safe, licensed electrical work",
-        image: "https://images.unsplash.com/photo-1621905252472-3af65b8c3dd8?w=800"
       },
       { 
         id: "smoke-detector", 
         label: "Smoke Detector Install", 
         href: "/smoke-detector-installation", 
         icon: AlertCircle,
-        price: "$99",
         description: "Smoke detector installation and testing",
-        image: "https://images.unsplash.com/photo-1621905252472-3af65b8c3dd8?w=800"
       },
     ],
   },
@@ -196,50 +277,18 @@ export const serviceCategories: Category[] = [
     title: "Outdoor & TV Mounting",
     services: [
       { 
-        id: "tv-mounting", 
-        label: "TV Mounting", 
-        href: "/tv-mounting-up-to-50", 
-        icon: Tv, 
-        badge: "Hot",
-        price: "$99",
-        description: "Professional wall mounting for any TV size",
-        image: "https://images.unsplash.com/photo-1593359677879-a4bb92f829d1?w=800"
-      },
-      { 
-        id: "pressure-washing", 
-        label: "Pressure Washing", 
-        href: "/pressure-washing", 
-        icon: Droplets,
-        price: "$149",
-        description: "Exterior cleaning & maintenance",
-        image: "https://images.unsplash.com/photo-1600585154340-be6161a56a0c?w=800"
-      },
-      { 
         id: "smart-irrigation", 
         label: "Smart Irrigation", 
         href: "/smart-irrigation-installation", 
         icon: Sprout,
-        price: "$299",
         description: "Smart irrigation system installation",
-        image: "https://images.unsplash.com/photo-1416879595882-3373a0480b5b?w=800"
-      },
-      { 
-        id: "gutter-cleaning", 
-        label: "Gutter Cleaning", 
-        href: "/gutter-cleaning", 
-        icon: Wrench,
-        price: "$149",
-        description: "Professional gutter cleaning services",
-        image: "https://images.unsplash.com/photo-1600585154340-be6161a56a0c?w=800"
       },
       { 
         id: "holiday-lighting", 
         label: "Holiday Lighting", 
         href: "/holiday-lighting-installation", 
         icon: Sparkles,
-        price: "$199",
         description: "Holiday lighting installation and removal",
-        image: "https://images.unsplash.com/photo-1600585154340-be6161a56a0c?w=800"
       },
     ],
   },

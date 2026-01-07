@@ -101,16 +101,16 @@ const BookingModal = ({ isOpen, onClose, initialService = "", initialZip = "", c
         }, 500);
       }
 
-      // If skipToProjectDetails is true, go directly to step 3 (Project Details)
+      // If skipToProjectDetails is true, go directly to step 4 (Contact Info)
       if (skipToProjectDetails) {
-        setStep(3);
+        setStep(4);
         setService(initialService || "other");
         setZipCode(initialZip);
         if (customServiceText) {
           setOtherServiceDescription(customServiceText);
           setProjectDetails(customServiceText);
         }
-        setIsSearching(false);
+        simulateSearch();
       } else if (initialStep !== undefined) {
         // If initialStep is provided, use it
         setStep(initialStep);
@@ -120,14 +120,14 @@ const BookingModal = ({ isOpen, onClose, initialService = "", initialZip = "", c
           setOtherServiceDescription(customServiceText);
           setProjectDetails(customServiceText);
         }
-        // If starting at step 3, trigger search animation (only if zip is provided)
-        if (initialStep === 3 && initialZip && initialZip.length === 5) {
+        // If starting at step 4, trigger search animation (only if zip is provided)
+        if (initialStep === 4 && initialZip && initialZip.length === 5) {
           simulateSearch();
         } else {
           setIsSearching(false);
         }
       } else if (initialService && initialZip && initialZip.length === 5) {
-        // If service and zip are already provided (from Hero), show step 3 (searching animation) then go to step 4
+        // If service and zip are already provided (from Hero), go directly to step 4 (searching animation)
         setService(initialService);
         setZipCode(initialZip);
         // If custom service text was provided (for "Other"), populate otherServiceDescription and projectDetails
@@ -135,8 +135,8 @@ const BookingModal = ({ isOpen, onClose, initialService = "", initialZip = "", c
           setOtherServiceDescription(customServiceText);
           setProjectDetails(customServiceText);
         }
-        // Start at step 3 (searching animation) - simulateSearch will automatically move to step 4
-        setStep(3);
+        // Start at step 4 (searching animation) - simulateSearch will automatically complete
+        setStep(4);
         // Don't set isSearching to false here - let simulateSearch handle it
         simulateSearch();
       } else {
@@ -185,7 +185,8 @@ const BookingModal = ({ isOpen, onClose, initialService = "", initialZip = "", c
       return;
     }
     setZipCodeError("");
-    setStep(3);
+    // Skip step 3, go directly to step 4 (Contact Info)
+    setStep(4);
     simulateSearch();
   };
 
@@ -242,10 +243,12 @@ const BookingModal = ({ isOpen, onClose, initialService = "", initialZip = "", c
     }
   };
 
-  // Adjust progress calculation when skipping steps
-  const progressValue = skipToProjectDetails && step === 3 
-    ? 75 // Step 3 of 4 = 75%
-    : (step / 4) * 100;
+  // Adjust progress calculation - now we have 3 steps (1, 2, 4)
+  const progressValue = step === 1 
+    ? 33 // Step 1 of 3
+    : step === 2
+    ? 66 // Step 2 of 3
+    : 100; // Step 4 (final step)
 
   return (
     <>
@@ -377,49 +380,6 @@ const BookingModal = ({ isOpen, onClose, initialService = "", initialZip = "", c
                 </Button>
                 <Button onClick={handleStep2Next} className="flex-1 h-12 bg-cta hover:bg-cta/90">
                   Find Pros
-                  <ArrowRight className="w-4 h-4 ml-2" />
-                </Button>
-              </div>
-            </div>
-          )}
-
-          {/* Step 3: Project Details (Concierge Flow) */}
-          {step === 3 && (
-            <div className="space-y-6 animate-fade-in">
-              <div className="text-center">
-                <h3 className="font-display text-2xl font-bold text-foreground mb-2">
-                  Tell us about your project
-                </h3>
-                <p className="text-muted-foreground">
-                  Share details so we can match you with the right professional
-                </p>
-              </div>
-
-              <div className="space-y-4">
-                <Textarea
-                  placeholder="Describe your project needs, timeline, and any specific requirements..."
-                  value={projectDetails}
-                  onChange={(e) => setProjectDetails(e.target.value)}
-                  rows={5}
-                  className="text-base"
-                />
-              </div>
-
-              <div className="flex gap-3">
-                {!skipToProjectDetails && (
-                  <Button variant="outline" onClick={() => setStep(2)} className="flex-1 h-12">
-                    <ArrowLeft className="w-4 h-4 mr-2" />
-                    Back
-                  </Button>
-                )}
-                <Button
-                  onClick={() => {
-                    // Move to step 4 (Contact Info)
-                    setStep(4);
-                  }}
-                  className={`${skipToProjectDetails ? 'w-full' : 'flex-1'} h-12 bg-cta hover:bg-cta/90`}
-                >
-                  Continue
                   <ArrowRight className="w-4 h-4 ml-2" />
                 </Button>
               </div>

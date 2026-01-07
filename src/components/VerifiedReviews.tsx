@@ -7,57 +7,65 @@ const testimonials = [
   {
     quote: "In just 4 hours, we managed to install 3 TVs and set up new Wi-Fi in our new office. The pro was professional and knew exactly what he was doing.",
     author: "Mark L.",
+    location: "Los Angeles, CA",
     rating: 5,
     service: "TV Mounting & WiFi Setup",
     verified: true,
   },
   {
-    quote: "After struggling with slow Wi-Fi for years, they came in and fixed everything in one visit. Now I can work from home without any issues!",
-    author: "Fernando B.",
-    rating: 5,
-    service: "WiFi Optimization",
-    verified: true,
-  },
-  {
     quote: "Leighton is a brilliant IT problem solver. He is well-versed in all aspects of computer network technology. Highly recommend!",
     author: "John E.",
+    location: "Dallas, TX",
     rating: 5,
     service: "Network Setup",
     verified: true,
   },
   {
-    quote: "The smart home installation was seamless! They set up my entire home automation system including thermostats, door locks, and security cameras. Everything works perfectly and I can control it all from my phone.",
-    author: "Sarah M.",
+    quote: "I needed a kitchen faucet installation done quickly before hosting a dinner party. They came same-day, finished in under an hour, and the new faucet works perfectly. Worth every penny!",
+    author: "Michael R.",
+    location: "Chicago, IL",
     rating: 5,
-    service: "Smart Home Installation",
+    service: "Plumbing Services",
     verified: true,
   },
   {
-    quote: "Absolutely incredible home theater setup! The surround sound system they installed makes every movie feel like a theater experience. Professional installation and excellent customer service throughout.",
-    author: "David Chen",
+    quote: "Our bathroom remodel turned out amazing! The team was professional, cleaned up every day, and finished on time. The new tile work and fixtures look incredible.",
+    author: "Jessica K.",
+    location: "Phoenix, AZ",
     rating: 5,
-    service: "Home Theater Setup",
+    service: "Bathroom Remodeling",
     verified: true,
   },
   {
-    quote: "I feel so much safer now with the security cameras installed. The technician was knowledgeable, respectful of my home, and explained everything clearly. The system works flawlessly!",
-    author: "Patricia G.",
-    rating: 5,
-    service: "Security Camera Installation",
-    verified: true,
-  },
-  {
-    quote: "My computer was running so slow I thought I needed a new one. They fixed it completely - removed viruses, optimized performance, and even upgraded my RAM. It's like a brand new computer now!",
+    quote: "Had a leaky pipe that was causing water damage. They came out the same day I called, fixed it properly, and even helped me understand what caused it. Great service!",
     author: "Robert T.",
+    location: "Miami, FL",
     rating: 5,
-    service: "Computer Repair",
+    service: "Plumbing Repair",
     verified: true,
   },
   {
-    quote: "Had a plumbing emergency on a Sunday evening and they sent someone out within an hour! The plumber was professional, fixed the issue quickly, and the price was fair. Couldn't ask for better service.",
-    author: "Jennifer Lopez",
+    quote: "The electrician installed new recessed lighting throughout our living room. The work was clean, professional, and they explained everything clearly. Our home looks so much brighter now!",
+    author: "Amanda S.",
+    location: "Seattle, WA",
     rating: 5,
-    service: "Plumbing Emergency",
+    service: "Electrical Work",
+    verified: true,
+  },
+  {
+    quote: "They mounted our 75-inch TV above the fireplace perfectly. The cables are hidden, everything is level, and they even helped us set up the soundbar. Couldn't be happier!",
+    author: "David P.",
+    location: "Denver, CO",
+    rating: 5,
+    service: "TV Mounting",
+    verified: true,
+  },
+  {
+    quote: "Our AC stopped working during a heatwave. They had someone here within 2 hours, diagnosed the problem quickly, and got us cool again. Lifesavers!",
+    author: "Maria G.",
+    location: "Houston, TX",
+    rating: 5,
+    service: "HVAC Repair",
     verified: true,
   },
 ];
@@ -337,7 +345,7 @@ const VerifiedReviews = () => {
                           )}
                         </div>
                         <span className="text-sm text-[#6b7280] mt-0.5 block">
-                          Verified Customer
+                          {testimonial.location} • Verified Customer
                         </span>
                       </div>
                     </div>
@@ -415,28 +423,6 @@ const VerifiedReviews = () => {
               role="tab"
             />
           ))}
-        </div>
-
-        {/* Trust Stats */}
-        <div className="mt-20">
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-10 md:gap-16 bg-white rounded-2xl shadow-sm p-12 md:p-20">
-            <div className="text-center">
-              <div className="text-5xl md:text-6xl font-bold text-[#1a1a1a] mb-2">10,000+</div>
-              <div className="text-[15px] text-[#6b7280] font-medium">Happy Customers</div>
-            </div>
-            <div className="text-center">
-              <div className="text-5xl md:text-6xl font-bold text-[#1a1a1a] mb-2">4.9</div>
-              <div className="text-[15px] text-[#6b7280] font-medium">Average Rating</div>
-            </div>
-            <div className="text-center">
-              <div className="text-5xl md:text-6xl font-bold text-[#1a1a1a] mb-2">500+</div>
-              <div className="text-[15px] text-[#6b7280] font-medium">Vetted Pros</div>
-            </div>
-            <div className="text-center">
-              <div className="text-5xl md:text-6xl font-bold text-[#1a1a1a] mb-2">98%</div>
-              <div className="text-[15px] text-[#6b7280] font-medium">Satisfaction Rate</div>
-            </div>
-          </div>
         </div>
       </div>
     </section>
