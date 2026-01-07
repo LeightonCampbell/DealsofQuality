@@ -1,7 +1,7 @@
 import { useState, useRef, useEffect } from "react";
 import { Link } from "react-router-dom";
 import { ArrowRight } from "lucide-react";
-import { serviceCategories } from "@/lib/servicesData";
+import { megaMenuCategories } from "@/lib/servicesData";
 
 interface ServicesMegaMenuProps {
   isOpen: boolean;
@@ -33,8 +33,8 @@ const ServicesMegaMenu = ({ isOpen, onClose }: ServicesMegaMenuProps) => {
       onMouseLeave={onClose}
     >
       <div className="container-max max-w-7xl mx-auto px-6 py-8">
-        <div className="grid grid-cols-5 gap-8">
-          {serviceCategories.map((category, categoryIndex) => (
+        <div className="grid grid-cols-4 gap-8">
+          {megaMenuCategories.map((category, categoryIndex) => (
             <div key={categoryIndex} className="space-y-4">
               <h3 className="font-display text-base font-bold text-foreground mb-4">
                 {category.title}

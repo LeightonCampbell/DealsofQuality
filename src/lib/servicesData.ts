@@ -56,14 +56,36 @@ export interface Category {
 
 export const serviceCategories: Category[] = [
   {
-    title: "Home & Property Maintenance",
+    title: "Home Improvement & Outdoor",
     services: [
       { 
-        id: "house-cleaning", 
-        label: "House Cleaning / Maid Service", 
-        href: "/house-cleaning", 
+        id: "handyman", 
+        label: "Handyman Services", 
+        href: "/handyman-services", 
+        icon: Wrench,
+        description: "Furniture assembly, repairs & odd jobs",
+      },
+      { 
+        id: "painting", 
+        label: "Painting (Interior & Exterior)", 
+        href: "/painting", 
+        icon: Paintbrush,
+        description: "Interior and exterior painting services",
+      },
+      { 
+        id: "kitchen-remodeling", 
+        label: "Kitchen Remodeling", 
+        href: "/kitchen-remodeling", 
         icon: Home,
-        description: "Professional house cleaning and maid services",
+        badge: "Hot",
+        description: "Complete kitchen renovation services",
+      },
+      { 
+        id: "bathroom-remodeling", 
+        label: "Bathroom Remodeling", 
+        href: "/bathroom-remodeling", 
+        icon: Bath,
+        description: "Bathroom renovation and remodeling",
       },
       { 
         id: "landscaping", 
@@ -71,6 +93,47 @@ export const serviceCategories: Category[] = [
         href: "/landscaping", 
         icon: Sprout,
         description: "Landscape design and maintenance",
+      },
+      { 
+        id: "smart-irrigation", 
+        label: "Smart Irrigation", 
+        href: "/smart-irrigation-installation", 
+        icon: Sprout,
+        description: "Smart irrigation system installation",
+      },
+      { 
+        id: "fence-gate", 
+        label: "Fence & Gate Installation", 
+        href: "/fence-installation", 
+        icon: Fence,
+        description: "Fence and gate installation services",
+      },
+      { 
+        id: "holiday-lighting", 
+        label: "Holiday Lighting", 
+        href: "/holiday-lighting-installation", 
+        icon: Sparkles,
+        description: "Holiday lighting installation and removal",
+      },
+    ],
+  },
+  {
+    title: "Cleaning & Property Care",
+    services: [
+      { 
+        id: "house-cleaning", 
+        label: "House Cleaning / Maid Service", 
+        href: "/house-cleaning", 
+        icon: Home,
+        badge: "Hot",
+        description: "Professional house cleaning and maid services",
+      },
+      { 
+        id: "carpet-cleaning", 
+        label: "Carpet Cleaning", 
+        href: "/carpet-cleaning", 
+        icon: Layers,
+        description: "Professional carpet cleaning services",
       },
       { 
         id: "window-cleaning", 
@@ -87,13 +150,6 @@ export const serviceCategories: Category[] = [
         description: "Professional gutter cleaning services",
       },
       { 
-        id: "junk-removal", 
-        label: "Junk Removal", 
-        href: "/junk-removal", 
-        icon: Trash2,
-        description: "Junk and debris removal services",
-      },
-      { 
         id: "pressure-washing", 
         label: "Pressure Washing", 
         href: "/pressure-washing", 
@@ -101,24 +157,17 @@ export const serviceCategories: Category[] = [
         description: "Exterior cleaning & maintenance",
       },
       { 
-        id: "carpet-cleaning", 
-        label: "Carpet Cleaning", 
-        href: "/carpet-cleaning", 
-        icon: Layers,
-        description: "Professional carpet cleaning services",
+        id: "junk-removal", 
+        label: "Junk Removal", 
+        href: "/junk-removal", 
+        icon: Trash2,
+        description: "Junk and debris removal services",
       },
     ],
   },
   {
-    title: "Repairs & Installation",
+    title: "Repairs & Electrical",
     services: [
-      { 
-        id: "hvac", 
-        label: "HVAC (Heating & Air Conditioning)", 
-        href: "/hvac", 
-        icon: Wind,
-        description: "HVAC installation, repair, and maintenance",
-      },
       { 
         id: "plumbing", 
         label: "Plumbing Services", 
@@ -128,17 +177,24 @@ export const serviceCategories: Category[] = [
       },
       { 
         id: "electrical", 
-        label: "Electrical", 
+        label: "Electrical Services", 
         href: "/electrical", 
         icon: Plug,
         description: "Safe, licensed electrical work",
       },
       { 
-        id: "roofing", 
-        label: "Roofing", 
-        href: "/roofing", 
-        icon: Home,
-        description: "Roofing installation and repair",
+        id: "light-fixture", 
+        label: "Light Fixture Replacement", 
+        href: "/light-fixture-replacement", 
+        icon: Lightbulb,
+        description: "Safe, licensed electrical work",
+      },
+      { 
+        id: "hvac", 
+        label: "HVAC (Heating & Air)", 
+        href: "/hvac", 
+        icon: Wind,
+        description: "HVAC installation, repair, and maintenance",
       },
       { 
         id: "appliance-repair", 
@@ -148,56 +204,23 @@ export const serviceCategories: Category[] = [
         description: "Professional appliance repair services",
       },
       { 
+        id: "roofing", 
+        label: "Roofing", 
+        href: "/roofing", 
+        icon: Home,
+        description: "Roofing installation and repair",
+      },
+      { 
         id: "drywall-repair", 
         label: "Drywall Repair", 
         href: "/drywall-installation", 
         icon: SquareStack,
         description: "Drywall installation and repair",
       },
-      { 
-        id: "fence-gate", 
-        label: "Fence & Gate Installation", 
-        href: "/fence-installation", 
-        icon: Fence,
-        description: "Fence and gate installation services",
-      },
     ],
   },
   {
-    title: "Home Improvement & Renovation",
-    services: [
-      { 
-        id: "painting", 
-        label: "Painting (Interior & Exterior)", 
-        href: "/painting", 
-        icon: Paintbrush,
-        description: "Interior and exterior painting services",
-      },
-      { 
-        id: "handyman", 
-        label: "Handyman Services", 
-        href: "/handyman-services", 
-        icon: Wrench,
-        description: "Furniture assembly, repairs & odd jobs",
-      },
-      { 
-        id: "kitchen-remodeling", 
-        label: "Kitchen Remodeling", 
-        href: "/kitchen-remodeling", 
-        icon: Home,
-        description: "Complete kitchen renovation services",
-      },
-      { 
-        id: "bathroom-remodeling", 
-        label: "Bathroom Remodeling", 
-        href: "/bathroom-remodeling", 
-        icon: Bath,
-        description: "Bathroom renovation and remodeling",
-      },
-    ],
-  },
-  {
-    title: "Smart Home & Tech",
+    title: "Smart Home & Security",
     services: [
       { 
         id: "wifi-networking", 
@@ -212,7 +235,15 @@ export const serviceCategories: Category[] = [
         label: "Security Camera Setup", 
         href: "/security-cameras", 
         icon: Shield,
+        badge: "Hot",
         description: "Professional camera installation",
+      },
+      { 
+        id: "video-doorbell", 
+        label: "Video Doorbell Setup", 
+        href: "/video-doorbells", 
+        icon: BellRing,
+        description: "Video doorbell installation",
       },
       { 
         id: "smart-lock", 
@@ -229,20 +260,6 @@ export const serviceCategories: Category[] = [
         description: "Smart thermostat installation",
       },
       { 
-        id: "home-theater", 
-        label: "Home Theater Setup", 
-        href: "/home-theater", 
-        icon: Tv,
-        description: "Surround sound & streaming setup",
-      },
-      { 
-        id: "video-doorbell", 
-        label: "Video Doorbell Setup", 
-        href: "/video-doorbells", 
-        icon: BellRing,
-        description: "Video doorbell installation",
-      },
-      { 
         id: "smart-home-integration", 
         label: "Smart Home Integration", 
         href: "/smart-home-integration", 
@@ -250,44 +267,11 @@ export const serviceCategories: Category[] = [
         description: "Complete smart home system integration",
       },
       { 
-        id: "gaming-setup", 
-        label: "Gaming Setup", 
-        href: "/gaming-setup", 
-        icon: Gamepad2,
-        description: "Gaming console setup and optimization",
-      },
-      { 
-        id: "streaming-setup", 
-        label: "Streaming Setup", 
-        href: "/streaming-setup", 
-        icon: Video,
-        description: "Streaming device setup and configuration",
-      },
-      { 
-        id: "surround-sound", 
-        label: "Surround Sound", 
-        href: "/surround-sound", 
-        icon: Speaker,
-        description: "Surround sound system installation",
-      },
-      { 
         id: "motion-sensors", 
         label: "Motion Sensors", 
         href: "/motion-sensors", 
         icon: AlertCircle,
         description: "Motion sensor installation and setup",
-      },
-    ],
-  },
-  {
-    title: "Electrical & Safety",
-    services: [
-      { 
-        id: "light-fixture", 
-        label: "Light Fixture Replace", 
-        href: "/light-fixture-replacement", 
-        icon: Lightbulb,
-        description: "Safe, licensed electrical work",
       },
       { 
         id: "smoke-detector", 
@@ -299,22 +283,8 @@ export const serviceCategories: Category[] = [
     ],
   },
   {
-    title: "Outdoor & TV Mounting",
+    title: "TV Mounting & Entertainment",
     services: [
-      { 
-        id: "smart-irrigation", 
-        label: "Smart Irrigation", 
-        href: "/smart-irrigation-installation", 
-        icon: Sprout,
-        description: "Smart irrigation system installation",
-      },
-      { 
-        id: "holiday-lighting", 
-        label: "Holiday Lighting", 
-        href: "/holiday-lighting-installation", 
-        icon: Sparkles,
-        description: "Holiday lighting installation and removal",
-      },
       { 
         id: "tv-mounting-small", 
         label: "TV Mounting (up to 50\")", 
@@ -327,6 +297,7 @@ export const serviceCategories: Category[] = [
         label: "TV Mounting (51\" to 65\")", 
         href: "/tv-mounting-51-to-65", 
         icon: Tv,
+        badge: "Hot",
         description: "Professional TV mounting for 51 to 65 inch TVs",
       },
       { 
@@ -335,6 +306,13 @@ export const serviceCategories: Category[] = [
         href: "/tv-mounting-over-65", 
         icon: Tv,
         description: "Professional TV mounting for large TVs over 65 inches",
+      },
+      { 
+        id: "tv-dismount-remount", 
+        label: "TV Dismount & Remount", 
+        href: "/tv-dismount-remount", 
+        icon: Tv,
+        description: "TV removal and reinstallation services",
       },
       { 
         id: "tv-cable-concealment", 
@@ -351,11 +329,32 @@ export const serviceCategories: Category[] = [
         description: "Professional soundbar installation and setup",
       },
       { 
-        id: "tv-dismount-remount", 
-        label: "TV Dismount & Remount", 
-        href: "/tv-dismount-remount", 
+        id: "home-theater", 
+        label: "Home Theater Setup", 
+        href: "/home-theater", 
         icon: Tv,
-        description: "TV removal and reinstallation services",
+        description: "Surround sound & streaming setup",
+      },
+      { 
+        id: "surround-sound", 
+        label: "Surround Sound", 
+        href: "/surround-sound", 
+        icon: Speaker,
+        description: "Surround sound system installation",
+      },
+      { 
+        id: "gaming-setup", 
+        label: "Gaming Setup", 
+        href: "/gaming-setup", 
+        icon: Gamepad2,
+        description: "Gaming console setup and optimization",
+      },
+      { 
+        id: "streaming-setup", 
+        label: "Streaming Setup", 
+        href: "/streaming-setup", 
+        icon: Video,
+        description: "Streaming device setup and configuration",
       },
     ],
   },
@@ -429,3 +428,8 @@ export const serviceCategories: Category[] = [
 
 // Flatten all services for search/filtering
 export const allServices = serviceCategories.flatMap(category => category.services);
+
+// Categories to show in mega menu (categories 1, 2, 3, and 5)
+export const megaMenuCategories = serviceCategories.filter((_, index) => 
+  index === 0 || index === 1 || index === 2 || index === 4
+);

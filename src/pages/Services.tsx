@@ -44,12 +44,13 @@ const Services = () => {
         </div>
       </section>
 
-      {/* Services by Category – Mirrors Services Mega Menu */}
+      {/* Services by Category */}
       <section className="section-padding bg-background">
         <div className="container-max max-w-7xl mx-auto">
           <div className="space-y-12">
+            {/* Main 5 Categories */}
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-12">
-              {serviceCategories.map((category, categoryIndex) => (
+              {serviceCategories.slice(0, 5).map((category, categoryIndex) => (
                 <motion.div
                   key={category.title}
                   initial={{ opacity: 0, y: 20 }}
@@ -63,6 +64,62 @@ const Services = () => {
                   </h2>
 
                   {/* Services List – same structure as ServicesMegaMenu */}
+                  <ul className="space-y-3">
+                    {category.services.map((service) => {
+                      const Icon = service.icon;
+                      return (
+                        <li key={service.id}>
+                          <Link
+                            to={service.href}
+                            className="group flex items-center gap-3 text-sm text-muted-foreground hover:text-accent transition-colors"
+                          >
+                            <Icon className="w-4 h-4 flex-shrink-0" />
+                            <div className="flex flex-col items-start">
+                              <span className="flex items-center gap-2 font-medium text-foreground group-hover:text-accent">
+                                {service.label}
+                                {service.badge && (
+                                  <span
+                                    className={`text-xs px-1.5 py-0.5 rounded font-semibold ${
+                                      service.badge === "New"
+                                        ? "bg-blue-100 text-blue-700"
+                                        : "bg-orange-100 text-orange-700"
+                                    }`}
+                                  >
+                                    {service.badge}
+                                  </span>
+                                )}
+                              </span>
+                              {service.description && (
+                                <span className="text-xs text-muted-foreground line-clamp-2">
+                                  {service.description}
+                                </span>
+                              )}
+                            </div>
+                          </Link>
+                        </li>
+                      );
+                    })}
+                  </ul>
+                </motion.div>
+              ))}
+            </div>
+
+            {/* Computers & Printers and Business Services */}
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-12">
+              {serviceCategories.slice(5).map((category, categoryIndex) => (
+                <motion.div
+                  key={category.title}
+                  initial={{ opacity: 0, y: 20 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ duration: 0.5, delay: (5 + categoryIndex) * 0.1 }}
+                  className="space-y-4"
+                >
+                  {/* Category Header */}
+                  <h2 className="font-display text-xl md:text-2xl font-bold text-foreground">
+                    {category.title}
+                  </h2>
+
+                  {/* Services List */}
                   <ul className="space-y-3">
                     {category.services.map((service) => {
                       const Icon = service.icon;
