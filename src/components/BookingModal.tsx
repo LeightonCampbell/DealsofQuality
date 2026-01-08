@@ -223,7 +223,7 @@ const BookingModal = ({ isOpen, onClose, initialService = "", initialZip = "", c
         ? "Within a week" 
         : "Flexible timing";
 
-      const { error } = await supabase.from("form_submissions").insert({
+      const payload: any = {
         form_type: "booking",
         name,
         email,
@@ -232,9 +232,14 @@ const BookingModal = ({ isOpen, onClose, initialService = "", initialZip = "", c
         service_category: serviceLabel,
         message: finalProjectDetails,
         urgency: urgencyText,
-      });
+      };
 
-      if (error) throw error;
+      const { error, data } = await supabase.from("form_submissions").insert(payload).select();
+
+      if (error) {
+        console.error("Form submission error:", error);
+        throw error;
+      }
       
       // Navigate to success page with query params
       // Don't include "Other" in the service name - use the custom text or "Service"
@@ -244,10 +249,16 @@ const BookingModal = ({ isOpen, onClose, initialService = "", initialZip = "", c
       
       onClose();
       navigate(`/success?service=${encodeURIComponent(displayServiceName)}&zip=${encodeURIComponent(zipCode)}`);
-    } catch (error) {
+    } catch (error: any) {
+      console.error("Submit error details:", error);
+      const errorMessage = error?.message || "Unknown error occurred";
+      const errorDetails = import.meta.env.DEV 
+        ? `Error: ${errorMessage}` 
+        : "Please try again or call us directly.";
+      
       toast({
         title: "Something went wrong",
-        description: "Please try again or call us directly.",
+        description: errorDetails,
         variant: "destructive",
       });
     } finally {

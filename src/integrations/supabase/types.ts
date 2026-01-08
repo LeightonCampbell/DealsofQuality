@@ -31,6 +31,7 @@ export type Database = {
           service_areas: string | null
           service_category: string | null
           specific_service: string | null
+          urgency: string | null
           years_experience: string | null
           zip: string | null
         }
@@ -50,6 +51,7 @@ export type Database = {
           service_areas?: string | null
           service_category?: string | null
           specific_service?: string | null
+          urgency?: string | null
           years_experience?: string | null
           zip?: string | null
         }
@@ -69,6 +71,7 @@ export type Database = {
           service_areas?: string | null
           service_category?: string | null
           specific_service?: string | null
+          urgency?: string | null
           years_experience?: string | null
           zip?: string | null
         }
