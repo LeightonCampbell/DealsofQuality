@@ -11,7 +11,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import { MapPin, CheckCircle2, Loader2, ArrowRight, ArrowLeft } from "lucide-react";
+import { MapPin, CheckCircle2, Loader2, ArrowRight, ArrowLeft, Zap, Calendar, Coffee } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 import { supabase } from "@/integrations/supabase/client";
 import { toast } from "@/hooks/use-toast";
@@ -62,6 +62,7 @@ const BookingModal = ({ isOpen, onClose, initialService = "", initialZip = "", c
   const [zipCode, setZipCode] = useState(initialZip);
   const [zipCodeError, setZipCodeError] = useState("");
   const [projectDetails, setProjectDetails] = useState("");
+  const [urgency, setUrgency] = useState<"asap" | "week" | "flexible">("week"); // Default to "Within a week"
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [phone, setPhone] = useState("");
@@ -101,16 +102,15 @@ const BookingModal = ({ isOpen, onClose, initialService = "", initialZip = "", c
         }, 500);
       }
 
-      // If skipToProjectDetails is true, go directly to step 4 (Contact Info)
+      // If skipToProjectDetails is true, go directly to step 3 (Project Details)
       if (skipToProjectDetails) {
-        setStep(4);
+        setStep(3);
         setService(initialService || "other");
         setZipCode(initialZip);
         if (customServiceText) {
           setOtherServiceDescription(customServiceText);
           setProjectDetails(customServiceText);
         }
-        simulateSearch();
       } else if (initialStep !== undefined) {
         // If initialStep is provided, use it
         setStep(initialStep);
@@ -127,7 +127,7 @@ const BookingModal = ({ isOpen, onClose, initialService = "", initialZip = "", c
           setIsSearching(false);
         }
       } else if (initialService && initialZip && initialZip.length === 5) {
-        // If service and zip are already provided (from Hero), go directly to step 4 (searching animation)
+        // If service and zip are already provided (from Hero), go to step 3 (Project Details)
         setService(initialService);
         setZipCode(initialZip);
         // If custom service text was provided (for "Other"), populate otherServiceDescription and projectDetails
@@ -135,10 +135,8 @@ const BookingModal = ({ isOpen, onClose, initialService = "", initialZip = "", c
           setOtherServiceDescription(customServiceText);
           setProjectDetails(customServiceText);
         }
-        // Start at step 4 (searching animation) - simulateSearch will automatically complete
-        setStep(4);
-        // Don't set isSearching to false here - let simulateSearch handle it
-        simulateSearch();
+        // Start at step 3 (Project Details)
+        setStep(3);
       } else {
         setStep(initialStep || 1);
         setService(initialService);
@@ -185,7 +183,12 @@ const BookingModal = ({ isOpen, onClose, initialService = "", initialZip = "", c
       return;
     }
     setZipCodeError("");
-    // Skip step 3, go directly to step 4 (Contact Info)
+    // Go to step 3 (Project Details & Urgency)
+    setStep(3);
+  };
+
+  const handleStep3Next = () => {
+    // Go to step 4 (Contact Info) and trigger search animation
     setStep(4);
     simulateSearch();
   };
@@ -212,6 +215,13 @@ const BookingModal = ({ isOpen, onClose, initialService = "", initialZip = "", c
           ? `${otherServiceDescription}${projectDetails ? ` - ${projectDetails}` : ''}`
           : projectDetails);
 
+      // Map urgency values to readable text
+      const urgencyText = urgency === "asap" 
+        ? "As soon as possible" 
+        : urgency === "week" 
+        ? "Within a week" 
+        : "Flexible timing";
+
       const { error } = await supabase.from("form_submissions").insert({
         form_type: "booking",
         name,
@@ -220,6 +230,7 @@ const BookingModal = ({ isOpen, onClose, initialService = "", initialZip = "", c
         zip: zipCode,
         service_category: serviceLabel,
         message: finalProjectDetails,
+        urgency: urgencyText,
       });
 
       if (error) throw error;
@@ -243,11 +254,13 @@ const BookingModal = ({ isOpen, onClose, initialService = "", initialZip = "", c
     }
   };
 
-  // Adjust progress calculation - now we have 3 steps (1, 2, 4)
+  // Adjust progress calculation - now we have 4 steps (1, 2, 3, 4)
   const progressValue = step === 1 
-    ? 33 // Step 1 of 3
+    ? 25 // Step 1 of 4
     : step === 2
-    ? 66 // Step 2 of 3
+    ? 50 // Step 2 of 4
+    : step === 3
+    ? 75 // Step 3 of 4
     : 100; // Step 4 (final step)
 
   return (
@@ -386,6 +399,90 @@ const BookingModal = ({ isOpen, onClose, initialService = "", initialZip = "", c
             </div>
           )}
 
+          {/* Step 3: Project Details & Urgency */}
+          {step === 3 && (
+            <div className="space-y-6 animate-fade-in">
+              <div className="text-center">
+                <h3 className="font-display text-2xl font-bold text-foreground mb-2">
+                  Tell us about your project
+                </h3>
+                <p className="text-muted-foreground">
+                  Help us understand what you need
+                </p>
+              </div>
+
+              <div className="space-y-4">
+                <div className="space-y-2">
+                  <label className="text-sm font-medium text-foreground">
+                    When do you need this done?
+                  </label>
+                  <div className="flex gap-3">
+                    <button
+                      type="button"
+                      onClick={() => setUrgency("asap")}
+                      className={`flex-1 flex items-center justify-center gap-2 px-4 py-3 rounded-lg border-2 transition-all ${
+                        urgency === "asap"
+                          ? "border-red-500 bg-red-50 text-red-700 font-semibold"
+                          : "border-border bg-background text-foreground hover:border-accent"
+                      }`}
+                    >
+                      <Zap className="w-4 h-4" />
+                      <span className="text-sm">As soon as possible</span>
+                    </button>
+                    <button
+                      type="button"
+                      onClick={() => setUrgency("week")}
+                      className={`flex-1 flex items-center justify-center gap-2 px-4 py-3 rounded-lg border-2 transition-all ${
+                        urgency === "week"
+                          ? "border-accent bg-accent/10 text-accent font-semibold"
+                          : "border-border bg-background text-foreground hover:border-accent"
+                      }`}
+                    >
+                      <Calendar className="w-4 h-4" />
+                      <span className="text-sm">Within a week</span>
+                    </button>
+                    <button
+                      type="button"
+                      onClick={() => setUrgency("flexible")}
+                      className={`flex-1 flex items-center justify-center gap-2 px-4 py-3 rounded-lg border-2 transition-all ${
+                        urgency === "flexible"
+                          ? "border-accent bg-accent/10 text-accent font-semibold"
+                          : "border-border bg-background text-foreground hover:border-accent"
+                      }`}
+                    >
+                      <Coffee className="w-4 h-4" />
+                      <span className="text-sm">Flexible timing</span>
+                    </button>
+                  </div>
+                </div>
+
+                <div className="space-y-2">
+                  <label className="text-sm font-medium text-foreground">
+                    Tell us about your project
+                  </label>
+                  <Textarea
+                    placeholder="Describe your project, any specific requirements, or questions you have..."
+                    value={projectDetails}
+                    onChange={(e) => setProjectDetails(e.target.value)}
+                    rows={4}
+                    className="resize-none"
+                  />
+                </div>
+              </div>
+
+              <div className="flex gap-3">
+                <Button variant="outline" onClick={() => setStep(2)} className="flex-1 h-12">
+                  <ArrowLeft className="w-4 h-4 mr-2" />
+                  Back
+                </Button>
+                <Button onClick={handleStep3Next} className="flex-1 h-12 bg-cta hover:bg-cta/90">
+                  Continue
+                  <ArrowRight className="w-4 h-4 ml-2" />
+                </Button>
+              </div>
+            </div>
+          )}
+
           {/* Step 4: Contact Info */}
           {step === 4 && (
             <div className="space-y-6 animate-fade-in">
@@ -394,10 +491,10 @@ const BookingModal = ({ isOpen, onClose, initialService = "", initialZip = "", c
                   <CheckCircle2 className="w-6 h-6 text-success" />
                 </div>
                 <h3 className="font-display text-2xl font-bold text-foreground mb-2">
-                  Great news! We found {prosFound}+ pros
+                  Great News! We found {prosFound}+ Qualified Pros near you.
                 </h3>
                 <p className="text-muted-foreground">
-                  Complete your details to get matched
+                  Complete your details to get a quote
                 </p>
               </div>
 
@@ -423,16 +520,10 @@ const BookingModal = ({ isOpen, onClose, initialService = "", initialZip = "", c
                   onChange={(e) => setPhone(e.target.value)}
                   className="h-12"
                 />
-                <Textarea
-                  placeholder="Tell us more about your project (optional)"
-                  value={projectDetails}
-                  onChange={(e) => setProjectDetails(e.target.value)}
-                  rows={3}
-                />
               </div>
 
               <div className="flex gap-3">
-                <Button variant="outline" onClick={() => setStep(2)} className="flex-1 h-12">
+                <Button variant="outline" onClick={() => setStep(3)} className="flex-1 h-12">
                   <ArrowLeft className="w-4 h-4 mr-2" />
                   Back
                 </Button>
@@ -447,13 +538,30 @@ const BookingModal = ({ isOpen, onClose, initialService = "", initialZip = "", c
                       Submitting...
                     </>
                   ) : (
-                    "Get Matched"
+                    "Get My Free Quote"
                   )}
                 </Button>
               </div>
 
               <p className="text-xs text-center text-muted-foreground">
-                By submitting, you agree to our Terms of Service and Privacy Policy
+                By submitting, you agree to our{" "}
+                <a
+                  href="/terms"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="text-accent hover:underline"
+                >
+                  Terms of Service
+                </a>{" "}
+                and{" "}
+                <a
+                  href="/privacy"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="text-accent hover:underline"
+                >
+                  Privacy Policy
+                </a>
               </p>
             </div>
           )}
