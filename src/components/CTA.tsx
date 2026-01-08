@@ -51,6 +51,7 @@ const CTA = () => {
         onClose={() => setIsBookingModalOpen(false)}
         initialService=""
         initialZip=""
+        mode="booking"
       />
     </section>
   );

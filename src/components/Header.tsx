@@ -164,6 +164,7 @@ const Header = () => {
         onClose={() => setIsBookingModalOpen(false)}
         initialService=""
         initialZip=""
+        mode="booking"
       />
     </header>
     </>

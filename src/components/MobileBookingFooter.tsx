@@ -55,6 +55,7 @@ const MobileBookingFooter = () => {
         isOpen={isModalOpen}
         onClose={() => setIsModalOpen(false)}
         initialStep={1}
+        mode="quote"
       />
     </>
   );

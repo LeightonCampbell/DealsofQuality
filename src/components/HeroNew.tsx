@@ -516,6 +516,7 @@ const HeroNew = () => {
         customServiceText={isOther ? customServiceText : ""}
         initialStep={4}
         skipToProjectDetails={true}
+        mode="quote"
       />
       
       {/* Mobile Sticky CTA */}

@@ -47,9 +47,10 @@ interface BookingModalProps {
   customServiceText?: string; // For "Other" service custom text
   initialStep?: number; // Optional: start at a specific step (1-4)
   skipToProjectDetails?: boolean; // Skip steps 1-2 and go directly to step 3
+  mode?: 'quote' | 'booking'; // Dual-mode: 'quote' for quotes, 'booking' for appointments
 }
 
-const BookingModal = ({ isOpen, onClose, initialService = "", initialZip = "", customServiceText = "", initialStep, skipToProjectDetails = false }: BookingModalProps) => {
+const BookingModal = ({ isOpen, onClose, initialService = "", initialZip = "", customServiceText = "", initialStep, skipToProjectDetails = false, mode = 'quote' }: BookingModalProps) => {
   const navigate = useNavigate();
   const [step, setStep] = useState(initialStep || 1);
   const [isSearching, setIsSearching] = useState(false);
@@ -392,7 +393,7 @@ const BookingModal = ({ isOpen, onClose, initialService = "", initialZip = "", c
                   Back
                 </Button>
                 <Button onClick={handleStep2Next} className="flex-1 h-12 bg-cta hover:bg-cta/90">
-                  Find Pros
+                  Continue
                   <ArrowRight className="w-4 h-4 ml-2" />
                 </Button>
               </div>
@@ -404,7 +405,7 @@ const BookingModal = ({ isOpen, onClose, initialService = "", initialZip = "", c
             <div className="space-y-6 animate-fade-in">
               <div className="text-center">
                 <h3 className="font-display text-2xl font-bold text-foreground mb-2">
-                  Tell us about your project
+                  {mode === 'quote' ? 'Details for your Quote' : 'Details for your Service Request'}
                 </h3>
                 <p className="text-muted-foreground">
                   Help us understand what you need
@@ -491,10 +492,16 @@ const BookingModal = ({ isOpen, onClose, initialService = "", initialZip = "", c
                   <CheckCircle2 className="w-6 h-6 text-success" />
                 </div>
                 <h3 className="font-display text-2xl font-bold text-foreground mb-2">
-                  Great News! We found {prosFound}+ Qualified Pros near you.
+                  {mode === 'quote' 
+                    ? `Great News! We found ${prosFound}+ Pros.`
+                    : `Great News! There are ${prosFound}+ Pros available.`
+                  }
                 </h3>
                 <p className="text-muted-foreground">
-                  Complete your details to get a quote
+                  {mode === 'quote' 
+                    ? 'Complete your details to get a quote'
+                    : 'Complete your details to book your appointment'
+                  }
                 </p>
               </div>
 
@@ -530,7 +537,11 @@ const BookingModal = ({ isOpen, onClose, initialService = "", initialZip = "", c
                 <Button
                   onClick={handleSubmit}
                   disabled={isSubmitting}
-                  className="flex-1 h-12 bg-cta hover:bg-cta/90"
+                  className={`flex-1 h-12 ${
+                    mode === 'booking' 
+                      ? 'bg-primary hover:bg-primary/90 text-primary-foreground' 
+                      : 'bg-cta hover:bg-cta/90'
+                  }`}
                 >
                   {isSubmitting ? (
                     <>
@@ -538,7 +549,7 @@ const BookingModal = ({ isOpen, onClose, initialService = "", initialZip = "", c
                       Submitting...
                     </>
                   ) : (
-                    "Get My Free Quote"
+                    mode === 'quote' ? "Get My Free Quote" : "Request Appointment"
                   )}
                 </Button>
               </div>
