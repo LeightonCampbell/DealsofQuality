@@ -1,10 +1,31 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Button } from "@/components/ui/button";
 import { Phone } from "lucide-react";
 import BookingModal from "@/components/BookingModal";
 
 const MobileBookingFooter = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [showButtons, setShowButtons] = useState(false);
+
+  useEffect(() => {
+    const handleScroll = () => {
+      const popularServicesSection = document.getElementById("popular-services");
+      if (popularServicesSection) {
+        const rect = popularServicesSection.getBoundingClientRect();
+        // Show buttons once user has scrolled to or past the Popular Services section
+        setShowButtons(rect.top <= window.innerHeight);
+      }
+    };
+
+    // Check on mount
+    handleScroll();
+
+    // Listen to scroll events
+    window.addEventListener("scroll", handleScroll);
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, []);
+
+  if (!showButtons) return null;
 
   return (
     <>
@@ -22,7 +43,7 @@ const MobileBookingFooter = () => {
             onClick={() => setIsModalOpen(true)}
             className="flex-1 h-12 bg-cta hover:bg-cta/90 text-cta-foreground font-semibold"
           >
-            Book Now
+            Get Free Quote
           </Button>
         </div>
       </div>
@@ -33,6 +54,7 @@ const MobileBookingFooter = () => {
       <BookingModal
         isOpen={isModalOpen}
         onClose={() => setIsModalOpen(false)}
+        initialStep={1}
       />
     </>
   );

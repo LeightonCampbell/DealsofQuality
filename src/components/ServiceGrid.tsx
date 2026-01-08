@@ -72,7 +72,7 @@ const services = [
 
 const ServiceGrid = () => {
   return (
-    <section className="section-padding bg-background" aria-labelledby="popular-services-heading">
+    <section id="popular-services" className="section-padding bg-background" aria-labelledby="popular-services-heading">
       <div className="container-max">
         {/* Section Header */}
         <div className="flex flex-col md:flex-row md:items-end md:justify-between mb-10">
