@@ -20,7 +20,7 @@ const leadRequestSchema = z.object({
     phone: z.string().min(1, "Phone is required").max(20),
   }),
   urgency: z.string().min(1, "Urgency is required").max(50),
-  projectDetails: z.string().optional().max(2000),
+  projectDetails: z.string().max(2000).optional(),
 });
 
 type LeadRequest = z.infer<typeof leadRequestSchema>;
@@ -56,7 +56,7 @@ const generateConciergeDashboardHTML = (data: LeadRequest): string => {
   let urgencyBadge = "";
   let urgencyColor = "#2563eb"; // Default blue
   
-  const urgencyLower = urgency.toLowerCase();
+  const urgencyLower = (urgency ?? "").toLowerCase();
   if (urgencyLower.includes("as soon") || urgencyLower.includes("asap")) {
     urgencyBadge = "ASAP";
     urgencyColor = "#dc2626"; // Red
@@ -68,9 +68,9 @@ const generateConciergeDashboardHTML = (data: LeadRequest): string => {
     urgencyColor = "#2563eb"; // Blue
   }
 
-  const safeName = sanitizeValue(customer.name);
-  const safeEmail = sanitizeValue(customer.email);
-  const safePhone = sanitizeValue(customer.phone);
+  const safeName = sanitizeValue(customer?.name);
+  const safeEmail = sanitizeValue(customer?.email);
+  const safePhone = sanitizeValue(customer?.phone);
   const safeService = sanitizeValue(serviceType);
   const safeZip = sanitizeValue(zipCode);
   const safeUrgency = sanitizeValue(urgency);
@@ -330,9 +330,10 @@ const handler = async (req: Request): Promise<Response> => {
     const leadData: LeadRequest = validationResult.data;
 
     // Generate subject line: [NEW LEAD] {Service} in {Zip} - {Urgency}
-    const urgencyBadge = leadData.urgency.toLowerCase().includes("as soon") || leadData.urgency.toLowerCase().includes("asap")
+    const urgencyLower = (leadData.urgency ?? "").toLowerCase();
+    const urgencyBadge = urgencyLower.includes("as soon") || urgencyLower.includes("asap")
       ? "ASAP"
-      : leadData.urgency.toLowerCase().includes("week")
+      : urgencyLower.includes("week")
       ? "WITHIN A WEEK"
       : "FLEXIBLE";
     
