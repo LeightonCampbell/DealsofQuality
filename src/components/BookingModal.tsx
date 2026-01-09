@@ -196,26 +196,8 @@ const BookingModal = ({ isOpen, onClose, initialService = "", initialZip = "", c
   };
 
   const handleSubmit = async () => {
-    // Validate required fields
-    if (!name || !name.trim()) {
-      toast({ title: "Please enter your name", variant: "destructive" });
-      return;
-    }
-
-    if (!email || !email.trim()) {
-      toast({ title: "Please enter your email", variant: "destructive" });
-      return;
-    }
-
-    // Basic email validation
-    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-    if (!emailRegex.test(email.trim())) {
-      toast({ title: "Please enter a valid email address", variant: "destructive" });
-      return;
-    }
-
-    if (!phone || !phone.trim()) {
-      toast({ title: "Please enter your phone number", variant: "destructive" });
+    if (!name || !email || !phone) {
+      toast({ title: "Please fill in all fields", variant: "destructive" });
       return;
     }
 
@@ -252,65 +234,24 @@ const BookingModal = ({ isOpen, onClose, initialService = "", initialZip = "", c
         throw new Error("Please select a service");
       }
 
-      // Step 1: Save to database - build clean payload with only defined values
-      const payload: any = {
-        form_type: "booking" as const,
-        name: name.trim(),
-        email: email.trim(),
+      // Step 1: Save to leads table (has proper RLS for public insert)
+      const payload = {
+        service_type: serviceLabel,
+        zip_code: zipCode,
+        urgency: urgencyText,
+        customer_name: name,
+        customer_email: email,
+        customer_phone: phone,
+        project_details: finalProjectDetails,
+        status: "new",
       };
 
-      // Add optional fields only if they have values
-      if (phone && phone.trim()) {
-        payload.phone = phone.trim();
-      }
-
-      if (zipCode && zipCode.trim()) {
-        payload.zip = zipCode.trim();
-      }
-
-      if (serviceLabel && serviceLabel.trim()) {
-        payload.service_category = serviceLabel.trim();
-      }
-
-      if (finalProjectDetails && finalProjectDetails.trim()) {
-        payload.message = finalProjectDetails.trim();
-      }
-
-      // Only add urgency if it exists and is not empty (may not be in all database schemas)
-      if (urgencyText && urgencyText.trim()) {
-        payload.urgency = urgencyText.trim();
-      }
-
-      console.log("Attempting database insert with payload:", payload);
-
-      const { data: dbData, error: dbError } = await supabase
-        .from("form_submissions")
-        .insert(payload)
-        .select();
+      const { error: dbError } = await supabase.from("leads").insert(payload).select();
 
       if (dbError) {
-        console.error("❌ Database error details:", dbError);
-        console.error("Error code:", dbError.code);
-        console.error("Error message:", dbError.message);
-        console.error("Error details:", dbError.details);
-        console.error("Error hint:", dbError.hint);
-        
-        // Provide more specific error message
-        let errorMsg = "Failed to save your submission. ";
-        if (dbError.code === "23502") {
-          errorMsg = "Missing required field. Please fill in all fields.";
-        } else if (dbError.code === "23505") {
-          errorMsg = "This submission was already received.";
-        } else if (dbError.message) {
-          errorMsg += dbError.message;
-        } else {
-          errorMsg += "Please try again or call (818) 584-7389.";
-        }
-        
-        throw new Error(errorMsg);
+        console.error("Database error:", dbError);
+        throw new Error("Failed to save submission. Please try again.");
       }
-
-      console.log("✅ Database save successful! ID:", dbData?.[0]?.id);
 
       console.log("Database save successful, attempting to send email...");
       
@@ -364,7 +305,7 @@ const BookingModal = ({ isOpen, onClose, initialService = "", initialZip = "", c
       // Show inline error message
       if (errorMessage.includes("ZIP code") || errorMessage.includes("service")) {
         setSubmitError(errorMessage + " Please try again.");
-      } else if (errorMessage.includes("Database") || errorMessage.includes("form_submissions") || errorMessage.includes("save")) {
+      } else if (errorMessage.includes("Database") || errorMessage.includes("leads") || errorMessage.includes("save")) {
         setSubmitError("Failed to save your submission. Please try again or call (818) 584-7389.");
       } else {
         setSubmitError(`Something went wrong: ${errorMessage}. Please try again or call (818) 584-7389.`);
