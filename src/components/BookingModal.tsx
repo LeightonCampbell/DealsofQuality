@@ -246,7 +246,7 @@ const BookingModal = ({ isOpen, onClose, initialService = "", initialZip = "", c
         status: "new",
       };
 
-      const { error: dbError } = await supabase.from("leads").insert(payload).select();
+      const { error: dbError } = await supabase.from("leads").insert(payload);
 
       if (dbError) {
         console.error("Database error:", dbError);
