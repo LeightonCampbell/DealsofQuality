@@ -74,6 +74,45 @@ export type Database = {
         }
         Relationships: []
       }
+      leads: {
+        Row: {
+          created_at: string
+          customer_email: string | null
+          customer_name: string | null
+          customer_phone: string | null
+          id: string
+          project_details: string | null
+          service_type: string | null
+          status: string | null
+          urgency: string | null
+          zip_code: string | null
+        }
+        Insert: {
+          created_at?: string
+          customer_email?: string | null
+          customer_name?: string | null
+          customer_phone?: string | null
+          id?: string
+          project_details?: string | null
+          service_type?: string | null
+          status?: string | null
+          urgency?: string | null
+          zip_code?: string | null
+        }
+        Update: {
+          created_at?: string
+          customer_email?: string | null
+          customer_name?: string | null
+          customer_phone?: string | null
+          id?: string
+          project_details?: string | null
+          service_type?: string | null
+          status?: string | null
+          urgency?: string | null
+          zip_code?: string | null
+        }
+        Relationships: []
+      }
       profiles: {
         Row: {
           created_at: string
