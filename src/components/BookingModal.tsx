@@ -225,6 +225,15 @@ const BookingModal = ({ isOpen, onClose, initialService = "", initialZip = "", c
         ? "Within a week" 
         : "Flexible timing";
 
+      // Validate required fields before submission
+      if (!zipCode || zipCode.length < 5) {
+        throw new Error("Please enter a valid ZIP code");
+      }
+
+      if (!serviceLabel || serviceLabel.trim() === "") {
+        throw new Error("Please select a service");
+      }
+
       // Step 1: Save to database
       const payload: any = {
         form_type: "booking",
@@ -243,39 +252,68 @@ const BookingModal = ({ isOpen, onClose, initialService = "", initialZip = "", c
         console.error("Database error:", dbError);
         throw new Error("Failed to save submission. Please try again.");
       }
-      
-      // Step 2: Send lead email notification
-      const { data: emailData, error: emailError } = await supabase.functions.invoke("send-lead", {
-        body: {
-          serviceType: serviceLabel,
-          zipCode: zipCode,
-          customer: {
-            name: name,
-            email: email,
-            phone: phone,
-          },
-          urgency: urgencyText,
-          projectDetails: finalProjectDetails || "",
-        },
-      });
 
-      if (emailError) {
-        console.error("Email error:", emailError);
-        throw new Error("Connection error. Please call (818) 584-7389.");
+      console.log("Database save successful, attempting to send email...");
+      
+      // Step 2: Send lead email notification (don't block success if this fails)
+      try {
+        const { data: emailData, error: emailError } = await supabase.functions.invoke("send-lead", {
+          body: {
+            serviceType: serviceLabel,
+            zipCode: zipCode,
+            customer: {
+              name: name,
+              email: email,
+              phone: phone,
+            },
+            urgency: urgencyText,
+            projectDetails: finalProjectDetails || "",
+          },
+        });
+
+        if (emailError) {
+          console.error("Email error:", emailError);
+          console.error("Email error details:", JSON.stringify(emailError, null, 2));
+          
+          // Log but don't throw - database save succeeded
+          console.warn("Email notification failed but submission was saved:", emailError.message);
+        }
+
+        // Check if response data contains an error
+        if (emailData && typeof emailData === 'object' && 'error' in emailData) {
+          console.error("Email function returned error in data:", emailData);
+          console.warn("Email notification failed but submission was saved");
+        } else {
+          console.log("Email notification sent successfully");
+        }
+      } catch (emailException: any) {
+        // Email sending failed but database save succeeded - log and continue
+        console.error("Email sending exception (submission still saved):", emailException);
+        console.warn("Email notification failed but submission was saved. Error:", emailException.message);
+        // Don't throw - proceed to success page
       }
       
-      // Step 3: Navigate to booking confirmed page
+      // Step 3: Navigate to booking confirmed page (always if DB save succeeded)
+      console.log("Submission successful, redirecting to confirmation page...");
       onClose();
       window.location.href = "/booking-confirmed";
     } catch (error: any) {
+      // Only database save errors reach here (email errors are caught separately)
       console.error("Submit error details:", error);
-      const errorMessage = error?.message || "Unknown error occurred";
+      console.error("Error object:", JSON.stringify(error, null, 2));
+      console.error("Error message:", error?.message);
+      console.error("Error name:", error?.name);
+      console.error("Error stack:", error?.stack);
+      
+      const errorMessage = error?.message || error?.error?.message || "Unknown error occurred";
       
       // Show inline error message
-      if (errorMessage.includes("Connection") || errorMessage.includes("fetch") || errorMessage.includes("network")) {
-        setSubmitError("Connection error. Please call (818) 584-7389.");
+      if (errorMessage.includes("ZIP code") || errorMessage.includes("service")) {
+        setSubmitError(errorMessage + " Please try again.");
+      } else if (errorMessage.includes("Database") || errorMessage.includes("form_submissions") || errorMessage.includes("save")) {
+        setSubmitError("Failed to save your submission. Please try again or call (818) 584-7389.");
       } else {
-        setSubmitError("Something went wrong. Please try again or call (818) 584-7389.");
+        setSubmitError(`Something went wrong: ${errorMessage}. Please try again or call (818) 584-7389.`);
       }
       
       setIsSubmitting(false);
