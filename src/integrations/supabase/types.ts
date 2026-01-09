@@ -31,7 +31,6 @@ export type Database = {
           service_areas: string | null
           service_category: string | null
           specific_service: string | null
-          urgency: string | null
           years_experience: string | null
           zip: string | null
         }
@@ -51,7 +50,6 @@ export type Database = {
           service_areas?: string | null
           service_category?: string | null
           specific_service?: string | null
-          urgency?: string | null
           years_experience?: string | null
           zip?: string | null
         }
@@ -71,9 +69,47 @@ export type Database = {
           service_areas?: string | null
           service_category?: string | null
           specific_service?: string | null
-          urgency?: string | null
           years_experience?: string | null
           zip?: string | null
+        }
+        Relationships: []
+      }
+      leads: {
+        Row: {
+          created_at: string
+          customer_email: string | null
+          customer_name: string | null
+          customer_phone: string | null
+          id: string
+          project_details: string | null
+          service_type: string | null
+          status: string | null
+          urgency: string | null
+          zip_code: string | null
+        }
+        Insert: {
+          created_at?: string
+          customer_email?: string | null
+          customer_name?: string | null
+          customer_phone?: string | null
+          id?: string
+          project_details?: string | null
+          service_type?: string | null
+          status?: string | null
+          urgency?: string | null
+          zip_code?: string | null
+        }
+        Update: {
+          created_at?: string
+          customer_email?: string | null
+          customer_name?: string | null
+          customer_phone?: string | null
+          id?: string
+          project_details?: string | null
+          service_type?: string | null
+          status?: string | null
+          urgency?: string | null
+          zip_code?: string | null
         }
         Relationships: []
       }

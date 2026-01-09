@@ -54,7 +54,7 @@ const Header = () => {
               width="150" 
               height="48"
               loading="eager"
-              fetchpriority="high"
+              fetchPriority="high"
             />
           </Link>
 
