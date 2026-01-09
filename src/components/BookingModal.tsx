@@ -223,22 +223,44 @@ const BookingModal = ({ isOpen, onClose, initialService = "", initialZip = "", c
         ? "Within a week" 
         : "Flexible timing";
 
-      const payload: any = {
-        form_type: "booking",
-        name,
-        email,
-        phone,
-        zip: zipCode,
-        service_category: serviceLabel,
-        message: finalProjectDetails,
+      // Step 1: Save to leads table (primary data storage)
+      const { error: dbError } = await supabase.from("leads").insert({
+        service_type: serviceLabel,
+        zip_code: zipCode,
         urgency: urgencyText,
+        customer_name: name,
+        customer_phone: phone,
+        customer_email: email,
+        project_details: finalProjectDetails,
+        status: 'new'
+      });
+
+      if (dbError) {
+        console.error("Database insert error:", dbError);
+        throw dbError;
+      }
+
+      // Step 2: Send email notification via edge function
+      const emailPayload = {
+        formType: "booking",
+        customerEmail: email,
+        customerName: name,
+        formData: {
+          service: serviceLabel,
+          phone: phone,
+          details: finalProjectDetails,
+          urgency: urgencyText,
+          zipCode: zipCode,
+        }
       };
 
-      const { error, data } = await supabase.from("form_submissions").insert(payload).select();
+      const { error: emailError } = await supabase.functions.invoke('send-form-email', {
+        body: emailPayload
+      });
 
-      if (error) {
-        console.error("Form submission error:", error);
-        throw error;
+      // Log email errors but don't fail the submission (data is already saved)
+      if (emailError) {
+        console.warn("Email notification failed:", emailError);
       }
       
       // Navigate to success page with query params
