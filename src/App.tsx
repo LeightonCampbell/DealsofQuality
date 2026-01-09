@@ -145,6 +145,7 @@ const App = () => (
           
           {/* Success Page */}
           <Route path="/success" element={<SuccessPage />} />
+          <Route path="/booking-confirmed" element={<SuccessPage />} />
           
           {/* Admin Routes */}
           <Route path="/admin" element={<AdminLogin />} />

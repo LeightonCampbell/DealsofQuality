@@ -68,6 +68,7 @@ const BookingModal = ({ isOpen, onClose, initialService = "", initialZip = "", c
   const [email, setEmail] = useState("");
   const [phone, setPhone] = useState("");
   const [otherServiceDescription, setOtherServiceDescription] = useState("");
+  const [submitError, setSubmitError] = useState("");
 
   const simulateSearch = () => {
     setIsSearching(true);
@@ -201,6 +202,7 @@ const BookingModal = ({ isOpen, onClose, initialService = "", initialZip = "", c
     }
 
     setIsSubmitting(true);
+    setSubmitError("");
 
     try {
       // Determine service label - if it's "other", use the custom text, otherwise use the service label
@@ -223,6 +225,7 @@ const BookingModal = ({ isOpen, onClose, initialService = "", initialZip = "", c
         ? "Within a week" 
         : "Flexible timing";
 
+      // Step 1: Save to database
       const payload: any = {
         form_type: "booking",
         name,
@@ -234,34 +237,47 @@ const BookingModal = ({ isOpen, onClose, initialService = "", initialZip = "", c
         urgency: urgencyText,
       };
 
-      const { error, data } = await supabase.from("form_submissions").insert(payload).select();
+      const { error: dbError } = await supabase.from("form_submissions").insert(payload).select();
 
-      if (error) {
-        console.error("Form submission error:", error);
-        throw error;
+      if (dbError) {
+        console.error("Database error:", dbError);
+        throw new Error("Failed to save submission. Please try again.");
       }
       
-      // Navigate to success page with query params
-      // Don't include "Other" in the service name - use the custom text or "Service"
-      const displayServiceName = isOtherService 
-        ? (otherServiceDescription || customServiceText || "Service")
-        : serviceLabel;
+      // Step 2: Send lead email notification
+      const { data: emailData, error: emailError } = await supabase.functions.invoke("send-lead", {
+        body: {
+          serviceType: serviceLabel,
+          zipCode: zipCode,
+          customer: {
+            name: name,
+            email: email,
+            phone: phone,
+          },
+          urgency: urgencyText,
+          projectDetails: finalProjectDetails || "",
+        },
+      });
+
+      if (emailError) {
+        console.error("Email error:", emailError);
+        throw new Error("Connection error. Please call (818) 584-7389.");
+      }
       
+      // Step 3: Navigate to booking confirmed page
       onClose();
-      navigate(`/success?service=${encodeURIComponent(displayServiceName)}&zip=${encodeURIComponent(zipCode)}`);
+      window.location.href = "/booking-confirmed";
     } catch (error: any) {
       console.error("Submit error details:", error);
       const errorMessage = error?.message || "Unknown error occurred";
-      const errorDetails = import.meta.env.DEV 
-        ? `Error: ${errorMessage}` 
-        : "Please try again or call us directly.";
       
-      toast({
-        title: "Something went wrong",
-        description: errorDetails,
-        variant: "destructive",
-      });
-    } finally {
+      // Show inline error message
+      if (errorMessage.includes("Connection") || errorMessage.includes("fetch") || errorMessage.includes("network")) {
+        setSubmitError("Connection error. Please call (818) 584-7389.");
+      } else {
+        setSubmitError("Something went wrong. Please try again or call (818) 584-7389.");
+      }
+      
       setIsSubmitting(false);
     }
   };
@@ -522,6 +538,7 @@ const BookingModal = ({ isOpen, onClose, initialService = "", initialZip = "", c
                   placeholder="Your name"
                   value={name}
                   onChange={(e) => setName(e.target.value)}
+                  disabled={isSubmitting}
                   className="h-12"
                 />
                 <Input
@@ -529,6 +546,7 @@ const BookingModal = ({ isOpen, onClose, initialService = "", initialZip = "", c
                   placeholder="Email address"
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
+                  disabled={isSubmitting}
                   className="h-12"
                 />
                 <Input
@@ -536,12 +554,25 @@ const BookingModal = ({ isOpen, onClose, initialService = "", initialZip = "", c
                   placeholder="Phone number"
                   value={phone}
                   onChange={(e) => setPhone(e.target.value)}
+                  disabled={isSubmitting}
                   className="h-12"
                 />
+                
+                {/* Inline error message */}
+                {submitError && (
+                  <div className="p-3 rounded-lg bg-red-50 border border-red-200">
+                    <p className="text-sm text-red-600">{submitError}</p>
+                  </div>
+                )}
               </div>
 
               <div className="flex gap-3">
-                <Button variant="outline" onClick={() => setStep(3)} className="flex-1 h-12">
+                <Button 
+                  variant="outline" 
+                  onClick={() => setStep(3)} 
+                  disabled={isSubmitting}
+                  className="flex-1 h-12"
+                >
                   <ArrowLeft className="w-4 h-4 mr-2" />
                   Back
                 </Button>
@@ -557,7 +588,7 @@ const BookingModal = ({ isOpen, onClose, initialService = "", initialZip = "", c
                   {isSubmitting ? (
                     <>
                       <Loader2 className="w-4 h-4 mr-2 animate-spin" />
-                      Submitting...
+                      Sending...
                     </>
                   ) : (
                     mode === 'quote' ? "Get My Free Quote" : "Request Appointment"
