@@ -2,7 +2,7 @@ import { serve } from "https://deno.land/std@0.190.0/http/server.ts";
 import { z } from "https://deno.land/x/zod@v3.22.4/mod.ts";
 
 const RESEND_API_KEY = Deno.env.get("RESEND_API_KEY");
-const ADMIN_EMAIL = Deno.env.get("ADMIN_EMAIL") || "feedback@dealsofquality.com";
+const ADMIN_EMAIL = Deno.env.get("ADMIN_EMAIL") || "eli.campbell@me.com";
 
 const corsHeaders = {
   "Access-Control-Allow-Origin": "*",
@@ -263,7 +263,7 @@ const sendEmail = async (to: string, subject: string, html: string) => {
       Authorization: `Bearer ${RESEND_API_KEY}`,
     },
     body: JSON.stringify({
-      from: "Deals of Quality Concierge <concierge@dealsofquality.com>",
+      from: "Deals of Quality Help <help@dealsofquality.com>",
       to: [to],
       subject,
       html,

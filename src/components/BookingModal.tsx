@@ -255,47 +255,40 @@ const BookingModal = ({ isOpen, onClose, initialService = "", initialZip = "", c
 
       console.log("Database save successful, attempting to send email...");
       
-      // Step 2: Send lead email notification (don't block success if this fails)
-      try {
-        const { data: emailData, error: emailError } = await supabase.functions.invoke("send-form-email", {
-          body: {
-            formType: "quote",
-            customerEmail: email,
-            customerName: name,
-            formData: {
-              phone: phone,
-              serviceCategory: serviceLabel,
-              zip: zipCode,
-              zipCode: zipCode,
-              urgency: urgencyText,
-              message: finalProjectDetails || "",
+      // Step 2: Send email notification (non-blocking - form succeeds even if this fails)
+      setTimeout(async () => {
+        try {
+          console.log("Attempting to send email notification...");
+
+          const { data: emailData, error: emailError } = await supabase.functions.invoke("send-lead", {
+            body: {
+              // MATCH THE BACKEND ZOD SCHEMA EXACTLY:
+              serviceType: serviceLabel,      // Was formData.serviceCategory
+              zipCode: zipCode,               // Was formData.zip
+              urgency: urgencyText,           // Was formData.urgency
+              projectDetails: finalProjectDetails || "", // Was formData.message
+              customer: {                     // Was top-level fields
+                name: name,
+                email: email,
+                phone: phone
+              }
             },
-          },
-        });
+          });
 
-        if (emailError) {
-          console.error("Email error:", emailError);
-          console.error("Email error details:", JSON.stringify(emailError, null, 2));
+          if (emailError) {
+            console.error("❌ Email error:", emailError);
+            console.error("Email error details:", JSON.stringify(emailError, null, 2));
+            throw emailError;
+          }
           
-          // Log but don't throw - database save succeeded
-          console.warn("Email notification failed but submission was saved:", emailError.message);
+          console.log("✅ Email notification sent successfully");
+        } catch (emailException: any) {
+          console.error("❌ Email error:", emailException);
+          // Silent fail as DB save succeeded
         }
-
-        // Check if response data contains an error
-        if (emailData && typeof emailData === 'object' && 'error' in emailData) {
-          console.error("Email function returned error in data:", emailData);
-          console.warn("Email notification failed but submission was saved");
-        } else {
-          console.log("Email notification sent successfully");
-        }
-      } catch (emailException: any) {
-        // Email sending failed but database save succeeded - log and continue
-        console.error("Email sending exception (submission still saved):", emailException);
-        console.warn("Email notification failed but submission was saved. Error:", emailException.message);
-        // Don't throw - proceed to success page
-      }
+      }, 100);
       
-      // Step 3: Navigate to booking confirmed page (always if DB save succeeded)
+      // Step 3: Navigate to booking confirmed page IMMEDIATELY (don't wait for email)
       console.log("Submission successful, redirecting to confirmation page...");
       onClose();
       window.location.href = "/booking-confirmed";

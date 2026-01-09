@@ -52,7 +52,7 @@ const sendEmail = async (to: string, subject: string, html: string) => {
       Authorization: `Bearer ${RESEND_API_KEY}`,
     },
     body: JSON.stringify({
-      from: "Deals of Quality Concierge <concierge@dealsofquality.com>",
+      from: "Deals of Quality Help <help@dealsofquality.com>",
       to: [to],
       subject,
       html,
@@ -129,7 +129,7 @@ const handler = async (req: Request): Promise<Response> => {
       customerName: safeName,
     });
 
-    const adminEmail = "feedback@dealsofquality.com";
+    const adminEmail = Deno.env.get("ADMIN_EMAIL") || "eli.campbell@me.com";
     let customerSubject = "";
     let adminSubject = "";
     let customerHtml = "";
@@ -517,7 +517,7 @@ const handler = async (req: Request): Promise<Response> => {
       console.log("Customer email sent successfully");
     }
 
-    // Send email to admin (always send admin notification to feedback@dealsofquality.com)
+    // Send email to admin (always send admin notification to admin email)
     const adminEmailResponse = await sendEmail(
       adminEmail,
       adminSubject,
