@@ -255,19 +255,16 @@ const ScheduleServiceDialog = ({
 
   const handleSubmit = async () => {
     try {
-      // Save to database
-      await supabase.from("form_submissions").insert({
-        form_type: "booking",
-        name: formData.name,
-        email: formData.email,
-        phone: formData.phone,
-        service_category: formData.category,
-        specific_service: formData.service,
+      // Save to leads table (matches AdminDashboard query)
+      const serviceLabel = formData.service || formData.category || "Service Request";
+      await supabase.from("leads").insert({
+        service_type: serviceLabel,
         zip_code: formData.zipCode,
-        preferred_date: formData.preferredDate,
-        preferred_time: formData.preferredTime,
-        address: formData.address,
-        message: formData.details,
+        customer_name: formData.name,
+        customer_email: formData.email,
+        customer_phone: formData.phone,
+        project_details: formData.details || null,
+        status: "new",
       });
 
       // Send email notifications

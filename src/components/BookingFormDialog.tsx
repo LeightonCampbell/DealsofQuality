@@ -89,17 +89,15 @@ const BookingFormDialog = ({
 
   const handleSubmit = async () => {
     try {
-      // Save to database
-      await supabase.from("form_submissions").insert({
-        form_type: "booking",
-        name: formData.name,
-        email: formData.email,
-        phone: formData.phone,
-        specific_service: formData.service,
-        preferred_date: formData.preferredDate,
-        preferred_time: formData.preferredTime,
-        address: formData.address,
-        message: formData.details,
+      // Save to leads table (matches AdminDashboard query)
+      await supabase.from("leads").insert({
+        service_type: formData.service || serviceName || "Service Request",
+        zip_code: null, // Not collected in this form
+        customer_name: formData.name,
+        customer_email: formData.email,
+        customer_phone: formData.phone,
+        project_details: formData.details || null,
+        status: "new",
       });
 
       // Send email notifications
