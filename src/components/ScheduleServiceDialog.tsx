@@ -288,8 +288,10 @@ const ScheduleServiceDialog = ({
         },
       });
 
-      if (error && import.meta.env.DEV) {
+      if (error) {
         console.error("Email error:", error);
+        // Log error but don't block success - database save succeeded
+        console.warn("Email notification failed but submission was saved");
       }
     } catch (err) {
       if (import.meta.env.DEV) console.error("Submit error:", err);

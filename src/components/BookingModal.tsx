@@ -257,17 +257,19 @@ const BookingModal = ({ isOpen, onClose, initialService = "", initialZip = "", c
       
       // Step 2: Send lead email notification (don't block success if this fails)
       try {
-        const { data: emailData, error: emailError } = await supabase.functions.invoke("send-lead", {
+        const { data: emailData, error: emailError } = await supabase.functions.invoke("send-form-email", {
           body: {
-            serviceType: serviceLabel,
-            zipCode: zipCode,
-            customer: {
-              name: name,
-              email: email,
+            formType: "quote",
+            customerEmail: email,
+            customerName: name,
+            formData: {
               phone: phone,
+              serviceCategory: serviceLabel,
+              zip: zipCode,
+              zipCode: zipCode,
+              urgency: urgencyText,
+              message: finalProjectDetails || "",
             },
-            urgency: urgencyText,
-            projectDetails: finalProjectDetails || "",
           },
         });
 

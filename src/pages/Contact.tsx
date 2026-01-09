@@ -72,8 +72,10 @@ const Contact = () => {
         },
       });
 
-      if (emailError && import.meta.env.DEV) {
+      if (emailError) {
         console.error("Email error:", emailError);
+        // Log error but don't block success - database save succeeded
+        console.warn("Email notification failed but submission was saved");
       }
 
       reset();
