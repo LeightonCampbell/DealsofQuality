@@ -263,7 +263,7 @@ const sendEmail = async (to: string, subject: string, html: string) => {
       Authorization: `Bearer ${RESEND_API_KEY}`,
     },
     body: JSON.stringify({
-      from: "Deals of Quality Concierge <noreply@dealsofquality.com>",
+      from: "Deals of Quality Concierge <concierge@dealsofquality.com>",
       to: [to],
       subject,
       html,
