@@ -1,4 +1,4 @@
-import { Helmet } from "react-helmet";
+import SEO from "@/components/SEO";
 import { useSearchParams, Link } from "react-router-dom";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
@@ -79,13 +79,11 @@ const QuoteSuccess = () => {
 
   return (
     <>
-      <Helmet>
-        <title>Request Received | Deals Of Quality</title>
-        <meta
-          name="description"
-          content="Your quote request has been received. We're calculating your personalized estimate."
-        />
-      </Helmet>
+      <SEO 
+        title="Request Received | Deals Of Quality"
+        description="Your quote request has been received. We're calculating your personalized estimate."
+        noIndex={true}
+      />
       <main className="min-h-screen bg-background">
         <Header />
         

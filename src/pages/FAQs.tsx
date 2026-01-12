@@ -1,4 +1,4 @@
-import { Helmet } from "react-helmet";
+import SEO from "@/components/SEO";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import {
@@ -77,14 +77,11 @@ const faqs = [
 const FAQs = () => {
   return (
     <>
-      <Helmet>
-        <title>Frequently Asked Questions | Deals Of Quality</title>
-        <meta
-          name="description"
-          content="Find answers to common questions about our tech support services, pricing, scheduling, and more. Get the information you need before booking your service."
-        />
-        <meta name="keywords" content="FAQ, frequently asked questions, tech support questions, service guarantee, pricing, scheduling" />
-      </Helmet>
+      <SEO 
+        title="Frequently Asked Questions | Deals Of Quality"
+        description="Find answers to common questions about our tech support services, pricing, scheduling, and more. Get the information you need before booking your service."
+        keywords="FAQ, frequently asked questions, tech support questions, service guarantee, pricing, scheduling"
+      />
 
       <Header />
 
@@ -162,7 +159,7 @@ const FAQs = () => {
               />
               <Button variant="heroOutline" size="heroLg" asChild>
                 <a href="tel:+18185847389" className="flex items-center gap-2">
-                  <Phone className="w-4 h-4" />
+                  <Phone className="w-4 h-4" aria-hidden="true" />
                   (818) 584-7389
                 </a>
               </Button>

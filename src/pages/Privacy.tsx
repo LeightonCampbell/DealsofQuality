@@ -1,17 +1,14 @@
-import { Helmet } from "react-helmet";
+import SEO from "@/components/SEO";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 
 const Privacy = () => {
   return (
     <div className="flex flex-col min-h-screen">
-      <Helmet>
-        <title>Privacy Policy | Deals Of Quality</title>
-        <meta
-          name="description"
-          content="Privacy Policy for Deals of Quality. Learn how we collect, use, and protect your personal information."
-        />
-      </Helmet>
+      <SEO 
+        title="Privacy Policy | Deals Of Quality"
+        description="Privacy Policy for Deals of Quality. Learn how we collect, use, and protect your personal information."
+      />
 
       <Header />
 

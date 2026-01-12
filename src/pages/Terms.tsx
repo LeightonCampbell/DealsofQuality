@@ -1,17 +1,14 @@
-import { Helmet } from "react-helmet";
+import SEO from "@/components/SEO";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 
 const Terms = () => {
   return (
     <div className="flex flex-col min-h-screen">
-      <Helmet>
-        <title>Terms of Service | Deals Of Quality</title>
-        <meta
-          name="description"
-          content="Terms of Service for Deals of Quality. Read our terms and conditions for using our tech support and home services."
-        />
-      </Helmet>
+      <SEO 
+        title="Terms of Service | Deals Of Quality"
+        description="Terms of Service for Deals of Quality. Read our terms and conditions for using our tech support and home services."
+      />
 
       <Header />
 

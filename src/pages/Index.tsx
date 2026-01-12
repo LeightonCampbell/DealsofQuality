@@ -1,4 +1,4 @@
-import { Helmet } from "react-helmet";
+import SEO from "@/components/SEO";
 import Header from "@/components/Header";
 import HeroNew from "@/components/HeroNew";
 import ServiceGrid from "@/components/ServiceGrid";
@@ -14,14 +14,11 @@ import MobileBookingFooter from "@/components/MobileBookingFooter";
 const Index = () => {
   return (
     <>
-      <Helmet>
-        <title>Premium Home Services | Hire Vetted Local Professionals | Deals Of Quality</title>
-        <meta
-          name="description"
-          content="Premium home services with hand-picked pros ready today. From smart home installs to emergency repairs, get expert help with upfront pricing and our 100% Satisfaction Guarantee. Same-day service available."
-        />
-        <meta name="keywords" content="home services, local professionals, plumbing, electrical, HVAC, remodeling, handyman, house cleaning, TV mounting, smart home installation, premium home services" />
-      </Helmet>
+      <SEO 
+        title="Deals of Quality - Expert Home Services on Demand"
+        description="Premium home services with hand-picked pros ready today. From smart home installs to emergency repairs, get expert help with upfront pricing and our 100% Satisfaction Guarantee. Same-day service available."
+        keywords="home services, local professionals, plumbing, electrical, HVAC, remodeling, handyman, house cleaning, TV mounting, smart home installation, premium home services"
+      />
       <main id="main-content" className="min-h-screen">
         <Header />
         <HeroNew />
