@@ -96,11 +96,13 @@ const QuoteSuccess = () => {
               <AnimatedCheckmark />
               
               <h1 className="font-display text-4xl md:text-5xl font-bold text-foreground mb-4 animate-fade-in">
-                Request Received! We're calculating your estimate.
+                Request Received!
+                <br />
+                We're preparing your estimate.
               </h1>
               
               <p className="text-lg md:text-xl text-muted-foreground mb-12 animate-fade-in-up animation-delay-100">
-                Our concierge team is reviewing your project details. Expect a personalized quote via email/text in roughly 15 minutes.
+                Our team is reviewing your project details. You can expect a personalized quote via email/text in approximately 15 minutes.
               </p>
             </div>
           </div>
