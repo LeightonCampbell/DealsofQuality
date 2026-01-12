@@ -52,21 +52,21 @@ const services = [
     title: "Electrical Services",
     description: "Safe, licensed electrical work",
     href: "/electrical",
-    popular: false,
+    popular: true,
   },
   {
     icon: Sparkles,
     title: "Smart Home Integration",
     description: "Thermostats, locks, doorbells & more",
     href: "/smart-home-integration",
-    popular: true,
+    popular: false,
   },
   {
     icon: Wifi,
     title: "Wi-Fi & Networking",
     description: "Setup, optimization & dead zones",
     href: "/router-setup",
-    popular: false,
+    popular: true,
   },
 ];
 

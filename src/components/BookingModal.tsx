@@ -283,10 +283,14 @@ const BookingModal = ({ isOpen, onClose, initialService = "", initialZip = "", c
         // Silent fail as DB save succeeded
       }
       
-      // Step 3: Navigate to booking confirmed page after email attempt completes
+      // Step 3: Navigate to appropriate success page based on mode
       console.log("Submission successful, redirecting to confirmation page...");
       onClose();
-      navigate("/booking-confirmed");
+      if (mode === 'quote') {
+        navigate("/quote-received");
+      } else {
+        navigate("/booking-confirmed");
+      }
     } catch (error: any) {
       // Only database save errors reach here (email errors are caught separately)
       console.error("Submit error details:", error);
