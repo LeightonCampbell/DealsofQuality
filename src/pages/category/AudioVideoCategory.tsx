@@ -1,4 +1,4 @@
-import { Helmet } from "react-helmet";
+import SEO from "@/components/SEO";
 import { Link } from "react-router-dom";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
@@ -34,14 +34,11 @@ const services = [
 const AudioVideoCategory = () => {
   return (
     <>
-      <Helmet>
-        <title>Audio & Video | Home Entertainment Services | Deals Of Quality</title>
-        <meta
-          name="description"
-          content="Professional audio and video installation. Home theater, surround sound, streaming setup, and gaming console configuration. Same-day service available."
-        />
-        <meta name="keywords" content="home theater, surround sound, streaming setup, gaming console, audio installation" />
-      </Helmet>
+      <SEO 
+        title="Audio & Video | Home Entertainment Services | Deals Of Quality"
+        description="Professional audio and video installation. Home theater, surround sound, streaming setup, and gaming console configuration. Same-day service available."
+        keywords="home theater, surround sound, streaming setup, gaming console, audio installation"
+      />
 
       <Header />
 

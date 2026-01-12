@@ -1,4 +1,4 @@
-import { Helmet } from "react-helmet";
+import SEO from "@/components/SEO";
 import { Link } from "react-router-dom";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
@@ -34,14 +34,11 @@ const services = [
 const BusinessCategory = () => {
   return (
     <>
-      <Helmet>
-        <title>Business Services | IT Solutions & Support | Deals Of Quality</title>
-        <meta
-          name="description"
-          content="Professional business IT services. Website design, remote support, business IT solutions, and custom tech services. Same-day service available."
-        />
-        <meta name="keywords" content="business IT, website design, remote support, IT solutions, tech services" />
-      </Helmet>
+      <SEO 
+        title="Business Services | IT Solutions & Support | Deals Of Quality"
+        description="Professional business IT services. Website design, remote support, business IT solutions, and custom tech services. Same-day service available."
+        keywords="business IT, website design, remote support, IT solutions, tech services"
+      />
 
       <Header />
 

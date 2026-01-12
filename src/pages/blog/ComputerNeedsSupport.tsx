@@ -1,4 +1,4 @@
-import { Helmet } from "react-helmet";
+import SEO from "@/components/SEO";
 import { Link } from "react-router-dom";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
@@ -9,18 +9,12 @@ import { Card, CardContent } from "@/components/ui/card";
 const ComputerNeedsSupport = () => {
   return (
     <>
-      <Helmet>
-        <title>Signs Your Computer Needs Professional Support | Deals Of Quality</title>
-        <meta
-          name="description"
-          content="Learn the warning signs that indicate your computer needs professional repair. Slow performance, crashes, strange noises, and more. Get expert help before it's too late."
-        />
-        <meta name="keywords" content="computer repair, computer problems, slow computer, computer crashes, tech support, computer maintenance" />
-        <meta property="og:title" content="Signs Your Computer Needs Professional Support" />
-        <meta property="og:description" content="Learn the warning signs that indicate your computer needs professional repair." />
-        <meta property="og:type" content="article" />
-        <link rel="canonical" href="https://www.dealsofquality.com/blog/signs-your-computer-needs-professional-support" />
-      </Helmet>
+      <SEO 
+        title="Signs Your Computer Needs Professional Support | Deals Of Quality"
+        description="Learn the warning signs that indicate your computer needs professional repair. Slow performance, crashes, strange noises, and more. Get expert help before it's too late."
+        keywords="computer repair, computer problems, slow computer, computer crashes, tech support, computer maintenance"
+        ogType="article"
+      />
 
       <Header />
 

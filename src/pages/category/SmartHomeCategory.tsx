@@ -1,4 +1,4 @@
-import { Helmet } from "react-helmet";
+import SEO from "@/components/SEO";
 import { Link } from "react-router-dom";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
@@ -34,14 +34,11 @@ const services = [
 const SmartHomeCategory = () => {
   return (
     <>
-      <Helmet>
-        <title>Smart Home | Installation & Setup Services | Deals Of Quality</title>
-        <meta
-          name="description"
-          content="Professional smart home installation services. Smart thermostats, video doorbells, smart locks, and home automation. Same-day service available."
-        />
-        <meta name="keywords" content="smart home, smart thermostat, video doorbell, smart lock, home automation" />
-      </Helmet>
+      <SEO 
+        title="Smart Home | Installation & Setup Services | Deals Of Quality"
+        description="Professional smart home installation services. Smart thermostats, video doorbells, smart locks, and home automation. Same-day service available."
+        keywords="smart home, smart thermostat, video doorbell, smart lock, home automation"
+      />
 
       <Header />
 

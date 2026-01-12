@@ -1,4 +1,4 @@
-import { Helmet } from "react-helmet";
+import SEO from "@/components/SEO";
 import { Link } from "react-router-dom";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
@@ -34,14 +34,11 @@ const services = [
 const HomeSecurityCategory = () => {
   return (
     <>
-      <Helmet>
-        <title>Home Security | Camera & Smart Lock Installation | Deals Of Quality</title>
-        <meta
-          name="description"
-          content="Professional home security installation. Security cameras, video doorbells, smart locks, and motion sensors. Same-day service available."
-        />
-        <meta name="keywords" content="home security, security cameras, video doorbell, smart locks, motion sensors" />
-      </Helmet>
+      <SEO 
+        title="Home Security | Camera & Smart Lock Installation | Deals Of Quality"
+        description="Professional home security installation. Security cameras, video doorbells, smart locks, and motion sensors. Same-day service available."
+        keywords="home security, security cameras, video doorbell, smart locks, motion sensors"
+      />
 
       <Header />
 
