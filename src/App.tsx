@@ -33,6 +33,7 @@ const ComputerNeedsSupport = lazy(() => import("./pages/blog/ComputerNeedsSuppor
 const TVMountingDoneRight = lazy(() => import("./pages/blog/TVMountingDoneRight"));
 const TVMountingMistakes = lazy(() => import("./pages/blog/TVMountingMistakes"));
 const SuccessPage = lazy(() => import("./pages/SuccessPage"));
+const QuoteSuccess = lazy(() => import("./pages/QuoteSuccess"));
 
 // Admin Pages (lazy loaded to avoid React instance conflicts)
 const AdminLogin = lazy(() => import("./pages/admin/AdminLogin"));
@@ -143,9 +144,10 @@ const App = () => (
           <Route path="/blog/tv-mounting-done-right-why-professional-installation-matters" element={<TVMountingDoneRight />} />
           <Route path="/blog/top-5-mistakes-to-avoid-when-mounting-your-tv" element={<TVMountingMistakes />} />
           
-          {/* Success Page */}
+          {/* Success Pages */}
           <Route path="/success" element={<SuccessPage />} />
           <Route path="/booking-confirmed" element={<SuccessPage />} />
+          <Route path="/quote-received" element={<QuoteSuccess />} />
           
           {/* Admin Routes */}
           <Route path="/admin" element={<AdminLogin />} />
