@@ -17,6 +17,8 @@ const emailRequestSchema = z.object({
   customerEmail: z.string().email("Invalid email address").max(255),
   customerName: z.string().min(1, "Name is required").max(200),
   formData: formDataSchema,
+  // Honeypot field - should always be empty for legitimate submissions
+  website: z.string().max(0).optional(),
 });
 
 type EmailRequest = z.infer<typeof emailRequestSchema>;
@@ -116,8 +118,21 @@ const handler = async (req: Request): Promise<Response> => {
       );
     }
 
-    const { formType, customerEmail, customerName, formData }: EmailRequest =
+    const { formType, customerEmail, customerName, formData, website }: EmailRequest =
       validationResult.data;
+
+    // Honeypot check - if the hidden field has content, it's likely a bot
+    if (website && website.length > 0) {
+      // Silently accept but don't process - bots won't know they failed
+      console.log("Honeypot triggered, rejecting spam submission");
+      return new Response(
+        JSON.stringify({ success: true }),
+        {
+          status: 200,
+          headers: { "Content-Type": "application/json", ...corsHeaders },
+        }
+      );
+    }
 
     // Sanitize all values for safe HTML inclusion
     const safeName = sanitizeValue(customerName);
