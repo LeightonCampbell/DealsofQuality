@@ -1,4 +1,4 @@
-import { Helmet } from "react-helmet";
+import SEO from "@/components/SEO";
 import { motion } from "framer-motion";
 import { Link } from "react-router-dom";
 import Header from "@/components/Header";
@@ -10,13 +10,11 @@ const Services = () => {
 
   return (
     <>
-      <Helmet>
-        <title>Your Next Project, Handled | Premium Home Services | Deals Of Quality</title>
-        <meta
-          name="description"
-          content="Browse our comprehensive range of premium home services. From plumbing and electrical to smart home installation. Book in 60 seconds with vetted professionals."
-        />
-      </Helmet>
+      <SEO 
+        title="All Services | Premium Home Services | Deals Of Quality"
+        description="Browse our comprehensive range of premium home services. From plumbing and electrical to smart home installation. Book in 60 seconds with vetted professionals."
+        keywords="home services, plumbing, electrical, HVAC, TV mounting, smart home, handyman, cleaning services"
+      />
 
       <Header />
 
@@ -73,7 +71,7 @@ const Services = () => {
                             to={service.href}
                             className="group flex items-center gap-3 text-sm text-muted-foreground hover:text-accent transition-colors"
                           >
-                            <Icon className="w-4 h-4 flex-shrink-0" />
+                            <Icon className="w-4 h-4 flex-shrink-0" aria-hidden="true" />
                             <div className="flex flex-col items-start">
                               <span className="flex items-center gap-2 font-medium text-foreground group-hover:text-accent">
                                 {service.label}
@@ -129,7 +127,7 @@ const Services = () => {
                             to={service.href}
                             className="group flex items-center gap-3 text-sm text-muted-foreground hover:text-accent transition-colors"
                           >
-                            <Icon className="w-4 h-4 flex-shrink-0" />
+                            <Icon className="w-4 h-4 flex-shrink-0" aria-hidden="true" />
                             <div className="flex flex-col items-start">
                               <span className="flex items-center gap-2 font-medium text-foreground group-hover:text-accent">
                                 {service.label}
@@ -166,7 +164,7 @@ const Services = () => {
       {/* Satisfaction Guarantee Sticky Bar */}
       <div className="fixed bottom-0 left-0 right-0 z-50 bg-accent text-accent-foreground py-3 px-4 shadow-lg">
         <div className="container-max flex items-center justify-center gap-2">
-          <ShieldCheck className="w-5 h-5" />
+          <ShieldCheck className="w-5 h-5" aria-hidden="true" />
           <span className="text-sm font-medium">
             Satisfaction Guarantee: If you're not 100% happy, we'll make it right or refund your money.
           </span>

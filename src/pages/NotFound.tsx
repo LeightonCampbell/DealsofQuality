@@ -1,6 +1,6 @@
 import { useLocation, Link } from "react-router-dom";
 import { useEffect } from "react";
-import { Helmet } from "react-helmet";
+import SEO from "@/components/SEO";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import { Button } from "@/components/ui/button";
@@ -26,13 +26,11 @@ const NotFound = () => {
 
   return (
     <>
-      <Helmet>
-        <title>Page Not Found | Deals Of Quality</title>
-        <meta
-          name="description"
-          content="The page you're looking for doesn't exist. Return to our homepage or browse our services."
-        />
-      </Helmet>
+      <SEO 
+        title="Page Not Found | Deals Of Quality"
+        description="The page you're looking for doesn't exist. Return to our homepage or browse our services."
+        noIndex={true}
+      />
       <main className="min-h-screen bg-background">
         <Header />
         

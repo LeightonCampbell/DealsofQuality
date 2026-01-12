@@ -1,4 +1,4 @@
-import { Helmet } from "react-helmet";
+import SEO from "@/components/SEO";
 import { Link } from "react-router-dom";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
@@ -46,14 +46,11 @@ const services = [
 const TVMountingCategory = () => {
   return (
     <>
-      <Helmet>
-        <title>TV Mounting | Professional Installation Services | Deals Of Quality</title>
-        <meta
-          name="description"
-          content="Expert TV mounting services for all TV sizes. Wall mounting, cable concealment, soundbar installation. Same-day service available. Call (818) 584-7389"
-        />
-        <meta name="keywords" content="TV mounting, TV wall mount, TV installation, cable concealment, soundbar installation" />
-      </Helmet>
+      <SEO 
+        title="TV Mounting | Professional Installation Services | Deals Of Quality"
+        description="Expert TV mounting services for all TV sizes. Wall mounting, cable concealment, soundbar installation. Same-day service available. Call (818) 584-7389"
+        keywords="TV mounting, TV wall mount, TV installation, cable concealment, soundbar installation"
+      />
 
       <Header />
 

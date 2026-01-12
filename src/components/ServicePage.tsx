@@ -1,4 +1,4 @@
-import { Helmet } from "react-helmet";
+import { Helmet } from "react-helmet-async";
 import { useLocation } from "react-router-dom";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
@@ -63,6 +63,10 @@ const ServicePage = ({
         <meta property="og:type" content="website" />
         <meta property="og:url" content={canonicalUrl} />
         <meta property="og:image" content="https://www.dealsofquality.com/og-image.png" />
+        <meta name="twitter:card" content="summary_large_image" />
+        <meta name="twitter:title" content={metaTitle} />
+        <meta name="twitter:description" content={metaDescription} />
+        <meta name="twitter:image" content="https://www.dealsofquality.com/og-image.png" />
         <script type="application/ld+json">
           {JSON.stringify({
             "@context": "https://schema.org",
@@ -100,7 +104,7 @@ const ServicePage = ({
                 <div className="bg-gradient-to-br from-accent/20 via-accent/10 to-secondary/30 rounded-2xl p-16 flex items-center justify-center min-h-[350px] shadow-lg">
                   <div className="relative">
                     <div className="absolute inset-0 bg-accent/10 rounded-full blur-3xl" />
-                    <Icon className="w-40 h-40 text-accent relative z-10 drop-shadow-lg" />
+                    <Icon className="w-40 h-40 text-accent relative z-10 drop-shadow-lg" aria-hidden="true" />
                   </div>
                 </div>
               </div>
@@ -114,14 +118,14 @@ const ServicePage = ({
                 {/* Pricing Card */}
                 <div className="bg-card border border-border rounded-xl p-6 mb-6">
                   <div className="flex items-center gap-2 text-accent mb-4">
-                    <CheckCircle className="w-5 h-5" />
+                    <CheckCircle className="w-5 h-5" aria-hidden="true" />
                     <span className="font-medium">We Serve Your Area!</span>
                   </div>
 
                   {/* Standard Price */}
                   <div className="bg-secondary/50 rounded-lg p-4 mb-4 border-2 border-accent">
                     <div className="flex items-center gap-3">
-                      <div className="w-4 h-4 rounded-full bg-accent" />
+                      <div className="w-4 h-4 rounded-full bg-accent" aria-hidden="true" />
                       <div>
                         <p className="font-semibold text-foreground">Standard Price</p>
                         <p className="text-lg font-bold text-foreground">{price} <span className="text-sm font-normal text-muted-foreground">{priceNote}</span></p>
@@ -144,7 +148,7 @@ const ServicePage = ({
                 <div className="space-y-3">
                   {includedServices.map((service, index) => (
                     <div key={index} className="flex items-start gap-3">
-                      <CheckCircle className="w-5 h-5 text-muted-foreground mt-0.5 flex-shrink-0" />
+                      <CheckCircle className="w-5 h-5 text-muted-foreground mt-0.5 flex-shrink-0" aria-hidden="true" />
                       <span className="text-muted-foreground">{service}</span>
                     </div>
                   ))}
@@ -159,15 +163,15 @@ const ServicePage = ({
           <div className="container-max px-4 md:px-8 lg:px-16">
             <div className="flex flex-wrap items-center justify-center gap-8 md:gap-16">
               <div className="flex items-center gap-2 text-primary-foreground">
-                <Users className="w-5 h-5" />
+                <Users className="w-5 h-5" aria-hidden="true" />
                 <span className="text-sm font-medium">Vetted Professionals Nationwide</span>
               </div>
               <div className="flex items-center gap-2 text-primary-foreground">
-                <Clock className="w-5 h-5" />
+                <Clock className="w-5 h-5" aria-hidden="true" />
                 <span className="text-sm font-medium">Service as Soon as Today</span>
               </div>
               <div className="flex items-center gap-2 text-primary-foreground">
-                <BadgeCheck className="w-5 h-5" />
+                <BadgeCheck className="w-5 h-5" aria-hidden="true" />
                 <span className="text-sm font-medium">Don't Pay Until It's Done</span>
               </div>
             </div>
@@ -228,7 +232,7 @@ const ServicePage = ({
                 />
                 <Button variant="heroOutline" size="heroLg" asChild>
                   <a href="tel:+18185847389" className="flex items-center gap-2">
-                    <Phone className="w-4 h-4" />
+                    <Phone className="w-4 h-4" aria-hidden="true" />
                     (818) 584-7389
                   </a>
                 </Button>

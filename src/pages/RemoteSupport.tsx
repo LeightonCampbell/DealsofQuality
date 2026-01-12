@@ -1,4 +1,4 @@
-import { Helmet } from "react-helmet";
+import SEO from "@/components/SEO";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import { Button } from "@/components/ui/button";
@@ -55,13 +55,10 @@ const RemoteSupportPage = () => {
 
   return (
     <>
-      <Helmet>
-        <title>Remote Support | Get Instant Tech Help | Deals Of Quality</title>
-        <meta
-          name="description"
-          content="Get instant remote tech support from Deals Of Quality. Download our secure remote support app and let our pros help you resolve computer issues fast."
-        />
-      </Helmet>
+      <SEO 
+        title="Remote Support | Get Instant Tech Help | Deals Of Quality"
+        description="Get instant remote tech support from Deals Of Quality. Download our secure remote support app and let our pros help you resolve computer issues fast."
+      />
 
       <Header />
 

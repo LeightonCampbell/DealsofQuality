@@ -1,4 +1,4 @@
-import { Helmet } from "react-helmet";
+import SEO from "@/components/SEO";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import { Button } from "@/components/ui/button";
@@ -90,13 +90,11 @@ const Contact = () => {
 
   return (
     <>
-      <Helmet>
-        <title>Contact Us | Deals Of Quality</title>
-        <meta
-          name="description"
-          content="Get in touch with Deals of Quality for expert tech support and home services. Call us or send a message through our contact form."
-        />
-      </Helmet>
+      <SEO 
+        title="Contact Us | Deals Of Quality"
+        description="Get in touch with Deals of Quality for expert tech support and home services. Call us or send a message through our contact form."
+        keywords="contact, customer support, phone, email, get in touch"
+      />
 
       <Header />
 
@@ -182,7 +180,7 @@ const Contact = () => {
                         "Sending..."
                       ) : (
                         <>
-                          <Send className="w-4 h-4 mr-2" />
+                          <Send className="w-4 h-4 mr-2" aria-hidden="true" />
                           Send Message
                         </>
                       )}
@@ -208,7 +206,7 @@ const Contact = () => {
                     className="flex items-start gap-4 p-6 bg-card border border-border rounded-xl hover:border-primary/50 transition-colors"
                   >
                     <div className="w-12 h-12 rounded-full bg-primary/10 flex items-center justify-center flex-shrink-0">
-                      <Phone className="w-6 h-6 text-primary" />
+                      <Phone className="w-6 h-6 text-primary" aria-hidden="true" />
                     </div>
                     <div>
                       <h3 className="font-display font-semibold text-foreground mb-1">Call Us</h3>
@@ -219,7 +217,7 @@ const Contact = () => {
 
                   <div className="flex items-start gap-4 p-6 bg-card border border-border rounded-xl">
                     <div className="w-12 h-12 rounded-full bg-primary/10 flex items-center justify-center flex-shrink-0">
-                      <MapPin className="w-6 h-6 text-primary" />
+                      <MapPin className="w-6 h-6 text-primary" aria-hidden="true" />
                     </div>
                     <div>
                       <h3 className="font-display font-semibold text-foreground mb-1">Service Area</h3>
@@ -229,7 +227,7 @@ const Contact = () => {
 
                   <div className="flex items-start gap-4 p-6 bg-card border border-border rounded-xl">
                     <div className="w-12 h-12 rounded-full bg-primary/10 flex items-center justify-center flex-shrink-0">
-                      <Clock className="w-6 h-6 text-primary" />
+                      <Clock className="w-6 h-6 text-primary" aria-hidden="true" />
                     </div>
                     <div>
                       <h3 className="font-display font-semibold text-foreground mb-1">Business Hours</h3>
@@ -252,7 +250,7 @@ const Contact = () => {
         <DialogContent className="sm:max-w-md text-center">
           <DialogHeader>
             <div className="mx-auto w-16 h-16 rounded-full bg-success/10 flex items-center justify-center mb-4">
-              <CheckCircle className="w-8 h-8 text-success" />
+              <CheckCircle className="w-8 h-8 text-success" aria-hidden="true" />
             </div>
             <DialogTitle className="text-2xl font-display">Thank You!</DialogTitle>
             <DialogDescription className="text-base">

@@ -1,21 +1,17 @@
-import { Helmet } from "react-helmet";
+import SEO from "@/components/SEO";
 import { Link } from "react-router-dom";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import { Calendar, Clock, ArrowRight } from "lucide-react";
-import { Button } from "@/components/ui/button";
 
 const Blog = () => {
   return (
     <>
-      <Helmet>
-        <title>Blog | Tips & Insights | Deals Of Quality</title>
-        <meta
-          name="description"
-          content="Expert insights on business growth, technology, and local business success. Learn how to grow your business with modern solutions."
-        />
-        <meta name="keywords" content="business blog, local business tips, website design, business growth, technology insights" />
-      </Helmet>
+      <SEO 
+        title="Blog | Tips & Insights | Deals Of Quality"
+        description="Expert insights on business growth, technology, and local business success. Learn how to grow your business with modern solutions."
+        keywords="business blog, local business tips, website design, business growth, technology insights"
+      />
 
       <Header />
 
@@ -47,11 +43,11 @@ const Blog = () => {
                 <div className="p-6 flex-1 flex flex-col">
                   <div className="flex items-center gap-4 text-sm text-muted-foreground mb-3">
                     <div className="flex items-center gap-2">
-                      <Calendar className="w-4 h-4" />
+                      <Calendar className="w-4 h-4" aria-hidden="true" />
                       <span>Jan 2026</span>
                     </div>
                     <div className="flex items-center gap-2">
-                      <Clock className="w-4 h-4" />
+                      <Clock className="w-4 h-4" aria-hidden="true" />
                       <span>10 min</span>
                     </div>
                   </div>
@@ -63,7 +59,7 @@ const Blog = () => {
                   </p>
                   <div className="flex items-center gap-2 text-accent font-semibold text-sm mt-auto">
                     Read Article
-                    <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
+                    <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" aria-hidden="true" />
                   </div>
                 </div>
               </article>
@@ -77,11 +73,11 @@ const Blog = () => {
                 <div className="p-6 flex-1 flex flex-col">
                   <div className="flex items-center gap-4 text-sm text-muted-foreground mb-3">
                     <div className="flex items-center gap-2">
-                      <Calendar className="w-4 h-4" />
+                      <Calendar className="w-4 h-4" aria-hidden="true" />
                       <span>Jan 2026</span>
                     </div>
                     <div className="flex items-center gap-2">
-                      <Clock className="w-4 h-4" />
+                      <Clock className="w-4 h-4" aria-hidden="true" />
                       <span>8 min</span>
                     </div>
                   </div>
@@ -93,7 +89,7 @@ const Blog = () => {
                   </p>
                   <div className="flex items-center gap-2 text-accent font-semibold text-sm mt-auto">
                     Read Article
-                    <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
+                    <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" aria-hidden="true" />
                   </div>
                 </div>
               </article>
@@ -107,11 +103,11 @@ const Blog = () => {
                 <div className="p-6 flex-1 flex flex-col">
                   <div className="flex items-center gap-4 text-sm text-muted-foreground mb-3">
                     <div className="flex items-center gap-2">
-                      <Calendar className="w-4 h-4" />
+                      <Calendar className="w-4 h-4" aria-hidden="true" />
                       <span>Jan 2026</span>
                     </div>
                     <div className="flex items-center gap-2">
-                      <Clock className="w-4 h-4" />
+                      <Clock className="w-4 h-4" aria-hidden="true" />
                       <span>7 min</span>
                     </div>
                   </div>
@@ -123,7 +119,7 @@ const Blog = () => {
                   </p>
                   <div className="flex items-center gap-2 text-accent font-semibold text-sm mt-auto">
                     Read Article
-                    <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
+                    <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" aria-hidden="true" />
                   </div>
                 </div>
               </article>
@@ -137,11 +133,11 @@ const Blog = () => {
                 <div className="p-6 flex-1 flex flex-col">
                   <div className="flex items-center gap-4 text-sm text-muted-foreground mb-3">
                     <div className="flex items-center gap-2">
-                      <Calendar className="w-4 h-4" />
+                      <Calendar className="w-4 h-4" aria-hidden="true" />
                       <span>Jan 2026</span>
                     </div>
                     <div className="flex items-center gap-2">
-                      <Clock className="w-4 h-4" />
+                      <Clock className="w-4 h-4" aria-hidden="true" />
                       <span>6 min</span>
                     </div>
                   </div>
@@ -153,7 +149,7 @@ const Blog = () => {
                   </p>
                   <div className="flex items-center gap-2 text-accent font-semibold text-sm mt-auto">
                     Read Article
-                    <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
+                    <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" aria-hidden="true" />
                   </div>
                 </div>
               </article>

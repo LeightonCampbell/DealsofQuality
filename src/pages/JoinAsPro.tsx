@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Helmet } from "react-helmet";
+import SEO from "@/components/SEO";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import { Button } from "@/components/ui/button";
@@ -209,7 +209,7 @@ const ApplicationForm = () => {
           "Submitting..."
         ) : (
           <>
-            <Send className="w-5 h-5 mr-2" />
+            <Send className="w-5 h-5 mr-2" aria-hidden="true" />
             Submit Application
           </>
         )}
@@ -224,7 +224,7 @@ const ApplicationForm = () => {
         <DialogContent className="sm:max-w-md text-center">
           <DialogHeader>
             <div className="mx-auto w-16 h-16 rounded-full bg-success/10 flex items-center justify-center mb-4">
-              <Check className="w-8 h-8 text-success" />
+              <Check className="w-8 h-8 text-success" aria-hidden="true" />
             </div>
             <DialogTitle className="text-2xl font-display">Thank You!</DialogTitle>
             <DialogDescription className="text-base">
@@ -243,14 +243,11 @@ const ApplicationForm = () => {
 const JoinAsPro = () => {
   return (
     <div className="min-h-screen bg-background">
-      <Helmet>
-        <title>Join as a Pro | Prequalified Leads for Service Contractors | Deals Of Quality</title>
-        <meta 
-          name="description" 
-          content="Join our network of Professional Service Contractors. Get prequalified leads, grow your business, and escape unreliable lead generation platforms. Quality customers, not spam leads." 
-        />
-        <meta name="keywords" content="service contractor jobs, prequalified leads, home service professionals, contractor network, Angi alternative, Thumbtack alternative, quality leads" />
-      </Helmet>
+      <SEO 
+        title="Join Our Pro Network | Deals Of Quality"
+        description="Join our network of Professional Service Contractors. Get prequalified leads, grow your business, and escape unreliable lead generation platforms. Quality customers, not spam leads."
+        keywords="service contractor jobs, prequalified leads, home service professionals, contractor network, Angi alternative, Thumbtack alternative, quality leads"
+      />
       
       <Header />
       
@@ -282,7 +279,7 @@ const JoinAsPro = () => {
             <div className="relative">
               <div className="aspect-[4/3] rounded-2xl overflow-hidden shadow-2xl bg-gradient-to-br from-primary/20 to-primary/5 flex items-center justify-center">
                 <div className="text-center p-8">
-                  <Users className="w-24 h-24 text-primary mx-auto mb-4" />
+                  <Users className="w-24 h-24 text-primary mx-auto mb-4" aria-hidden="true" />
                   <p className="text-2xl font-semibold text-foreground">1000+ Contractors</p>
                   <p className="text-muted-foreground">Growing their businesses</p>
                 </div>
@@ -326,7 +323,7 @@ const JoinAsPro = () => {
             <div className="order-2 lg:order-1">
               <div className="aspect-square rounded-2xl bg-gradient-to-br from-primary/10 to-primary/5 flex items-center justify-center">
                 <div className="p-8 text-center">
-                  <Users className="w-20 h-20 text-primary mx-auto mb-4" />
+                  <Users className="w-20 h-20 text-primary mx-auto mb-4" aria-hidden="true" />
                   <p className="text-xl font-semibold text-foreground">Quality Over Quantity</p>
                   <p className="text-muted-foreground">Prequalified leads that convert</p>
                 </div>
@@ -343,7 +340,7 @@ const JoinAsPro = () => {
               <div className="space-y-4">
                 <div className="flex items-start gap-3">
                   <div className="w-6 h-6 rounded-full bg-primary/10 flex items-center justify-center flex-shrink-0 mt-0.5">
-                    <Check className="w-4 h-4 text-primary" />
+                    <Check className="w-4 h-4 text-primary" aria-hidden="true" />
                   </div>
                   <div>
                     <p className="font-semibold text-foreground">Prequalified Leads</p>
@@ -352,7 +349,7 @@ const JoinAsPro = () => {
                 </div>
                 <div className="flex items-start gap-3">
                   <div className="w-6 h-6 rounded-full bg-primary/10 flex items-center justify-center flex-shrink-0 mt-0.5">
-                    <Check className="w-4 h-4 text-primary" />
+                    <Check className="w-4 h-4 text-primary" aria-hidden="true" />
                   </div>
                   <div>
                     <p className="font-semibold text-foreground">No Competition</p>
@@ -361,7 +358,7 @@ const JoinAsPro = () => {
                 </div>
                 <div className="flex items-start gap-3">
                   <div className="w-6 h-6 rounded-full bg-primary/10 flex items-center justify-center flex-shrink-0 mt-0.5">
-                    <Check className="w-4 h-4 text-primary" />
+                    <Check className="w-4 h-4 text-primary" aria-hidden="true" />
                   </div>
                   <div>
                     <p className="font-semibold text-foreground">Higher Conversion</p>
@@ -370,7 +367,7 @@ const JoinAsPro = () => {
                 </div>
                 <div className="flex items-start gap-3">
                   <div className="w-6 h-6 rounded-full bg-primary/10 flex items-center justify-center flex-shrink-0 mt-0.5">
-                    <Check className="w-4 h-4 text-primary" />
+                    <Check className="w-4 h-4 text-primary" aria-hidden="true" />
                   </div>
                   <div>
                     <p className="font-semibold text-foreground">Fast Payments</p>
@@ -399,132 +396,128 @@ const JoinAsPro = () => {
           <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-8">
             <div className="bg-background rounded-xl p-6 shadow-sm border border-border hover:shadow-md transition-shadow">
               <div className="w-12 h-12 rounded-lg bg-primary/10 flex items-center justify-center mb-4">
-                <Users className="w-6 h-6 text-primary" />
-              </div>
-              <h3 className="font-semibold text-foreground mb-2">Prequalified Leads</h3>
-              <p className="text-sm text-muted-foreground">
-                Every lead is vetted and ready to hire. No spam, no tire-kickers—just quality customers.
-              </p>
-            </div>
-            
-            <div className="bg-background rounded-xl p-6 shadow-sm border border-border hover:shadow-md transition-shadow">
-              <div className="w-12 h-12 rounded-lg bg-primary/10 flex items-center justify-center mb-4">
-                <Shield className="w-6 h-6 text-primary" />
+                <Users className="w-6 h-6 text-primary" aria-hidden="true" />
               </div>
               <h3 className="font-semibold text-foreground mb-2">Exclusive Leads</h3>
-              <p className="text-sm text-muted-foreground">
-                You're the only contractor they contact. No competing with 5 other pros for the same job.
-              </p>
+              <p className="text-muted-foreground text-sm">You're the only contractor who receives each lead. No bidding wars.</p>
             </div>
-            
             <div className="bg-background rounded-xl p-6 shadow-sm border border-border hover:shadow-md transition-shadow">
               <div className="w-12 h-12 rounded-lg bg-primary/10 flex items-center justify-center mb-4">
-                <DollarSign className="w-6 h-6 text-primary" />
+                <DollarSign className="w-6 h-6 text-primary" aria-hidden="true" />
               </div>
-              <h3 className="font-semibold text-foreground mb-2">Better ROI</h3>
-              <p className="text-sm text-muted-foreground">
-                Higher conversion rates mean better return on your investment. Grow your business, not your expenses.
-              </p>
+              <h3 className="font-semibold text-foreground mb-2">Fair Pricing</h3>
+              <p className="text-muted-foreground text-sm">Transparent pricing with no hidden fees. You keep more of what you earn.</p>
             </div>
-            
             <div className="bg-background rounded-xl p-6 shadow-sm border border-border hover:shadow-md transition-shadow">
               <div className="w-12 h-12 rounded-lg bg-primary/10 flex items-center justify-center mb-4">
-                <Calendar className="w-6 h-6 text-primary" />
+                <Calendar className="w-6 h-6 text-primary" aria-hidden="true" />
               </div>
               <h3 className="font-semibold text-foreground mb-2">Flexible Schedule</h3>
-              <p className="text-sm text-muted-foreground">
-                Accept leads that fit your schedule. Build your business on your terms.
-              </p>
+              <p className="text-muted-foreground text-sm">Work when you want. Accept the jobs that fit your schedule.</p>
+            </div>
+            <div className="bg-background rounded-xl p-6 shadow-sm border border-border hover:shadow-md transition-shadow">
+              <div className="w-12 h-12 rounded-lg bg-primary/10 flex items-center justify-center mb-4">
+                <Shield className="w-6 h-6 text-primary" aria-hidden="true" />
+              </div>
+              <h3 className="font-semibold text-foreground mb-2">Support & Protection</h3>
+              <p className="text-muted-foreground text-sm">We handle disputes and provide liability coverage for your peace of mind.</p>
             </div>
           </div>
         </div>
       </section>
 
-      {/* Services Section */}
+      {/* How It Works Section */}
       <section className="py-20">
         <div className="container mx-auto px-4">
           <div className="text-center mb-16">
-            <p className="text-primary font-semibold mb-3 uppercase tracking-wide text-sm">Service Categories</p>
+            <p className="text-primary font-semibold mb-3 uppercase tracking-wide text-sm">How It Works</p>
             <h2 className="text-3xl md:text-4xl font-bold text-foreground mb-4">
-              Service Categories We Cover
+              Simple Process, Real Results
             </h2>
-            <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
-              From home services to smart technology, we connect you with quality customers across multiple categories.
-            </p>
           </div>
           
-          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6 max-w-5xl mx-auto">
-            {[
-              { title: "Home Services", desc: "Plumbing, electrical, HVAC, remodeling" },
-              { title: "TV Mounting", desc: "Wall mounting for all TV sizes" },
-              { title: "Smart Home", desc: "Thermostats, doorbells, locks" },
-              { title: "Audio & Video", desc: "Home theater, surround sound" },
-              { title: "WiFi & Networking", desc: "Router setup, optimization" },
-              { title: "Home Security", desc: "Cameras, sensors, monitoring" },
-              { title: "Computer Repair", desc: "Repairs, virus removal, backup" },
-              { title: "Cleaning Services", desc: "House cleaning, carpet, pressure washing" },
-              { title: "Landscaping", desc: "Lawn care, snow removal, maintenance" },
-            ].map((service, index) => (
-              <div key={index} className="flex items-center gap-4 p-4 rounded-lg border border-border hover:bg-muted/50 transition-colors">
-                <div className="w-10 h-10 rounded-full bg-primary/10 flex items-center justify-center flex-shrink-0">
-                  <Check className="w-5 h-5 text-primary" />
-                </div>
-                <div>
-                  <p className="font-semibold text-foreground">{service.title}</p>
-                  <p className="text-sm text-muted-foreground">{service.desc}</p>
-                </div>
+          <div className="max-w-4xl mx-auto">
+            <div className="grid md:grid-cols-3 gap-8">
+              <div className="text-center">
+                <div className="w-16 h-16 rounded-full bg-primary text-primary-foreground flex items-center justify-center text-2xl font-bold mx-auto mb-4">1</div>
+                <h3 className="font-semibold text-foreground mb-2 text-lg">Apply Online</h3>
+                <p className="text-muted-foreground">Complete our simple application form with your experience and service areas.</p>
               </div>
-            ))}
+              <div className="text-center">
+                <div className="w-16 h-16 rounded-full bg-primary text-primary-foreground flex items-center justify-center text-2xl font-bold mx-auto mb-4">2</div>
+                <h3 className="font-semibold text-foreground mb-2 text-lg">Get Verified</h3>
+                <p className="text-muted-foreground">We verify your credentials, insurance, and run a background check.</p>
+              </div>
+              <div className="text-center">
+                <div className="w-16 h-16 rounded-full bg-primary text-primary-foreground flex items-center justify-center text-2xl font-bold mx-auto mb-4">3</div>
+                <h3 className="font-semibold text-foreground mb-2 text-lg">Start Earning</h3>
+                <p className="text-muted-foreground">Receive prequalified leads and grow your business with quality customers.</p>
+              </div>
+            </div>
           </div>
         </div>
       </section>
 
-      {/* Requirements Section */}
+      {/* Testimonials Section */}
       <section className="py-20 bg-muted/30">
         <div className="container mx-auto px-4">
-          <div className="max-w-4xl mx-auto">
-            <div className="text-center mb-12">
-              <p className="text-primary font-semibold mb-3 uppercase tracking-wide text-sm">Requirements</p>
-              <h2 className="text-3xl md:text-4xl font-bold text-foreground mb-4">
-                What We Look For
-              </h2>
-            </div>
-            
-            <div className="grid md:grid-cols-2 gap-8">
-              <div className="bg-background rounded-xl p-8 border border-border">
-                <h3 className="font-semibold text-lg text-foreground mb-4">Basic Requirements</h3>
-                <ul className="space-y-3">
-                  {[
-                    "Valid driver's license and reliable transportation",
-                    "Smartphone for job management",
-                    "Professional tools for your trade",
-                    "Pass a background check",
-                    "Proof of liability insurance",
-                  ].map((req, index) => (
-                    <li key={index} className="flex items-start gap-3">
-                      <Check className="w-5 h-5 text-primary flex-shrink-0 mt-0.5" />
-                      <span className="text-muted-foreground">{req}</span>
-                    </li>
-                  ))}
-                </ul>
+          <div className="text-center mb-16">
+            <p className="text-primary font-semibold mb-3 uppercase tracking-wide text-sm">Testimonials</p>
+            <h2 className="text-3xl md:text-4xl font-bold text-foreground mb-4">
+              What Our Contractors Say
+            </h2>
+          </div>
+          
+          <div className="grid md:grid-cols-3 gap-8 max-w-5xl mx-auto">
+            <div className="bg-background rounded-xl p-6 shadow-sm border border-border">
+              <div className="flex gap-1 mb-4">
+                {[...Array(5)].map((_, i) => (
+                  <Star key={i} className="w-5 h-5 fill-yellow-400 text-yellow-400" aria-hidden="true" />
+                ))}
               </div>
-              
-              <div className="bg-background rounded-xl p-8 border border-border">
-                <h3 className="font-semibold text-lg text-foreground mb-4">Preferred Qualifications</h3>
-                <ul className="space-y-3">
-                  {[
-                    "2+ years of relevant experience",
-                    "Excellent customer service skills",
-                    "Strong problem-solving abilities",
-                    "Certifications in relevant fields",
-                    "Bilingual capabilities (bonus)",
-                  ].map((req, index) => (
-                    <li key={index} className="flex items-start gap-3">
-                      <Star className="w-5 h-5 text-primary flex-shrink-0 mt-0.5" />
-                      <span className="text-muted-foreground">{req}</span>
-                    </li>
-                  ))}
-                </ul>
+              <p className="text-muted-foreground mb-4">"Finally, a lead service that actually works. I've tripled my monthly bookings since joining DoQuality."</p>
+              <div className="flex items-center gap-3">
+                <div className="w-10 h-10 rounded-full bg-primary/10 flex items-center justify-center">
+                  <span className="text-primary font-semibold">MJ</span>
+                </div>
+                <div>
+                  <p className="font-semibold text-foreground">Mike Johnson</p>
+                  <p className="text-sm text-muted-foreground">TV Installation Pro</p>
+                </div>
+              </div>
+            </div>
+            <div className="bg-background rounded-xl p-6 shadow-sm border border-border">
+              <div className="flex gap-1 mb-4">
+                {[...Array(5)].map((_, i) => (
+                  <Star key={i} className="w-5 h-5 fill-yellow-400 text-yellow-400" aria-hidden="true" />
+                ))}
+              </div>
+              <p className="text-muted-foreground mb-4">"The leads are actually ready to book. No more wasting time on tire-kickers or competing with 5 other contractors."</p>
+              <div className="flex items-center gap-3">
+                <div className="w-10 h-10 rounded-full bg-primary/10 flex items-center justify-center">
+                  <span className="text-primary font-semibold">SR</span>
+                </div>
+                <div>
+                  <p className="font-semibold text-foreground">Sarah Rodriguez</p>
+                  <p className="text-sm text-muted-foreground">Smart Home Specialist</p>
+                </div>
+              </div>
+            </div>
+            <div className="bg-background rounded-xl p-6 shadow-sm border border-border">
+              <div className="flex gap-1 mb-4">
+                {[...Array(5)].map((_, i) => (
+                  <Star key={i} className="w-5 h-5 fill-yellow-400 text-yellow-400" aria-hidden="true" />
+                ))}
+              </div>
+              <p className="text-muted-foreground mb-4">"Best decision I made for my business. The support team is great and payments are always on time."</p>
+              <div className="flex items-center gap-3">
+                <div className="w-10 h-10 rounded-full bg-primary/10 flex items-center justify-center">
+                  <span className="text-primary font-semibold">DC</span>
+                </div>
+                <div>
+                  <p className="font-semibold text-foreground">David Chen</p>
+                  <p className="text-sm text-muted-foreground">Network Technician</p>
+                </div>
               </div>
             </div>
           </div>
@@ -532,16 +525,15 @@ const JoinAsPro = () => {
       </section>
 
       {/* Application Form Section */}
-      <section id="apply-form" className="py-20 scroll-mt-24">
+      <section id="apply-form" className="py-20 scroll-mt-20">
         <div className="container mx-auto px-4">
           <div className="max-w-2xl mx-auto">
             <div className="text-center mb-12">
-              <p className="text-primary font-semibold mb-3 uppercase tracking-wide text-sm">Apply Now</p>
               <h2 className="text-3xl md:text-4xl font-bold text-foreground mb-4">
-                Start Your Application
+                Ready to Grow Your Business?
               </h2>
               <p className="text-lg text-muted-foreground">
-                Fill out the form below and we&apos;ll be in touch within 24-48 hours.
+                Fill out the form below and we'll contact you within 24-48 hours.
               </p>
             </div>
             
@@ -550,26 +542,17 @@ const JoinAsPro = () => {
         </div>
       </section>
 
-      {/* CTA Section */}
-      <section className="py-20 bg-primary text-primary-foreground">
-        <div className="container mx-auto px-4 text-center">
-          <h2 className="text-3xl md:text-4xl font-bold mb-4">
-            Ready to Start Earning?
-          </h2>
-          <p className="text-xl opacity-90 mb-8 max-w-2xl mx-auto">
-            Join our growing network of Professional Service Contractors and escape the uncertainty of Angi, Thumbtack, and other spammy lead generation tools. Get prequalified leads that convert into real business growth.
-          </p>
-          <div className="flex flex-col sm:flex-row gap-4 justify-center">
-            <Button size="lg" variant="secondary" className="text-lg px-8" asChild>
-              <a href="#apply-form">
-                Apply Now
-              </a>
-            </Button>
-            <Button size="lg" variant="outline" className="text-lg px-8 border-primary-foreground text-primary-foreground hover:bg-primary-foreground hover:text-primary" asChild>
-              <a href="tel:8185847389">
-                Call (818) 584-7389
-              </a>
-            </Button>
+      {/* Service Areas */}
+      <section className="py-16 bg-muted/30 border-t border-border">
+        <div className="container mx-auto px-4">
+          <div className="text-center mb-8">
+            <div className="flex items-center justify-center gap-2 mb-4">
+              <MapPin className="w-6 h-6 text-primary" aria-hidden="true" />
+              <h2 className="text-2xl font-bold text-foreground">We're Expanding Nationwide</h2>
+            </div>
+            <p className="text-muted-foreground max-w-2xl mx-auto">
+              Currently serving contractors across the United States. Apply today to join our growing network in your area.
+            </p>
           </div>
         </div>
       </section>
