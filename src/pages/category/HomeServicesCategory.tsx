@@ -1,4 +1,4 @@
-import { Helmet } from "react-helmet";
+import SEO from "@/components/SEO";
 import { Link } from "react-router-dom";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
@@ -216,14 +216,11 @@ const services = [
 const HomeServicesCategory = () => {
   return (
     <>
-      <Helmet>
-        <title>Home Services | Comprehensive Home Maintenance & Repair | Deals Of Quality</title>
-        <meta
-          name="description"
-          content="Complete home services from plumbing and electrical to remodeling and cleaning. Expert professionals for all your home maintenance needs. Same-day service available."
-        />
-        <meta name="keywords" content="home services, plumbing, electrical, HVAC, remodeling, home repair, handyman, cleaning services" />
-      </Helmet>
+      <SEO 
+        title="Home Services | Comprehensive Home Maintenance & Repair | Deals Of Quality"
+        description="Complete home services from plumbing and electrical to remodeling and cleaning. Expert professionals for all your home maintenance needs. Same-day service available."
+        keywords="home services, plumbing, electrical, HVAC, remodeling, home repair, handyman, cleaning services"
+      />
 
       <Header />
 

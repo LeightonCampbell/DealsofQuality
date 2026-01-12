@@ -1,4 +1,4 @@
-import { Helmet } from "react-helmet";
+import SEO from "@/components/SEO";
 import { Link } from "react-router-dom";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
@@ -9,18 +9,12 @@ import { Card, CardContent } from "@/components/ui/card";
 const ModernWebsite2026 = () => {
   return (
     <>
-      <Helmet>
-        <title>7 Reasons Why Your Local Business Needs a Modern Website in 2026 | Deals Of Quality</title>
-        <meta
-          name="description"
-          content="Stop losing revenue to outdated tech. Learn why a modern website is essential for local businesses in 2026. Mobile-first design, speed, security, and SEO insights."
-        />
-        <meta name="keywords" content="modern website, local business website, website design 2026, mobile-first design, business website, local SEO" />
-        <meta property="og:title" content="7 Reasons Why Your Local Business Needs a Modern Website in 2026" />
-        <meta property="og:description" content="Stop losing revenue to outdated tech. Learn why a modern website is essential for local businesses in 2026." />
-        <meta property="og:type" content="article" />
-        <link rel="canonical" href="https://www.dealsofquality.com/blog/7-reasons-why-your-local-business-needs-modern-website-2026" />
-      </Helmet>
+      <SEO 
+        title="7 Reasons Why Your Local Business Needs a Modern Website in 2026 | Deals Of Quality"
+        description="Stop losing revenue to outdated tech. Learn why a modern website is essential for local businesses in 2026. Mobile-first design, speed, security, and SEO insights."
+        keywords="modern website, local business website, website design 2026, mobile-first design, business website, local SEO"
+        ogType="article"
+      />
 
       <Header />
 

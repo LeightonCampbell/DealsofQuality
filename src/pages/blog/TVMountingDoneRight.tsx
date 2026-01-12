@@ -1,4 +1,4 @@
-import { Helmet } from "react-helmet";
+import SEO from "@/components/SEO";
 import { Link } from "react-router-dom";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
@@ -9,18 +9,12 @@ import { Card, CardContent } from "@/components/ui/card";
 const TVMountingDoneRight = () => {
   return (
     <>
-      <Helmet>
-        <title>TV Mounting Done Right: Why Professional Installation Matters | Deals Of Quality</title>
-        <meta
-          name="description"
-          content="Learn why professional TV mounting is essential for safety, optimal viewing, and protecting your investment. Avoid costly mistakes with expert installation."
-        />
-        <meta name="keywords" content="TV mounting, professional TV installation, TV wall mount, TV mounting service, safe TV installation" />
-        <meta property="og:title" content="TV Mounting Done Right: Why Professional Installation Matters" />
-        <meta property="og:description" content="Learn why professional TV mounting is essential for safety and optimal viewing." />
-        <meta property="og:type" content="article" />
-        <link rel="canonical" href="https://www.dealsofquality.com/blog/tv-mounting-done-right-why-professional-installation-matters" />
-      </Helmet>
+      <SEO 
+        title="TV Mounting Done Right: Why Professional Installation Matters | Deals Of Quality"
+        description="Learn why professional TV mounting is essential for safety, optimal viewing, and protecting your investment. Avoid costly mistakes with expert installation."
+        keywords="TV mounting, professional TV installation, TV wall mount, TV mounting service, safe TV installation"
+        ogType="article"
+      />
 
       <Header />
 

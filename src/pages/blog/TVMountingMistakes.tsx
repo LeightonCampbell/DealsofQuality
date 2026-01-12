@@ -1,4 +1,4 @@
-import { Helmet } from "react-helmet";
+import SEO from "@/components/SEO";
 import { Link } from "react-router-dom";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
@@ -9,18 +9,12 @@ import { Card, CardContent } from "@/components/ui/card";
 const TVMountingMistakes = () => {
   return (
     <>
-      <Helmet>
-        <title>Top 5 Mistakes to Avoid When Mounting Your TV | Deals Of Quality</title>
-        <meta
-          name="description"
-          content="Avoid these common TV mounting mistakes that can damage your TV, walls, or cause safety hazards. Learn from the experts and mount your TV correctly."
-        />
-        <meta name="keywords" content="TV mounting mistakes, TV installation errors, TV mounting tips, TV wall mount problems, TV mounting safety" />
-        <meta property="og:title" content="Top 5 Mistakes to Avoid When Mounting Your TV" />
-        <meta property="og:description" content="Avoid these common TV mounting mistakes that can damage your TV or cause safety hazards." />
-        <meta property="og:type" content="article" />
-        <link rel="canonical" href="https://www.dealsofquality.com/blog/top-5-mistakes-to-avoid-when-mounting-your-tv" />
-      </Helmet>
+      <SEO 
+        title="Top 5 Mistakes to Avoid When Mounting Your TV | Deals Of Quality"
+        description="Avoid these common TV mounting mistakes that can damage your TV, walls, or cause safety hazards. Learn from the experts and mount your TV correctly."
+        keywords="TV mounting mistakes, TV installation errors, TV mounting tips, TV wall mount problems, TV mounting safety"
+        ogType="article"
+      />
 
       <Header />
 

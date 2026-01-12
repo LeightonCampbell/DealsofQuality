@@ -1,4 +1,4 @@
-import { Helmet } from "react-helmet";
+import SEO from "@/components/SEO";
 import { Link } from "react-router-dom";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
@@ -34,14 +34,11 @@ const services = [
 const WifiNetworkCategory = () => {
   return (
     <>
-      <Helmet>
-        <title>WiFi & Network | Setup & Optimization Services | Deals Of Quality</title>
-        <meta
-          name="description"
-          content="Professional WiFi and network services. Router setup, network optimization, dead zone elimination, and business network solutions. Same-day service available."
-        />
-        <meta name="keywords" content="wifi setup, network optimization, router installation, dead zone elimination, business network" />
-      </Helmet>
+      <SEO 
+        title="WiFi & Network | Setup & Optimization Services | Deals Of Quality"
+        description="Professional WiFi and network services. Router setup, network optimization, dead zone elimination, and business network solutions. Same-day service available."
+        keywords="wifi setup, network optimization, router installation, dead zone elimination, business network"
+      />
 
       <Header />
 

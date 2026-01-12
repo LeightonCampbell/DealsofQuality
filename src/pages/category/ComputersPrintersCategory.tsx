@@ -1,4 +1,4 @@
-import { Helmet } from "react-helmet";
+import SEO from "@/components/SEO";
 import { Link } from "react-router-dom";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
@@ -34,14 +34,11 @@ const services = [
 const ComputersPrintersCategory = () => {
   return (
     <>
-      <Helmet>
-        <title>Computers & Printers | Repair & Setup Services | Deals Of Quality</title>
-        <meta
-          name="description"
-          content="Professional computer and printer services. Computer repair, virus removal, printer setup, and data backup solutions. Same-day service available."
-        />
-        <meta name="keywords" content="computer repair, virus removal, printer setup, data backup, tech support" />
-      </Helmet>
+      <SEO 
+        title="Computers & Printers | Repair & Setup Services | Deals Of Quality"
+        description="Professional computer and printer services. Computer repair, virus removal, printer setup, and data backup solutions. Same-day service available."
+        keywords="computer repair, virus removal, printer setup, data backup, tech support"
+      />
 
       <Header />
 
