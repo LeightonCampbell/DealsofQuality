@@ -17,12 +17,16 @@ export type Database = {
       form_submissions: {
         Row: {
           address: string | null
+          admin_notes: string | null
           certifications: string | null
           city: string | null
           created_at: string
+          deal_value: number | null
           email: string
+          follow_up_date: string | null
           form_type: Database["public"]["Enums"]["form_type"]
           id: string
+          last_contacted_at: string | null
           message: string | null
           name: string
           phone: string | null
@@ -31,17 +35,22 @@ export type Database = {
           service_areas: string | null
           service_category: string | null
           specific_service: string | null
+          status: string | null
           years_experience: string | null
           zip: string | null
         }
         Insert: {
           address?: string | null
+          admin_notes?: string | null
           certifications?: string | null
           city?: string | null
           created_at?: string
+          deal_value?: number | null
           email: string
+          follow_up_date?: string | null
           form_type: Database["public"]["Enums"]["form_type"]
           id?: string
+          last_contacted_at?: string | null
           message?: string | null
           name: string
           phone?: string | null
@@ -50,17 +59,22 @@ export type Database = {
           service_areas?: string | null
           service_category?: string | null
           specific_service?: string | null
+          status?: string | null
           years_experience?: string | null
           zip?: string | null
         }
         Update: {
           address?: string | null
+          admin_notes?: string | null
           certifications?: string | null
           city?: string | null
           created_at?: string
+          deal_value?: number | null
           email?: string
+          follow_up_date?: string | null
           form_type?: Database["public"]["Enums"]["form_type"]
           id?: string
+          last_contacted_at?: string | null
           message?: string | null
           name?: string
           phone?: string | null
@@ -69,6 +83,7 @@ export type Database = {
           service_areas?: string | null
           service_category?: string | null
           specific_service?: string | null
+          status?: string | null
           years_experience?: string | null
           zip?: string | null
         }
