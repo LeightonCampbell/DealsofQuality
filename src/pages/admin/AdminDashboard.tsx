@@ -11,13 +11,13 @@ import {
   FileText, 
   BarChart3,
   RefreshCw,
-  LayoutGrid,
-  Table as TableIcon
+  Users,
+  Kanban
 } from "lucide-react";
 import { format } from "date-fns";
 import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, PieChart, Pie, Cell } from "recharts";
 import AdminUsersSection from "@/components/admin/AdminUsersSection";
-import KanbanBoard from "@/components/admin/KanbanBoard";
+import CRMBoard from "@/components/admin/CRMBoard";
 import type { Lead } from "@/components/admin/LeadCard";
 
 const COLORS = ["#3b82f6", "#a855f7", "#eab308", "#f97316", "#22c55e", "#ef4444"];
@@ -190,19 +190,19 @@ const AdminDashboard = () => {
       </header>
 
       <main className="container mx-auto px-4 py-8">
-        <Tabs defaultValue="kanban" className="space-y-6">
+        <Tabs defaultValue="crm" className="space-y-6">
           <div className="flex items-center justify-between">
             <TabsList>
-              <TabsTrigger value="kanban" className="flex items-center gap-2">
-                <LayoutGrid className="w-4 h-4" />
-                Pipeline
+              <TabsTrigger value="crm" className="flex items-center gap-2">
+                <Kanban className="w-4 h-4" />
+                CRM Pipeline
               </TabsTrigger>
               <TabsTrigger value="analytics" className="flex items-center gap-2">
                 <BarChart3 className="w-4 h-4" />
                 Analytics
               </TabsTrigger>
               <TabsTrigger value="users" className="flex items-center gap-2">
-                <TableIcon className="w-4 h-4" />
+                <Users className="w-4 h-4" />
                 Users
               </TabsTrigger>
             </TabsList>
@@ -211,14 +211,14 @@ const AdminDashboard = () => {
             </p>
           </div>
 
-          {/* Kanban Tab */}
-          <TabsContent value="kanban" className="mt-6">
+          {/* CRM Tab */}
+          <TabsContent value="crm" className="mt-6">
             {isLoading ? (
               <div className="flex items-center justify-center py-12">
                 <RefreshCw className="w-6 h-6 animate-spin text-muted-foreground" />
               </div>
             ) : (
-              <KanbanBoard leads={leads} onUpdate={fetchLeads} />
+              <CRMBoard leads={leads} onUpdate={fetchLeads} />
             )}
           </TabsContent>
 
