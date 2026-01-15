@@ -307,8 +307,8 @@ const VerifiedReviews = () => {
                         : 'scale-100 opacity-90'
                     }`}
                   >
-                    {/* Stars */}
-                    <div className="flex gap-1 mb-5" aria-label={`${testimonial.rating} out of 5 stars`}>
+                    {/* Stars - using role="img" to allow aria-label on a presentational grouping */}
+                    <div className="flex gap-1 mb-5" role="img" aria-label={`${testimonial.rating} out of 5 stars`}>
                       {Array.from({ length: testimonial.rating }).map((_, i) => (
                         <Star
                           key={i}
