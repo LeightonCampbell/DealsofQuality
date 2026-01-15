@@ -62,7 +62,14 @@ const Footer = () => {
             {/* Brand Column */}
             <div className="lg:col-span-1 text-center md:text-left">
               <Link to="/" className="inline-block mb-6">
-                <img src={logo} alt="DoQuality" className="h-10 w-auto brightness-0 invert" />
+                <img 
+                  src={logo} 
+                  alt="Deals Of Quality" 
+                  className="h-10 w-auto brightness-0 invert" 
+                  width="125"
+                  height="40"
+                  loading="lazy"
+                />
               </Link>
               <p className="text-background/70 mb-6 leading-relaxed">
                 Your trusted partner for premium home services and smart technology.

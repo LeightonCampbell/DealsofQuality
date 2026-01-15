@@ -1,14 +1,15 @@
-@import url('https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,100..1000;1,9..40,100..1000&family=Inter:wght@300;400;500;600;700&display=swap');
-
-/* Ensure font-display: swap for better performance */
+/* Fonts are now inlined in index.html to avoid render-blocking requests */
+/* Fallback font-display: swap declarations for any dynamically loaded fonts */
 @font-face {
   font-family: 'Inter';
   font-display: swap;
+  src: local('Inter');
 }
 
 @font-face {
   font-family: 'DM Sans';
   font-display: swap;
+  src: local('DM Sans');
 }
 
 @tailwind base;
