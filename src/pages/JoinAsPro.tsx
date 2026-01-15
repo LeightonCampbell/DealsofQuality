@@ -215,8 +215,11 @@ const ApplicationForm = () => {
         )}
       </Button>
       
-      <p className="text-sm text-muted-foreground text-center">
-        By submitting this form, you agree to our terms of service and privacy policy.
+      <p className="text-xs text-muted-foreground text-center mt-4">
+        By signing up, you agree to our{" "}
+        <a href="/terms" className="text-primary underline hover:text-primary/80">terms</a>
+        {" "}and{" "}
+        <a href="/privacy" className="text-primary underline hover:text-primary/80">privacy policy</a>
       </p>
 
       {/* Thank You Dialog */}

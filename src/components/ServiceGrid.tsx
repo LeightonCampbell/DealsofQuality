@@ -95,22 +95,24 @@ const ServiceGrid = () => {
         </div>
 
         {/* Services Grid */}
-        <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 md:gap-6" role="list">
+        <ul className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 md:gap-6">
           {services.map((service, index) => (
-            <Link
-              key={service.title}
-              to={service.href}
-              className="group relative bg-card rounded-xl border border-border p-6 hover:shadow-lg hover:border-accent/30 transition-all duration-300 animate-fade-in-up"
-              style={{ animationDelay: `${index * 50}ms` }}
-              role="listitem"
-              aria-label={`${service.title} - ${service.description}`}
-            >
-              {/* Hot Badge */}
-              {service.popular && (
-                <span className="absolute -top-2 -right-2 bg-cta text-cta-foreground text-xs font-semibold px-2 py-1 rounded-full" aria-label="Hot service">
-                  Hot
-                </span>
-              )}
+            <li key={service.title}>
+              <Link
+                to={service.href}
+                className="group relative block bg-card rounded-xl border border-border p-6 hover:shadow-lg hover:border-accent/30 transition-all duration-300 animate-fade-in-up"
+                style={{ animationDelay: `${index * 50}ms` }}
+                aria-label={`${service.title} - ${service.description}`}
+              >
+                {/* Hot Badge - high contrast colors for accessibility */}
+                {service.popular && (
+                  <span 
+                    className="absolute -top-2 -right-2 bg-destructive text-destructive-foreground text-xs font-semibold px-2 py-1 rounded-full"
+                    aria-hidden="true"
+                  >
+                    Hot
+                  </span>
+                )}
 
               {/* Icon */}
               <div className="w-14 h-14 rounded-xl bg-accent/10 flex items-center justify-center mb-4 group-hover:bg-accent/20 transition-colors duration-300" aria-hidden="true">
@@ -126,9 +128,10 @@ const ServiceGrid = () => {
               <p className="text-sm text-muted-foreground leading-relaxed">
                 {service.description}
               </p>
-            </Link>
+              </Link>
+            </li>
           ))}
-        </div>
+        </ul>
       </div>
     </section>
   );

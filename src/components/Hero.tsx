@@ -121,7 +121,7 @@ const Hero = () => {
   const [showSuggestions, setShowSuggestions] = useState(false);
   const [selectedIndex, setSelectedIndex] = useState(-1);
   const inputRef = useRef<HTMLInputElement>(null);
-  const suggestionsRef = useRef<HTMLDivElement>(null);
+  const suggestionsRef = useRef<HTMLUListElement>(null);
 
   const trustPoints = [{
     icon: ClipboardList,
@@ -243,11 +243,14 @@ const Hero = () => {
           <div className="max-w-3xl mx-auto animate-fade-in-up animation-delay-200 mb-8 md:mb-4">
             <div className="bg-background rounded-lg shadow-xl p-2 flex flex-col md:flex-row gap-2 relative z-40">
               {/* Project Description Input with Auto-complete */}
-              <div className="flex-1 relative">
+              <div className="flex-1 relative" role="combobox" aria-expanded={showSuggestions} aria-haspopup="listbox" aria-owns="service-suggestions">
                 <input 
                   ref={inputRef}
                   type="text" 
-                  placeholder="Describe your project or problem in detail" 
+                  placeholder="Describe your project or problem in detail"
+                  aria-label="Service type"
+                  aria-autocomplete="list"
+                  aria-controls="service-suggestions"
                   value={projectDescription} 
                   onChange={e => setProjectDescription(e.target.value)}
                   onKeyDown={handleKeyDown}
@@ -256,23 +259,30 @@ const Hero = () => {
                 />
                 {/* Auto-complete Suggestions */}
                 {showSuggestions && suggestions.length > 0 && (
-                  <div 
+                  <ul 
                     ref={suggestionsRef}
+                    id="service-suggestions"
+                    role="listbox"
                     className="absolute top-full left-0 right-0 bg-background border border-border rounded-lg shadow-lg mt-1 z-50 max-h-60 overflow-y-auto"
                   >
                     {suggestions.map((suggestion, index) => (
-                      <button
+                      <li
                         key={suggestion}
-                        type="button"
-                        onClick={() => handleSuggestionClick(suggestion)}
-                        className={`w-full text-left px-4 py-3 hover:bg-accent/10 transition-colors ${
-                          index === selectedIndex ? "bg-accent/20" : ""
-                        } ${index < suggestions.length - 1 ? "border-b border-border" : ""}`}
+                        role="option"
+                        aria-selected={index === selectedIndex}
                       >
-                        <span className="text-foreground">{suggestion}</span>
-                      </button>
+                        <button
+                          type="button"
+                          onClick={() => handleSuggestionClick(suggestion)}
+                          className={`w-full text-left px-4 py-3 hover:bg-accent/10 transition-colors ${
+                            index === selectedIndex ? "bg-accent/20" : ""
+                          } ${index < suggestions.length - 1 ? "border-b border-border" : ""}`}
+                        >
+                          <span className="text-foreground">{suggestion}</span>
+                        </button>
+                      </li>
                     ))}
-                  </div>
+                  </ul>
                 )}
               </div>
 
