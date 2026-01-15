@@ -144,7 +144,7 @@ const handler = async (req: Request): Promise<Response> => {
       customerName: safeName,
     });
 
-    const adminEmail = Deno.env.get("ADMIN_EMAIL") || "eli.campbell@me.com";
+    const adminEmail = Deno.env.get("ADMIN_EMAIL") || "feedback@dealsofquality.com";
     let customerSubject = "";
     let adminSubject = "";
     let customerHtml = "";
