@@ -259,11 +259,12 @@ const VerifiedReviews = () => {
         >
           {/* Carousel Wrapper */}
           <div className="overflow-hidden w-full">
-            <div
+          <div
               ref={carouselRef}
-              className="flex transition-transform duration-700 ease-in-out w-full gap-8"
+              className="flex w-full gap-8 will-change-transform"
               style={{
                 transform: getTransform(),
+                transition: 'transform 700ms cubic-bezier(0.4, 0, 0.2, 1)',
               }}
             >
               {testimonials.map((testimonial, index) => {
@@ -284,16 +285,23 @@ const VerifiedReviews = () => {
                 ];
                 const avatarClass = avatarGradients[index % avatarGradients.length];
                 
+                // Calculate visibility and position using transform instead of padding
+                const isVisible = isMobile ? index === currentIndex : true;
+                
                 return (
                 <div
                   key={`${testimonial.author}-${index}`}
-                  className={`flex-shrink-0 transition-all duration-500 ${
+                  className={`flex-shrink-0 transition-transform duration-500 will-change-transform ${
                     isMobile 
-                      ? 'w-full px-2' 
+                      ? 'w-full' 
                       : 'flex-[0_0_calc((100%-64px)/3)]'
-                  } ${
-                    isMobile && index !== currentIndex ? 'opacity-0 pointer-events-none' : ''
                   }`}
+                  style={{
+                    opacity: isVisible ? 1 : 0,
+                    pointerEvents: isVisible ? 'auto' : 'none',
+                    marginLeft: isMobile ? '8px' : undefined,
+                    marginRight: isMobile ? '8px' : undefined,
+                  }}
                   role="group"
                   aria-roledescription="slide"
                   aria-label={`Testimonial ${index + 1} of ${testimonials.length}`}
