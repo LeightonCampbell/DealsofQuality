@@ -414,22 +414,27 @@ const VerifiedReviews = () => {
           </Button>
         </div>
 
-        {/* Navigation Dots */}
-        <div className="flex justify-center items-center gap-2 mt-8" role="tablist" aria-label="Testimonial navigation">
+        {/* Navigation Dots - wrapped in touch-friendly containers */}
+        <div className="flex justify-center items-center gap-1 mt-8" role="tablist" aria-label="Testimonial navigation">
           {testimonials.map((_, index) => (
             <button
               key={index}
               type="button"
               onClick={() => goToSlide(index)}
-              className={`h-2 rounded-full transition-all duration-300 ${
-                index === currentIndex
-                  ? "w-8 bg-accent"
-                  : "w-2 bg-muted-foreground/30 hover:bg-muted-foreground/50"
-              }`}
+              className="min-w-[44px] min-h-[44px] flex items-center justify-center p-2"
               aria-label={`Go to testimonial ${index + 1}`}
               aria-selected={index === currentIndex}
               role="tab"
-            />
+            >
+              <span 
+                className={`h-2 rounded-full transition-all duration-300 ${
+                  index === currentIndex
+                    ? "w-8 bg-accent"
+                    : "w-2 bg-muted-foreground/30"
+                }`}
+                aria-hidden="true"
+              />
+            </button>
           ))}
         </div>
       </div>

@@ -362,10 +362,12 @@ const HeroNew = () => {
                       placeholder="What kind of service do you need?"
                       value={serviceInputValue}
                       onChange={handleServiceInputChange}
+                      role="combobox"
                       aria-label="Service type"
                       aria-autocomplete="list"
                       aria-controls="service-suggestions"
                       aria-expanded={isServiceDropdownOpen && filteredServices.length > 0}
+                      aria-haspopup="listbox"
                       onFocus={() => {
                         // Only show dropdown if there's text to filter
                         if (serviceInputValue.length > 0) {
