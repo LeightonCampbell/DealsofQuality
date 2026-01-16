@@ -243,14 +243,17 @@ const Hero = () => {
           <div className="max-w-3xl mx-auto animate-fade-in-up animation-delay-200 mb-8 md:mb-4">
             <div className="bg-background rounded-lg shadow-xl p-2 flex flex-col md:flex-row gap-2 relative z-40">
               {/* Project Description Input with Auto-complete */}
-              <div className="flex-1 relative" role="combobox" aria-expanded={showSuggestions} aria-haspopup="listbox" aria-owns="service-suggestions">
+              <div className="flex-1 relative">
                 <input 
                   ref={inputRef}
                   type="text" 
                   placeholder="Describe your project or problem in detail"
+                  role="combobox"
                   aria-label="Service type"
                   aria-autocomplete="list"
                   aria-controls="service-suggestions"
+                  aria-expanded={showSuggestions}
+                  aria-haspopup="listbox"
                   value={projectDescription} 
                   onChange={e => setProjectDescription(e.target.value)}
                   onKeyDown={handleKeyDown}
