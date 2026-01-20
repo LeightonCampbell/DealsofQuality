@@ -109,6 +109,7 @@ const HeroNew = () => {
   const [isLocating, setIsLocating] = useState(false);
   const [availablePros] = useState(12);
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [validationError, setValidationError] = useState("");
 
   // Determine if "Other" is selected or if user typed a custom service
   const isOther = selectedService === "other" || (serviceInputValue.length > 0 && !allServices.find(s => s.label.toLowerCase() === serviceInputValue.toLowerCase()));
@@ -325,7 +326,21 @@ const HeroNew = () => {
   };
 
   const handleFindPro = () => {
-    if (!isButtonEnabled) return;
+    // Clear any previous validation error
+    setValidationError("");
+    
+    // Validate: service must be filled
+    if (!serviceValue || serviceValue.length === 0) {
+      setValidationError("Please enter your service need and location");
+      return;
+    }
+    
+    // Validate: zip must be valid
+    if (!isZipValid) {
+      setValidationError("Please enter your service need and location");
+      return;
+    }
+    
     // Skip steps 1-2, go directly to step 3 (Project Details)
     setIsModalOpen(true);
   };
@@ -342,8 +357,8 @@ const HeroNew = () => {
             <div className="text-center">
               {/* Headline */}
               <h1 className="font-display text-3xl md:text-4xl lg:text-5xl font-bold text-foreground leading-tight mb-4 animate-fade-in animation-delay-100 tracking-tight">
-                Trusted Local Pros for Any Project
-                <span className="block text-accent mt-2">Get a Quote in Minutes</span>
+                Trusted Local Pros
+                <span className="block text-accent mt-2">for Any Project</span>
               </h1>
 
               <p className="text-lg md:text-xl text-muted-foreground mb-8 max-w-3xl mx-auto animate-fade-in-up animation-delay-200">
@@ -361,7 +376,11 @@ const HeroNew = () => {
                       type="text"
                       placeholder="What kind of service do you need?"
                       value={serviceInputValue}
-                      onChange={handleServiceInputChange}
+                      onChange={(e) => {
+                        handleServiceInputChange(e);
+                        // Clear validation error when user starts typing
+                        if (validationError) setValidationError("");
+                      }}
                       role="combobox"
                       aria-label="Service type"
                       aria-autocomplete="list"
@@ -374,7 +393,9 @@ const HeroNew = () => {
                           setIsServiceDropdownOpen(true);
                         }
                       }}
-                      className="w-full h-14 border-0 bg-transparent text-base px-4 focus:ring-0 focus:ring-offset-0"
+                      className={`w-full h-14 border-0 bg-transparent text-base px-4 focus:ring-0 focus:ring-offset-0 ${
+                        validationError && !serviceValue ? "placeholder:text-destructive text-destructive" : ""
+                      }`}
                       onKeyDown={(e) => {
                         // Only handle Escape key - allow all other keys (spaces, arrows, etc.) to work normally
                         if (e.key === "Escape") {
@@ -443,9 +464,15 @@ const HeroNew = () => {
                       inputMode="numeric"
                       placeholder={zipCodeFocused ? "12345 or e.g. 90210" : "ZIP Code"}
                       value={zipCode}
-                      onChange={handleZipChange}
+                      onChange={(e) => {
+                        handleZipChange(e);
+                        // Clear validation error when user starts typing
+                        if (validationError) setValidationError("");
+                      }}
                       maxLength={5}
-                      className="w-28 py-4 text-foreground placeholder:text-muted-foreground bg-transparent border-0 focus:outline-none focus:ring-0 text-base"
+                      className={`w-28 py-4 bg-transparent border-0 focus:outline-none focus:ring-0 text-base ${
+                        validationError && !isZipValid ? "text-destructive placeholder:text-destructive" : "text-foreground placeholder:text-muted-foreground"
+                      }`}
                       aria-label="ZIP Code"
                       aria-invalid={zipCodeError ? "true" : "false"}
                       aria-describedby={zipCodeError ? "zip-error" : undefined}
@@ -465,24 +492,30 @@ const HeroNew = () => {
                     </button>
                   </div>
                   {zipCodeError && (
-                    <p id="zip-error" className="text-xs text-red-500 mt-1 px-4" role="alert">{zipCodeError}</p>
+                    <p id="zip-error" className="text-xs text-destructive mt-1 px-4" role="alert">{zipCodeError}</p>
                   )}
                 </div>
 
                 {/* CTA Button */}
                 <Button
                   onClick={handleFindPro}
-                  disabled={!isButtonEnabled}
                   size="lg"
-                  className="bg-cta hover:bg-cta/90 text-cta-foreground px-8 py-4 h-14 text-base font-semibold rounded-lg shadow-md hover:shadow-lg transition-all disabled:opacity-50 disabled:cursor-not-allowed w-full md:w-auto"
+                  className="bg-cta hover:bg-cta/90 text-cta-foreground px-8 py-4 h-14 text-base font-semibold rounded-lg shadow-md hover:shadow-lg transition-all w-full md:w-auto"
                 >
-                  Get My Free Quote
+                  Get a Free Quote
                   <span className="relative ml-2 flex h-2 w-2">
                     <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-success opacity-75"></span>
                     <span className="relative inline-flex rounded-full h-2 w-2 bg-success"></span>
                   </span>
                 </Button>
               </form>
+              
+              {/* Validation Error Message */}
+              {validationError && (
+                <div className="mt-3 text-destructive text-sm font-medium animate-fade-in" role="alert">
+                  {validationError}
+                </div>
+              )}
               </div>
               
               {/* Trust Badges Row */}
