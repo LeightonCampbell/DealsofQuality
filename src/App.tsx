@@ -32,6 +32,7 @@ const ModernWebsite2026 = lazy(() => import("./pages/blog/ModernWebsite2026"));
 const ComputerNeedsSupport = lazy(() => import("./pages/blog/ComputerNeedsSupport"));
 const TVMountingDoneRight = lazy(() => import("./pages/blog/TVMountingDoneRight"));
 const TVMountingMistakes = lazy(() => import("./pages/blog/TVMountingMistakes"));
+const TVMountingLosAngeles = lazy(() => import("./pages/blog/TVMountingLosAngeles"));
 const SuccessPage = lazy(() => import("./pages/SuccessPage"));
 const QuoteSuccess = lazy(() => import("./pages/QuoteSuccess"));
 
@@ -143,6 +144,7 @@ const App = () => (
           <Route path="/blog/signs-your-computer-needs-professional-support" element={<ComputerNeedsSupport />} />
           <Route path="/blog/tv-mounting-done-right-why-professional-installation-matters" element={<TVMountingDoneRight />} />
           <Route path="/blog/top-5-mistakes-to-avoid-when-mounting-your-tv" element={<TVMountingMistakes />} />
+          <Route path="/blog/tv-mounting-services-los-angeles" element={<TVMountingLosAngeles />} />
           
           {/* Success Pages */}
           <Route path="/success" element={<SuccessPage />} />
