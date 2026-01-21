@@ -97,7 +97,8 @@ const TVMountingLosAngeles = () => {
               <div className="flex flex-col sm:flex-row gap-4">
                 <ScheduleServiceDialog 
                   triggerText="Get a Free Quote"
-                  defaultCategory="TV Mounting"
+                  defaultCategory="TV Mounting & Home Theater"
+                  initialService={'TV Wall Mounting - Large (56" - 75")'}
                   triggerVariant="default"
                   triggerSize="lg"
                 />
@@ -202,8 +203,8 @@ const TVMountingLosAngeles = () => {
                       <TableCell className="text-right">
                         <ScheduleServiceDialog 
                           triggerText="Get Quote"
-                          defaultCategory="TV Mounting"
-                          initialService={'TV Mounting (Up to 50")'}
+                          defaultCategory="TV Mounting & Home Theater"
+                          initialService={'TV Wall Mounting - Standard (up to 55")'}
                           triggerVariant="outline"
                           triggerSize="sm"
                         />
@@ -221,8 +222,8 @@ const TVMountingLosAngeles = () => {
                       <TableCell className="text-right">
                         <ScheduleServiceDialog 
                           triggerText="Get Quote"
-                          defaultCategory="TV Mounting"
-                          initialService={'TV Mounting (51"-65")'}
+                          defaultCategory="TV Mounting & Home Theater"
+                          initialService={'TV Wall Mounting - Large (56" - 75")'}
                           triggerVariant="outline"
                           triggerSize="sm"
                         />
@@ -240,8 +241,8 @@ const TVMountingLosAngeles = () => {
                       <TableCell className="text-right">
                         <ScheduleServiceDialog 
                           triggerText="Get Quote"
-                          defaultCategory="TV Mounting"
-                          initialService={'TV Mounting (Over 65")'}
+                          defaultCategory="TV Mounting & Home Theater"
+                          initialService={'TV Wall Mounting - Extra Large (76"+)'}
                           triggerVariant="outline"
                           triggerSize="sm"
                         />
@@ -408,7 +409,8 @@ const TVMountingLosAngeles = () => {
               <div className="flex flex-col sm:flex-row gap-4 justify-center mb-6">
                 <ScheduleServiceDialog 
                   triggerText="Book Your Installation"
-                  defaultCategory="TV Mounting"
+                  defaultCategory="TV Mounting & Home Theater"
+                  initialService={'TV Wall Mounting - Large (56" - 75")'}
                   triggerVariant="outline"
                   triggerSize="lg"
                 />
