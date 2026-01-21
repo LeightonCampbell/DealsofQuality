@@ -358,7 +358,7 @@ const HeroNew = () => {
               {/* Headline */}
               <h1 className="font-display text-[1.75rem] md:text-[2rem] lg:text-[2.5rem] font-bold text-foreground leading-tight mb-4 animate-fade-in animation-delay-100 tracking-tight">
                 Trusted Local Pros for Any Project
-                <span className="block text-primary mt-2">Get a Quote in Minutes</span>
+                <span className="block text-accent mt-2">Get a Quote in Minutes</span>
               </h1>
 
               <p className="text-lg md:text-xl text-muted-foreground mb-8 max-w-3xl mx-auto animate-fade-in-up animation-delay-200">
