@@ -41,7 +41,7 @@ const Footer = () => {
   const quickLinks = [
     { label: "FAQs", href: "/#faq" },
     { label: "Blog", href: "/blog" },
-    { label: "Join as a Pro", href: "https://www.dealsofquality.com/provider-request8c944202", external: true },
+    { label: "Join as a Pro", href: "/join-as-pro" },
     { label: "Remote Support", href: "/remote-support" },
     { label: "Contact Us", href: "/contact" },
   ];

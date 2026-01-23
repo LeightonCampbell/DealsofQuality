@@ -357,11 +357,11 @@ const HeroNew = () => {
               Fast, reliable, and vetted professionals for essential home and business services.
             </p>
 
-            {/* Search Bar */}
+            {/* Search Widget Card */}
             <div className="animate-fade-in-up animation-delay-300">
-              <form onSubmit={(e) => { e.preventDefault(); handleFindPro(); }} className="bg-white rounded-xl shadow-xl p-2 flex flex-col md:flex-row gap-2" role="search" aria-label="Service search form">
+              <form onSubmit={(e) => { e.preventDefault(); handleFindPro(); }} className="bg-white rounded-xl shadow-xl p-4 md:p-6 flex flex-col gap-3 max-w-2xl mx-auto lg:mx-0" role="search" aria-label="Service search form">
                 {/* Service Input with Autosuggest */}
-                <div className="flex-[2] lg:flex-[3] relative min-w-0" ref={serviceDropdownRef}>
+                <div className="relative w-full" ref={serviceDropdownRef}>
                   <div className="relative">
                     <Input
                       ref={otherServiceInputRef}
@@ -383,7 +383,7 @@ const HeroNew = () => {
                           setIsServiceDropdownOpen(true);
                         }
                       }}
-                      className={`w-full h-12 md:h-14 border-0 bg-transparent text-sm md:text-base px-3 md:px-4 focus:ring-0 focus:ring-offset-0 text-foreground truncate ${
+                      className={`w-full h-12 md:h-14 border-0 bg-transparent text-base px-4 focus:ring-0 focus:ring-offset-0 text-foreground ${
                         validationError && !serviceValue ? "placeholder:text-destructive text-destructive" : "placeholder:text-muted-foreground"
                       }`}
                       onKeyDown={(e) => {
@@ -432,19 +432,16 @@ const HeroNew = () => {
                   </div>
                 </div>
 
-                {/* Divider */}
-                <div className="hidden md:block w-px bg-border my-2" />
-
                 {/* Zip Code Input with Locate Me */}
-                <div className="flex flex-col flex-shrink-0 lg:flex-[1]">
+                <div className="flex flex-col w-full">
                   <div 
-                    className={`flex items-center gap-2 px-3 lg:px-4 border-t md:border-t-0 border-border md:border-none relative transition-all duration-300 ${
+                    className={`flex items-center gap-2 px-4 border-t border-border relative transition-all duration-300 ${
                       zipCodeFocused ? "ring-2 ring-accent/50 rounded-md" : ""
                     } ${
                       zipCodeError ? "ring-2 ring-destructive/50 rounded-md" : ""
                     }`}
                   >
-                    <MapPin className="w-4 h-4 lg:w-5 lg:h-5 text-muted-foreground flex-shrink-0" />
+                    <MapPin className="w-5 h-5 text-muted-foreground flex-shrink-0" />
                     <input
                       ref={zipInputRef}
                       type="tel"
@@ -456,7 +453,7 @@ const HeroNew = () => {
                         if (validationError) setValidationError("");
                       }}
                       maxLength={5}
-                      className={`w-20 lg:w-24 py-3 md:py-4 bg-transparent border-0 focus:outline-none focus:ring-0 text-[15px] ${
+                      className={`flex-1 py-3 md:py-4 bg-transparent border-0 focus:outline-none focus:ring-0 text-[15px] ${
                         validationError && !isZipValid ? "text-destructive placeholder:text-destructive" : "text-foreground placeholder:text-muted-foreground"
                       }`}
                       aria-label="ZIP Code"
@@ -483,11 +480,11 @@ const HeroNew = () => {
                   )}
                 </div>
 
-                {/* CTA Button - Smaller text, no pulsing dot */}
+                {/* CTA Button */}
                 <Button
                   type="submit"
                   size="lg"
-                  className="bg-cta hover:bg-cta/90 text-cta-foreground px-6 md:px-8 py-3 md:py-4 h-12 md:h-14 text-sm font-semibold rounded-lg shadow-md hover:shadow-lg transition-all w-full md:w-auto"
+                  className="bg-cta hover:bg-cta/90 text-cta-foreground px-6 md:px-8 py-3 md:py-4 h-12 md:h-14 text-base font-semibold rounded-lg shadow-md hover:shadow-lg transition-all w-full"
                 >
                   Get a Free Quote
                 </Button>

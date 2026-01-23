@@ -99,7 +99,7 @@ const Header = () => {
               <Phone className="w-5 h-5 text-accent" />
               (818) 584-7389
             </a>
-            <Button onClick={() => setIsBookingModalOpen(true)} size="default">
+            <Button onClick={() => setIsBookingModalOpen(true)} size="default" className="bg-cta hover:bg-cta/90 text-cta-foreground">
               Find a Pro
             </Button>
           </div>
@@ -150,7 +150,7 @@ const Header = () => {
                 <Phone className="w-5 h-5 text-accent" />
                 (818) 584-7389
               </a>
-              <Button onClick={() => setIsBookingModalOpen(true)} size="default" className="w-full">
+              <Button onClick={() => setIsBookingModalOpen(true)} size="default" className="w-full bg-cta hover:bg-cta/90 text-cta-foreground">
                 Find a Pro
               </Button>
             </div>
