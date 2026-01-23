@@ -54,7 +54,7 @@ const Services = () => {
                   initial={{ opacity: 0, y: 20 }}
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ duration: 0.5, delay: categoryIndex * 0.1 }}
-                  className="space-y-4"
+                  className="space-y-4 text-center md:text-left"
                 >
                   {/* Category Header */}
                   <h2 className="font-display text-xl md:text-2xl font-bold text-foreground">
@@ -69,10 +69,10 @@ const Services = () => {
                         <li key={service.id}>
                           <Link
                             to={service.href}
-                            className="group flex items-center gap-3 text-sm text-muted-foreground hover:text-accent transition-colors"
+                            className="group flex items-center justify-center md:justify-start gap-3 text-sm text-muted-foreground hover:text-accent transition-colors"
                           >
                             <Icon className="w-4 h-4 flex-shrink-0" aria-hidden="true" />
-                            <div className="flex flex-col items-start">
+                            <div className="flex flex-col items-center md:items-start">
                               <span className="flex items-center gap-2 font-medium text-foreground group-hover:text-accent">
                                 {service.label}
                                 {service.badge && (
@@ -125,7 +125,7 @@ const Services = () => {
                         <li key={service.id}>
                           <Link
                             to={service.href}
-                            className="group flex items-center gap-3 text-sm text-muted-foreground hover:text-accent transition-colors"
+                            className="group flex items-center justify-center md:justify-start gap-3 text-sm text-muted-foreground hover:text-accent transition-colors"
                           >
                             <Icon className="w-4 h-4 flex-shrink-0" aria-hidden="true" />
                             <div className="flex flex-col items-start">

@@ -338,22 +338,22 @@ const HeroNew = () => {
         </div>
         
         <div className="container-max px-4 relative z-10 pt-28 pb-8 md:pt-36 md:pb-12 lg:pt-40 lg:pb-16">
-          {/* Content - Left aligned on desktop */}
-          <div className="max-w-xl lg:max-w-lg">
+          {/* Content - Centered on mobile, left aligned on desktop */}
+          <div className="max-w-xl mx-auto lg:mx-0 lg:max-w-lg">
             {/* Social Proof Badge */}
             <div className="inline-flex items-center gap-2 bg-white/10 backdrop-blur-sm text-white/90 px-4 py-2 rounded-full text-sm font-medium mb-6 animate-fade-in border border-white/20">
               <Star className="w-4 h-4 fill-current text-cta" />
               <span>Trusted by 10,000+ homeowners</span>
             </div>
             
-            {/* Headline - Two lines only */}
-            <h1 className="font-display text-[1.75rem] md:text-[2rem] lg:text-[2.5rem] font-bold text-white leading-tight mb-4 animate-fade-in animation-delay-100 tracking-tight">
-              Trusted Local Pros for Any Project
-              <span className="block text-cta mt-1">Get a Quote in Minutes</span>
+            {/* Headline - Two lines only, always on separate lines */}
+            <h1 className="font-display text-[1.5rem] sm:text-[1.75rem] md:text-[2rem] lg:text-[2.5rem] font-bold text-white leading-tight mb-4 animate-fade-in animation-delay-100 tracking-tight text-center lg:text-left">
+              <span className="block whitespace-nowrap">Trusted Local Pros for Any Project</span>
+              <span className="block text-cta mt-1 whitespace-nowrap">Get a Quote in Minutes</span>
             </h1>
 
             {/* Subtext - 15px */}
-            <p className="text-[15px] text-white/80 mb-6 max-w-md animate-fade-in-up animation-delay-200">
+            <p className="text-[15px] text-white/80 mb-6 max-w-md mx-auto lg:mx-0 animate-fade-in-up animation-delay-200 text-center lg:text-left">
               Fast, reliable, and vetted professionals for essential home and business services.
             </p>
 
@@ -361,7 +361,7 @@ const HeroNew = () => {
             <div className="animate-fade-in-up animation-delay-300">
               <form onSubmit={(e) => { e.preventDefault(); handleFindPro(); }} className="bg-white rounded-xl shadow-xl p-2 flex flex-col md:flex-row gap-2" role="search" aria-label="Service search form">
                 {/* Service Input with Autosuggest */}
-                <div className="flex-1 relative" ref={serviceDropdownRef}>
+                <div className="flex-1 relative min-w-0" ref={serviceDropdownRef}>
                   <div className="relative">
                     <Input
                       ref={otherServiceInputRef}
@@ -383,7 +383,7 @@ const HeroNew = () => {
                           setIsServiceDropdownOpen(true);
                         }
                       }}
-                      className={`w-full h-12 md:h-14 border-0 bg-transparent text-base px-4 focus:ring-0 focus:ring-offset-0 text-foreground ${
+                      className={`w-full h-12 md:h-14 border-0 bg-transparent text-sm md:text-base px-3 md:px-4 focus:ring-0 focus:ring-offset-0 text-foreground truncate ${
                         validationError && !serviceValue ? "placeholder:text-destructive text-destructive" : "placeholder:text-muted-foreground"
                       }`}
                       onKeyDown={(e) => {
@@ -456,7 +456,7 @@ const HeroNew = () => {
                         if (validationError) setValidationError("");
                       }}
                       maxLength={5}
-                      className={`w-24 py-3 md:py-4 bg-transparent border-0 focus:outline-none focus:ring-0 text-base ${
+                      className={`w-24 py-3 md:py-4 bg-transparent border-0 focus:outline-none focus:ring-0 text-[15px] ${
                         validationError && !isZipValid ? "text-destructive placeholder:text-destructive" : "text-foreground placeholder:text-muted-foreground"
                       }`}
                       aria-label="ZIP Code"
@@ -495,7 +495,7 @@ const HeroNew = () => {
               
               {/* Validation Error Message */}
               {validationError && (
-                <div className="mt-3 text-white bg-destructive/80 px-3 py-2 rounded-md text-sm font-medium animate-fade-in" role="alert">
+                <div className="mt-3 text-white bg-destructive/80 px-3 py-2 rounded-md text-sm font-medium animate-fade-in text-center lg:text-left" role="alert">
                   {validationError}
                 </div>
               )}
