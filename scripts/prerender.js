@@ -21,6 +21,7 @@ const routes = [
   '/contact',
   '/services',
   '/services/tv-mounting',
+  '/blog/tv-mounting-services-los-angeles',
   '/plumbing',
   '/electrical',
   '/hvac',

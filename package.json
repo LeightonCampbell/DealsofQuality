@@ -6,6 +6,8 @@
   "scripts": {
     "dev": "vite",
     "build": "vite build",
+    "build:ssg": "vite build",
+    "vite-ssg": "node scripts/vite-ssg.js",
     "build:prerender": "vite build && node scripts/prerender.js",
     "build:dev": "vite build --mode development",
     "prerender": "node scripts/prerender.js",
