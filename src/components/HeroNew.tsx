@@ -1,24 +1,16 @@
 import { useState, useEffect, useRef, useMemo } from "react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { MapPin, ChevronDown, Navigation, Loader2, FileCheck, ShieldCheck, DollarSign, Clock } from "lucide-react";
+import { MapPin, ChevronDown, Navigation, Loader2, FileCheck, ShieldCheck, DollarSign, Clock, Star, CheckCircle2, BadgeCheck } from "lucide-react";
 import MobileStickyCTA from "@/components/MobileStickyCTA";
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "@/components/ui/select";
 import BookingModal from "@/components/BookingModal";
 import { useIsMobile } from "@/hooks/use-mobile";
+import heroProfessional from "@/assets/hero-professional.jpg";
 
 // Validate US ZIP code (5 digits, range 00501-99950)
 const isValidUSZipCode = (zip: string): boolean => {
   if (!zip || zip.length !== 5) return false;
   const zipNum = parseInt(zip, 10);
-  // Valid US ZIP codes range from 00501 to 99950
-  // Some ranges are invalid, but this covers the vast majority
   return zipNum >= 501 && zipNum <= 99950 && !isNaN(zipNum);
 };
 
@@ -127,13 +119,11 @@ const HeroNew = () => {
   useEffect(() => {
     if (serviceInputValue && serviceInputValue.length > 0 && !zipCodeFocused) {
       setZipCodeFocused(true);
-      // Auto-focus zip code on mobile when service is typed
       if (isMobile && zipInputRef.current) {
         setTimeout(() => {
           zipInputRef.current?.focus();
         }, 100);
       }
-      // Remove glow after 3 seconds
       const timer = setTimeout(() => {
         setZipCodeFocused(false);
       }, 3000);
@@ -145,7 +135,6 @@ const HeroNew = () => {
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
       const target = event.target as Node;
-      // Check if click is outside both the input and the dropdown
       if (
         serviceDropdownRef.current &&
         !serviceDropdownRef.current.contains(target) &&
@@ -167,19 +156,15 @@ const HeroNew = () => {
     setSelectedService(service.value);
     setCustomServiceText("");
     setIsServiceDropdownOpen(false);
-    // Trigger glow effect on zip code field
     setZipCodeFocused(true);
-    // Auto-focus zip code on mobile when service is selected
     if (isMobile && zipInputRef.current) {
       setTimeout(() => {
         zipInputRef.current?.focus();
       }, 100);
     }
-    // Remove glow after 3 seconds
     setTimeout(() => {
       setZipCodeFocused(false);
     }, 3000);
-    // Don't blur the input - allow user to continue editing if needed
   };
 
   // Filter services based on input for autosuggest
@@ -188,16 +173,14 @@ const HeroNew = () => {
     const query = serviceInputValue.toLowerCase();
     return allServices
       .filter(s => s.label.toLowerCase().includes(query))
-      .slice(0, 8); // Limit to 8 suggestions
+      .slice(0, 8);
   }, [serviceInputValue]);
 
   // Handle service input change with autosuggest
   const handleServiceInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const value = e.target.value;
-    // Always update the input value - allow all normal text input including spaces
     setServiceInputValue(value);
     
-    // Show dropdown when user types
     if (value.length > 0) {
       setIsServiceDropdownOpen(true);
     } else {
@@ -207,23 +190,18 @@ const HeroNew = () => {
       return;
     }
     
-    // Check if the input matches a service exactly (trimmed for comparison)
     const exactMatch = allServices.find(s => s.label.toLowerCase() === value.toLowerCase().trim());
     if (exactMatch) {
       setSelectedService(exactMatch.value);
       setCustomServiceText("");
     } else {
-      // User is typing a custom service - store the text
       setCustomServiceText(value);
-      // Check if there are any matching suggestions (allow partial matches)
       const currentFiltered = allServices
         .filter(s => s.label.toLowerCase().includes(value.toLowerCase().trim()))
         .slice(0, 8);
-      // Only set to "other" if there are no matching suggestions
       if (currentFiltered.length === 0 && value.trim().length > 0) {
         setSelectedService("other");
       } else {
-        // Clear selected service if there are suggestions - let user choose
         setSelectedService("");
       }
     }
@@ -234,7 +212,6 @@ const HeroNew = () => {
     const value = e.target.value.replace(/\D/g, '').slice(0, 5);
     setZipCode(value);
     
-    // Validate when user has entered 5 digits
     if (value.length === 5) {
       if (isValidUSZipCode(value)) {
         setZipCodeError("");
@@ -257,12 +234,9 @@ const HeroNew = () => {
     navigator.geolocation.getCurrentPosition(
       async (position) => {
         try {
-          // Use reverse geocoding to get zip code
-          // Try multiple services for better reliability
           const lat = position.coords.latitude;
           const lon = position.coords.longitude;
           
-          // Try BigDataCloud first (free, no API key needed)
           try {
             const response = await fetch(
               `https://api.bigdatacloud.net/data/reverse-geocode-client?latitude=${lat}&longitude=${lon}&localityLanguage=en`
@@ -282,7 +256,6 @@ const HeroNew = () => {
             console.log("BigDataCloud failed, trying alternative...");
           }
           
-          // Fallback: Use OpenStreetMap Nominatim (free, no API key)
           try {
             const response = await fetch(
               `https://nominatim.openstreetmap.org/reverse?format=json&lat=${lat}&lon=${lon}&addressdetails=1`
@@ -302,7 +275,6 @@ const HeroNew = () => {
             console.log("Nominatim failed");
           }
           
-          // If both fail, show message
           alert("Could not determine your zip code automatically. Please enter it manually.");
         } catch (error) {
           console.error("Error getting zip code:", error);
@@ -326,215 +298,276 @@ const HeroNew = () => {
   };
 
   const handleFindPro = () => {
-    // Clear any previous validation error
     setValidationError("");
     
-    // Validate: service must be filled
     if (!serviceValue || serviceValue.length === 0) {
       setValidationError("Please enter your service need and location");
       return;
     }
     
-    // Validate: zip must be valid
     if (!isZipValid) {
       setValidationError("Please enter your service need and location");
       return;
     }
     
-    // Skip steps 1-2, go directly to step 3 (Project Details)
     setIsModalOpen(true);
   };
 
   return (
     <>
-      <section ref={heroSectionRef} className="relative pt-28 pb-20 md:pt-36 md:pb-28 bg-background border-b border-border" aria-label="Hero section - Find local professionals">
-        {/* Subtle background pattern */}
-        <div className="absolute inset-0 bg-gradient-to-b from-secondary/30 to-background" aria-hidden="true" />
+      <section 
+        ref={heroSectionRef} 
+        className="relative pt-24 pb-16 md:pt-32 md:pb-24 lg:pt-36 lg:pb-28 overflow-hidden" 
+        aria-label="Hero section - Find local professionals"
+      >
+        {/* Warm gradient background with subtle pattern */}
+        <div className="absolute inset-0 bg-gradient-to-br from-secondary via-background to-secondary/50" aria-hidden="true" />
+        
+        {/* Subtle blueprint/grid pattern overlay */}
+        <div 
+          className="absolute inset-0 opacity-[0.03]" 
+          aria-hidden="true"
+          style={{
+            backgroundImage: `url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23003366' fill-opacity='1'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E")`,
+          }}
+        />
+        
+        {/* Decorative warm glow */}
+        <div className="absolute top-1/4 right-0 w-96 h-96 bg-cta/5 rounded-full blur-3xl" aria-hidden="true" />
+        <div className="absolute bottom-0 left-1/4 w-80 h-80 bg-success/5 rounded-full blur-3xl" aria-hidden="true" />
         
         <div className="container-max px-4 relative z-10">
-          <div className="max-w-5xl mx-auto">
-            {/* Centered alignment */}
-            <div className="text-center">
+          {/* Split Layout: Text Left, Image Right */}
+          <div className="grid lg:grid-cols-2 gap-8 lg:gap-12 items-center">
+            {/* Left Column: Content */}
+            <div className="text-center lg:text-left order-1">
+              {/* Social Proof Badge */}
+              <div className="inline-flex items-center gap-2 bg-success/10 text-success px-4 py-2 rounded-full text-sm font-medium mb-6 animate-fade-in">
+                <Star className="w-4 h-4 fill-current" />
+                <span>Trusted by 10,000+ homeowners</span>
+              </div>
+              
               {/* Headline */}
-              <h1 className="font-display text-[1.75rem] md:text-[2rem] lg:text-[2.5rem] font-bold text-foreground leading-tight mb-4 animate-fade-in animation-delay-100 tracking-tight">
+              <h1 className="font-display text-[1.75rem] md:text-[2rem] lg:text-[2.5rem] xl:text-[2.75rem] font-bold text-foreground leading-tight mb-4 animate-fade-in animation-delay-100 tracking-tight">
                 Trusted Local Pros for Any Project
                 <span className="block text-accent mt-2">Get a Quote in Minutes</span>
               </h1>
 
-              <p className="text-lg md:text-xl text-muted-foreground mb-8 max-w-3xl mx-auto animate-fade-in-up animation-delay-200">
+              <p className="text-lg md:text-xl text-muted-foreground mb-8 max-w-xl mx-auto lg:mx-0 animate-fade-in-up animation-delay-200">
                 Fast, reliable, and vetted professionals for essential home and business services — all backed by quality standards you can rely on.
               </p>
 
-              {/* Dual Search Bar */}
-              <div className="max-w-3xl mx-auto animate-fade-in-up animation-delay-300">
-              <form onSubmit={(e) => { e.preventDefault(); handleFindPro(); }} className="bg-card rounded-xl border border-border shadow-lg p-2 flex flex-col md:flex-row gap-2" role="search" aria-label="Service search form">
-                {/* Service Input with Autosuggest */}
-                <div className="flex-1 relative" ref={serviceDropdownRef}>
-                  <div className="relative">
-                    <Input
-                      ref={otherServiceInputRef}
-                      type="text"
-                      placeholder="What kind of service do you need?"
-                      value={serviceInputValue}
-                      onChange={(e) => {
-                        handleServiceInputChange(e);
-                        // Clear validation error when user starts typing
-                        if (validationError) setValidationError("");
-                      }}
-                      role="combobox"
-                      aria-label="Service type"
-                      aria-autocomplete="list"
-                      aria-controls="service-suggestions"
-                      aria-expanded={isServiceDropdownOpen && filteredServices.length > 0}
-                      aria-haspopup="listbox"
-                      onFocus={() => {
-                        // Only show dropdown if there's text to filter
-                        if (serviceInputValue.length > 0) {
-                          setIsServiceDropdownOpen(true);
-                        }
-                      }}
-                      className={`w-full h-14 border-0 bg-transparent text-base px-4 focus:ring-0 focus:ring-offset-0 ${
-                        validationError && !serviceValue ? "placeholder:text-destructive text-destructive" : ""
+              {/* Search Bar */}
+              <div className="max-w-xl mx-auto lg:mx-0 animate-fade-in-up animation-delay-300">
+                <form onSubmit={(e) => { e.preventDefault(); handleFindPro(); }} className="bg-card rounded-xl border border-border shadow-lg p-2 flex flex-col md:flex-row gap-2" role="search" aria-label="Service search form">
+                  {/* Service Input with Autosuggest */}
+                  <div className="flex-1 relative" ref={serviceDropdownRef}>
+                    <div className="relative">
+                      <Input
+                        ref={otherServiceInputRef}
+                        type="text"
+                        placeholder="What service do you need?"
+                        value={serviceInputValue}
+                        onChange={(e) => {
+                          handleServiceInputChange(e);
+                          if (validationError) setValidationError("");
+                        }}
+                        role="combobox"
+                        aria-label="Service type"
+                        aria-autocomplete="list"
+                        aria-controls="service-suggestions"
+                        aria-expanded={isServiceDropdownOpen && filteredServices.length > 0}
+                        aria-haspopup="listbox"
+                        onFocus={() => {
+                          if (serviceInputValue.length > 0) {
+                            setIsServiceDropdownOpen(true);
+                          }
+                        }}
+                        className={`w-full h-12 md:h-14 border-0 bg-transparent text-base px-4 focus:ring-0 focus:ring-offset-0 ${
+                          validationError && !serviceValue ? "placeholder:text-destructive text-destructive" : ""
+                        }`}
+                        onKeyDown={(e) => {
+                          if (e.key === "Escape") {
+                            setIsServiceDropdownOpen(false);
+                          }
+                        }}
+                      />
+                      {isServiceDropdownOpen && filteredServices.length > 0 && (
+                        <div id="service-suggestions" className="absolute top-full left-0 right-0 mt-1 bg-card border border-border rounded-lg shadow-lg z-50 max-h-60 overflow-y-auto" role="listbox" aria-label="Service suggestions">
+                          {filteredServices.map((service) => (
+                            <button
+                              key={service.value}
+                              type="button"
+                              onClick={(e) => {
+                                e.preventDefault();
+                                e.stopPropagation();
+                                handleServiceSelect(service);
+                              }}
+                              className="w-full text-left px-4 py-3 hover:bg-accent/10 transition-colors text-base"
+                            >
+                              {service.label}
+                            </button>
+                          ))}
+                          {serviceInputValue.length > 0 && filteredServices.length === 0 && (
+                            <button
+                              type="button"
+                              onClick={(e) => {
+                                e.preventDefault();
+                                e.stopPropagation();
+                                setSelectedService("other");
+                                setCustomServiceText(serviceInputValue);
+                                setIsServiceDropdownOpen(false);
+                                setZipCodeFocused(true);
+                                setTimeout(() => {
+                                  setZipCodeFocused(false);
+                                }, 3000);
+                              }}
+                              className="w-full text-left px-4 py-3 hover:bg-accent/10 transition-colors text-base border-t border-border font-medium"
+                            >
+                              Use "{serviceInputValue}"
+                            </button>
+                          )}
+                        </div>
+                      )}
+                    </div>
+                  </div>
+
+                  {/* Divider */}
+                  <div className="hidden md:block w-px bg-border my-2" />
+
+                  {/* Zip Code Input with Locate Me */}
+                  <div className="flex flex-col">
+                    <div 
+                      className={`flex items-center gap-2 px-4 border-t md:border-t-0 border-border md:border-none relative transition-all duration-300 ${
+                        zipCodeFocused ? "ring-2 ring-accent/50 rounded-md" : ""
+                      } ${
+                        zipCodeError ? "ring-2 ring-destructive/50 rounded-md" : ""
                       }`}
-                      onKeyDown={(e) => {
-                        // Only handle Escape key - allow all other keys (spaces, arrows, etc.) to work normally
-                        if (e.key === "Escape") {
-                          setIsServiceDropdownOpen(false);
-                        }
-                        // Don't prevent default for any other keys - allow normal text editing
-                      }}
-                    />
-                    {isServiceDropdownOpen && filteredServices.length > 0 && (
-                      <div id="service-suggestions" className="absolute top-full left-0 right-0 mt-1 bg-white border border-border rounded-lg shadow-lg z-50 max-h-60 overflow-y-auto" role="listbox" aria-label="Service suggestions">
-                        {filteredServices.map((service) => (
-                          <button
-                            key={service.value}
-                            type="button"
-                            onClick={(e) => {
-                              e.preventDefault();
-                              e.stopPropagation();
-                              handleServiceSelect(service);
-                            }}
-                            className="w-full text-left px-4 py-3 hover:bg-accent/10 transition-colors text-base"
-                          >
-                            {service.label}
-                          </button>
-                        ))}
-                        {serviceInputValue.length > 0 && filteredServices.length === 0 && (
-                          <button
-                            type="button"
-                            onClick={(e) => {
-                              e.preventDefault();
-                              e.stopPropagation();
-                              setSelectedService("other");
-                              setCustomServiceText(serviceInputValue);
-                              setIsServiceDropdownOpen(false);
-                              // Trigger glow effect
-                              setZipCodeFocused(true);
-                              setTimeout(() => {
-                                setZipCodeFocused(false);
-                              }, 3000);
-                            }}
-                            className="w-full text-left px-4 py-3 hover:bg-accent/10 transition-colors text-base border-t border-border font-medium"
-                          >
-                            Use "{serviceInputValue}"
-                          </button>
+                    >
+                      <MapPin className="w-5 h-5 text-muted-foreground flex-shrink-0" />
+                      <input
+                        ref={zipInputRef}
+                        type="tel"
+                        inputMode="numeric"
+                        placeholder={zipCodeFocused ? "e.g. 90210" : "ZIP Code"}
+                        value={zipCode}
+                        onChange={(e) => {
+                          handleZipChange(e);
+                          if (validationError) setValidationError("");
+                        }}
+                        maxLength={5}
+                        className={`w-24 py-3 md:py-4 bg-transparent border-0 focus:outline-none focus:ring-0 text-base ${
+                          validationError && !isZipValid ? "text-destructive placeholder:text-destructive" : "text-foreground placeholder:text-muted-foreground"
+                        }`}
+                        aria-label="ZIP Code"
+                        aria-invalid={zipCodeError ? "true" : "false"}
+                        aria-describedby={zipCodeError ? "zip-error" : undefined}
+                      />
+                      <button
+                        type="button"
+                        onClick={handleLocateMe}
+                        disabled={isLocating}
+                        className="flex-shrink-0 text-muted-foreground hover:text-accent transition-colors disabled:opacity-50"
+                        aria-label="Use my location"
+                        title="Use my location"
+                      >
+                        {isLocating ? (
+                          <Loader2 className="w-4 h-4 animate-spin" />
+                        ) : (
+                          <Navigation className="w-4 h-4" />
                         )}
-                      </div>
+                      </button>
+                    </div>
+                    {zipCodeError && (
+                      <p id="zip-error" className="text-xs text-destructive mt-1 px-4" role="alert">{zipCodeError}</p>
                     )}
                   </div>
-                </div>
 
-                {/* Divider */}
-                <div className="hidden md:block w-px bg-border my-2" />
-
-                {/* Zip Code Input with Locate Me */}
-                <div className="flex flex-col">
-                  <div 
-                    className={`flex items-center gap-2 px-4 border-t md:border-t-0 border-border md:border-none relative transition-all duration-300 ${
-                      zipCodeFocused ? "ring-2 ring-blue-400/50 rounded-md" : ""
-                    } ${
-                      zipCodeError ? "ring-2 ring-red-400/50 rounded-md" : ""
-                    }`}
+                  {/* CTA Button */}
+                  <Button
+                    type="submit"
+                    size="lg"
+                    className="bg-cta hover:bg-cta/90 text-cta-foreground px-6 md:px-8 py-3 md:py-4 h-12 md:h-14 text-base font-semibold rounded-lg shadow-md hover:shadow-lg transition-all w-full md:w-auto"
                   >
-                    <MapPin className="w-5 h-5 text-muted-foreground flex-shrink-0" />
-                    <input
-                      ref={zipInputRef}
-                      type="tel"
-                      inputMode="numeric"
-                      placeholder={zipCodeFocused ? "12345 or e.g. 90210" : "ZIP Code"}
-                      value={zipCode}
-                      onChange={(e) => {
-                        handleZipChange(e);
-                        // Clear validation error when user starts typing
-                        if (validationError) setValidationError("");
-                      }}
-                      maxLength={5}
-                      className={`w-28 py-4 bg-transparent border-0 focus:outline-none focus:ring-0 text-base ${
-                        validationError && !isZipValid ? "text-destructive placeholder:text-destructive" : "text-foreground placeholder:text-muted-foreground"
-                      }`}
-                      aria-label="ZIP Code"
-                      aria-invalid={zipCodeError ? "true" : "false"}
-                      aria-describedby={zipCodeError ? "zip-error" : undefined}
-                    />
-                    <button
-                      onClick={handleLocateMe}
-                      disabled={isLocating}
-                      className="flex-shrink-0 text-muted-foreground hover:text-accent transition-colors disabled:opacity-50"
-                      aria-label="Use my location"
-                      title="Use my location"
-                    >
-                      {isLocating ? (
-                        <Loader2 className="w-4 h-4 animate-spin" />
-                      ) : (
-                        <Navigation className="w-4 h-4" />
-                      )}
-                    </button>
+                    Get a Free Quote
+                    <span className="relative ml-2 flex h-2 w-2">
+                      <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-success opacity-75"></span>
+                      <span className="relative inline-flex rounded-full h-2 w-2 bg-success"></span>
+                    </span>
+                  </Button>
+                </form>
+                
+                {/* Validation Error Message */}
+                {validationError && (
+                  <div className="mt-3 text-destructive text-sm font-medium animate-fade-in" role="alert">
+                    {validationError}
                   </div>
-                  {zipCodeError && (
-                    <p id="zip-error" className="text-xs text-destructive mt-1 px-4" role="alert">{zipCodeError}</p>
-                  )}
-                </div>
-
-                {/* CTA Button */}
-                <Button
-                  onClick={handleFindPro}
-                  size="lg"
-                  className="bg-cta hover:bg-cta/90 text-cta-foreground px-8 py-4 h-14 text-base font-semibold rounded-lg shadow-md hover:shadow-lg transition-all w-full md:w-auto"
-                >
-                  Get a Free Quote
-                  <span className="relative ml-2 flex h-2 w-2">
-                    <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-success opacity-75"></span>
-                    <span className="relative inline-flex rounded-full h-2 w-2 bg-success"></span>
-                  </span>
-                </Button>
-              </form>
-              
-              {/* Validation Error Message */}
-              {validationError && (
-                <div className="mt-3 text-destructive text-sm font-medium animate-fade-in" role="alert">
-                  {validationError}
-                </div>
-              )}
+                )}
               </div>
               
-              {/* Trust Badges Row */}
-              <div className="flex flex-wrap items-center justify-center gap-6 md:gap-8 mt-6 animate-fade-in-up animation-delay-400">
-                <div className="flex items-center gap-2 text-sm text-muted-foreground">
-                  <FileCheck className="w-4 h-4 text-success" />
-                  <span>Licensed & Insured</span>
+              {/* Trust Badges - Immediately Below Search */}
+              <div className="grid grid-cols-2 md:flex md:flex-wrap items-center justify-center lg:justify-start gap-4 md:gap-6 mt-6 animate-fade-in-up animation-delay-400">
+                <div className="flex items-center gap-2 text-sm">
+                  <div className="w-8 h-8 rounded-full bg-success/10 flex items-center justify-center flex-shrink-0">
+                    <ShieldCheck className="w-4 h-4 text-success" />
+                  </div>
+                  <span className="text-muted-foreground font-medium">Background Checked</span>
                 </div>
-                <div className="flex items-center gap-2 text-sm text-muted-foreground">
-                  <ShieldCheck className="w-4 h-4 text-success" />
-                  <span>Background-Checked Pros</span>
+                <div className="flex items-center gap-2 text-sm">
+                  <div className="w-8 h-8 rounded-full bg-success/10 flex items-center justify-center flex-shrink-0">
+                    <FileCheck className="w-4 h-4 text-success" />
+                  </div>
+                  <span className="text-muted-foreground font-medium">Licensed & Insured</span>
                 </div>
-                <div className="flex items-center gap-2 text-sm text-muted-foreground">
-                  <DollarSign className="w-4 h-4 text-success" />
-                  <span>Upfront Pricing</span>
+                <div className="flex items-center gap-2 text-sm">
+                  <div className="w-8 h-8 rounded-full bg-success/10 flex items-center justify-center flex-shrink-0">
+                    <BadgeCheck className="w-4 h-4 text-success" />
+                  </div>
+                  <span className="text-muted-foreground font-medium">Satisfaction Guaranteed</span>
                 </div>
-                <div className="flex items-center gap-2 text-sm text-muted-foreground">
-                  <Clock className="w-4 h-4 text-success" />
-                  <span>Same-Day Service Available</span>
+                <div className="flex items-center gap-2 text-sm">
+                  <div className="w-8 h-8 rounded-full bg-success/10 flex items-center justify-center flex-shrink-0">
+                    <Clock className="w-4 h-4 text-success" />
+                  </div>
+                  <span className="text-muted-foreground font-medium">Same-Day Available</span>
+                </div>
+              </div>
+            </div>
+
+            {/* Right Column: Professional Image */}
+            <div className="relative order-2 hidden md:flex items-center justify-center lg:justify-end">
+              <div className="relative">
+                {/* Decorative circle behind image */}
+                <div className="absolute -inset-4 bg-gradient-to-br from-success/20 to-accent/20 rounded-full blur-2xl" aria-hidden="true" />
+                
+                {/* Main image container with soft edge */}
+                <div className="relative z-10">
+                  <img
+                    src={heroProfessional}
+                    alt="Friendly professional service technician ready to help with your home projects"
+                    className="w-full max-w-md lg:max-w-lg xl:max-w-xl h-auto rounded-2xl shadow-2xl object-cover"
+                    loading="eager"
+                    fetchPriority="high"
+                  />
+                  
+                  {/* Floating testimonial card */}
+                  <div className="absolute -bottom-4 -left-4 lg:-left-8 bg-card border border-border rounded-xl shadow-lg p-4 max-w-[240px] animate-fade-in animation-delay-500">
+                    <div className="flex items-center gap-1 mb-2">
+                      {[...Array(5)].map((_, i) => (
+                        <Star key={i} className="w-4 h-4 fill-cta text-cta" />
+                      ))}
+                    </div>
+                    <p className="text-sm text-foreground font-medium">"Arrived on time, did excellent work!"</p>
+                    <p className="text-xs text-muted-foreground mt-1">— Sarah M., Los Angeles</p>
+                  </div>
+                  
+                  {/* Response time badge */}
+                  <div className="absolute -top-2 -right-2 lg:-right-4 bg-success text-success-foreground rounded-full px-4 py-2 shadow-lg animate-fade-in animation-delay-400">
+                    <div className="flex items-center gap-2 text-sm font-semibold">
+                      <Clock className="w-4 h-4" />
+                      <span>Avg. 2hr Response</span>
+                    </div>
+                  </div>
                 </div>
               </div>
             </div>
