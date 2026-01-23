@@ -215,8 +215,10 @@ const VerifiedReviews = () => {
   // Calculate transform for smooth scrolling
   const getTransform = () => {
     if (isMobile) {
-      // Mobile: show 1 testimonial at a time, fully visible
-      return `translateX(-${currentIndex * 100}%)`;
+      // Mobile: show 1 testimonial at a time, centered
+      // Each item is 100% width, so translate by 100% per index
+      // Add container padding offset to center properly
+      return `translateX(calc(-${currentIndex * 100}% - ${currentIndex * 0}px))`;
     }
     // Desktop: show 3 testimonials at once, with current centered
     // With gap-8 (32px), each item is approximately 33.333% wide
@@ -258,10 +260,10 @@ const VerifiedReviews = () => {
           aria-label="Customer testimonials carousel"
         >
           {/* Carousel Wrapper */}
-          <div className="overflow-hidden w-full">
+          <div className={`overflow-hidden w-full ${isMobile ? 'px-4' : ''}`}>
           <div
               ref={carouselRef}
-              className="flex w-full gap-8 will-change-transform"
+              className={`flex w-full will-change-transform ${isMobile ? 'gap-0' : 'gap-8'}`}
               style={{
                 transform: getTransform(),
                 transition: 'transform 700ms cubic-bezier(0.4, 0, 0.2, 1)',
@@ -299,8 +301,6 @@ const VerifiedReviews = () => {
                   style={{
                     opacity: isVisible ? 1 : 0,
                     pointerEvents: isVisible ? 'auto' : 'none',
-                    marginLeft: isMobile ? '8px' : undefined,
-                    marginRight: isMobile ? '8px' : undefined,
                   }}
                   role="group"
                   aria-roledescription="slide"
