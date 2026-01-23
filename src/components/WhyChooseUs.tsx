@@ -22,7 +22,7 @@ const WhyChooseUs = () => {
         <div className="grid lg:grid-cols-2 gap-12 lg:gap-16 items-center">
           {/* Content */}
           <div className="text-center md:text-left">
-            <h2 className="font-display text-3xl md:text-4xl lg:text-5xl font-bold text-foreground mb-6">Why Choose Us for Your Home Services</h2>
+            <h2 className="font-display text-[30px] font-bold text-foreground mb-6">Why Choose Us for Your Home Services</h2>
             <p className="text-lg text-muted-foreground mb-10 leading-relaxed">
               We're not just contractors – we're your neighbors who happen to be home service experts. 
               For over 15 years, we've been helping local families and businesses with premium home services.

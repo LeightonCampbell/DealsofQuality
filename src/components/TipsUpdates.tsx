@@ -76,7 +76,7 @@ const TipsUpdates = () => {
     <section className="py-16 md:py-20 bg-muted">
       <div className="container-max px-4 md:px-8 lg:px-16">
         <div className="max-w-2xl mx-auto text-center">
-          <h2 className="font-display text-2xl md:text-3xl lg:text-4xl font-bold text-foreground mb-4">
+          <h2 className="font-display text-[30px] font-bold text-foreground mb-4">
             Stay updated with quality tips
           </h2>
           <p className="text-muted-foreground mb-8">

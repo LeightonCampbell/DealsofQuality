@@ -77,7 +77,7 @@ const ServiceGrid = () => {
         {/* Section Header */}
         <div className="flex flex-col md:flex-row md:items-end md:justify-between mb-10">
           <div className="text-center md:text-left">
-            <h2 id="popular-services-heading" className="font-display text-2xl md:text-3xl font-bold text-foreground mb-2">
+            <h2 id="popular-services-heading" className="font-display text-[30px] font-bold text-foreground mb-2">
               Popular Services
             </h2>
             <p className="text-muted-foreground">
@@ -107,7 +107,7 @@ const ServiceGrid = () => {
                 {/* Hot Badge - high contrast colors for accessibility */}
                 {service.popular && (
                   <span 
-                    className="absolute -top-2 -right-2 bg-destructive text-destructive-foreground text-xs font-semibold px-2 py-1 rounded-full"
+                    className="absolute -top-2 -right-2 bg-cta text-cta-foreground text-xs font-semibold px-2 py-1 rounded-full"
                     aria-hidden="true"
                   >
                     Hot

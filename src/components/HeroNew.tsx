@@ -341,7 +341,7 @@ const HeroNew = () => {
           {/* Content - Centered on mobile, left aligned on desktop */}
           <div className="max-w-xl mx-auto lg:mx-0 lg:max-w-lg">
             {/* Social Proof Badge */}
-            <div className="inline-flex items-center gap-2 bg-white/10 backdrop-blur-sm text-white/90 px-4 py-2 rounded-full text-sm font-medium mb-6 animate-fade-in border border-white/20">
+            <div className="flex items-center justify-center lg:justify-start gap-2 bg-white/10 backdrop-blur-sm text-white/90 px-4 py-2 rounded-full text-sm font-medium mb-6 animate-fade-in border border-white/20 w-fit mx-auto lg:mx-0">
               <Star className="w-4 h-4 fill-current text-cta" />
               <span>Trusted by 10,000+ homeowners</span>
             </div>
@@ -361,7 +361,7 @@ const HeroNew = () => {
             <div className="animate-fade-in-up animation-delay-300">
               <form onSubmit={(e) => { e.preventDefault(); handleFindPro(); }} className="bg-white rounded-xl shadow-xl p-2 flex flex-col md:flex-row gap-2" role="search" aria-label="Service search form">
                 {/* Service Input with Autosuggest */}
-                <div className="flex-1 relative min-w-0" ref={serviceDropdownRef}>
+                <div className="flex-[2] lg:flex-[3] relative min-w-0" ref={serviceDropdownRef}>
                   <div className="relative">
                     <Input
                       ref={otherServiceInputRef}
@@ -436,15 +436,15 @@ const HeroNew = () => {
                 <div className="hidden md:block w-px bg-border my-2" />
 
                 {/* Zip Code Input with Locate Me */}
-                <div className="flex flex-col">
+                <div className="flex flex-col flex-shrink-0 lg:flex-[1]">
                   <div 
-                    className={`flex items-center gap-2 px-4 border-t md:border-t-0 border-border md:border-none relative transition-all duration-300 ${
+                    className={`flex items-center gap-2 px-3 lg:px-4 border-t md:border-t-0 border-border md:border-none relative transition-all duration-300 ${
                       zipCodeFocused ? "ring-2 ring-accent/50 rounded-md" : ""
                     } ${
                       zipCodeError ? "ring-2 ring-destructive/50 rounded-md" : ""
                     }`}
                   >
-                    <MapPin className="w-5 h-5 text-muted-foreground flex-shrink-0" />
+                    <MapPin className="w-4 h-4 lg:w-5 lg:h-5 text-muted-foreground flex-shrink-0" />
                     <input
                       ref={zipInputRef}
                       type="tel"
@@ -456,7 +456,7 @@ const HeroNew = () => {
                         if (validationError) setValidationError("");
                       }}
                       maxLength={5}
-                      className={`w-24 py-3 md:py-4 bg-transparent border-0 focus:outline-none focus:ring-0 text-[15px] ${
+                      className={`w-20 lg:w-24 py-3 md:py-4 bg-transparent border-0 focus:outline-none focus:ring-0 text-[15px] ${
                         validationError && !isZipValid ? "text-destructive placeholder:text-destructive" : "text-foreground placeholder:text-muted-foreground"
                       }`}
                       aria-label="ZIP Code"
@@ -506,22 +506,22 @@ const HeroNew = () => {
         {/* Trust Badges - Centered below hero content */}
         <div className="relative z-10 bg-foreground/95 backdrop-blur-sm border-t border-white/10">
           <div className="container-max px-4 py-4">
-            <div className="flex flex-wrap items-center justify-center gap-x-8 gap-y-3">
-              <div className="flex items-center gap-2 text-sm">
-                <ShieldCheck className="w-4 h-4 text-cta" />
-                <span className="text-white/90 font-medium">Background Checked</span>
+            <div className="flex flex-wrap items-center justify-center gap-x-4 md:gap-x-6 lg:gap-x-8 gap-y-3">
+              <div className="flex items-center gap-2 text-xs md:text-sm">
+                <ShieldCheck className="w-3 h-3 md:w-4 md:h-4 text-cta flex-shrink-0" />
+                <span className="text-white/90 font-medium whitespace-nowrap">Background Checked</span>
               </div>
-              <div className="flex items-center gap-2 text-sm">
-                <FileCheck className="w-4 h-4 text-cta" />
-                <span className="text-white/90 font-medium">Licensed & Insured</span>
+              <div className="flex items-center gap-2 text-xs md:text-sm">
+                <FileCheck className="w-3 h-3 md:w-4 md:h-4 text-cta flex-shrink-0" />
+                <span className="text-white/90 font-medium whitespace-nowrap">Licensed & Insured</span>
               </div>
-              <div className="flex items-center gap-2 text-sm">
-                <BadgeCheck className="w-4 h-4 text-cta" />
-                <span className="text-white/90 font-medium">Satisfaction Guaranteed</span>
+              <div className="flex items-center gap-2 text-xs md:text-sm">
+                <BadgeCheck className="w-3 h-3 md:w-4 md:h-4 text-cta flex-shrink-0" />
+                <span className="text-white/90 font-medium whitespace-nowrap">Satisfaction Guaranteed</span>
               </div>
-              <div className="flex items-center gap-2 text-sm">
-                <Clock className="w-4 h-4 text-cta" />
-                <span className="text-white/90 font-medium">Same-Day Available</span>
+              <div className="flex items-center gap-2 text-xs md:text-sm">
+                <Clock className="w-3 h-3 md:w-4 md:h-4 text-cta flex-shrink-0" />
+                <span className="text-white/90 font-medium whitespace-nowrap">Same-Day Available</span>
               </div>
             </div>
           </div>
