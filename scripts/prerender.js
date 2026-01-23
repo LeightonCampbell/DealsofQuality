@@ -149,7 +149,7 @@ async function prerender() {
       await page.waitForSelector('#root', { timeout: 10000 });
       
       // Wait for lazy-loaded components
-      await page.waitForTimeout(2000);
+      await new Promise(resolve => setTimeout(resolve, 2000));
       
       // Wait for any dynamic content
       await page.waitForFunction(
@@ -158,7 +158,7 @@ async function prerender() {
       );
       
       // Additional wait for animations/transitions
-      await page.waitForTimeout(500);
+      await new Promise(resolve => setTimeout(resolve, 500));
       
       // Get the rendered HTML
       const html = await page.content();
