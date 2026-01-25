@@ -115,16 +115,7 @@ const Footer = () => {
               <ul className="space-y-3">
                 {quickLinks.map((link) => (
                   <li key={link.label}>
-                    {link.external ? (
-                      <a
-                        href={link.href}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className="text-background/70 hover:text-accent transition-colors duration-200"
-                      >
-                        {link.label}
-                      </a>
-                    ) : link.href.startsWith("/#") ? (
+                    {link.href.startsWith("/#") ? (
                       <a
                         href={link.href}
                         className="text-background/70 hover:text-accent transition-colors duration-200"
