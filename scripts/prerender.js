@@ -14,13 +14,18 @@ const __dirname = dirname(__filename);
 const distDir = join(__dirname, '..', 'dist');
 const indexPath = join(distDir, 'index.html');
 
-// Routes to prerender
+// Routes to prerender (includes all blogs for Netlify SSG)
 const routes = [
   '/',
   '/join-as-pro',
   '/contact',
   '/services',
+  '/blog',
   '/services/tv-mounting',
+  '/blog/7-reasons-why-your-local-business-needs-modern-website-2026',
+  '/blog/signs-your-computer-needs-professional-support',
+  '/blog/tv-mounting-done-right-why-professional-installation-matters',
+  '/blog/top-5-mistakes-to-avoid-when-mounting-your-tv',
   '/blog/tv-mounting-services-los-angeles',
   '/plumbing',
   '/electrical',

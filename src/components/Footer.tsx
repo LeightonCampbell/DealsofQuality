@@ -1,6 +1,6 @@
 import { Facebook, Twitter, Linkedin, Instagram, Phone, MessageSquare, MapPin } from "lucide-react";
 import { Link, useNavigate, useLocation } from "react-router-dom";
-import logo from "@/assets/logo.png";
+import logoDark from "@/assets/logo-dark.png";
 
 const Footer = () => {
   const navigate = useNavigate();
@@ -63,9 +63,9 @@ const Footer = () => {
             <div className="lg:col-span-1 text-center md:text-left">
               <Link to="/" className="inline-block mb-6">
                 <img 
-                  src={logo} 
-                  alt="Deals Of Quality" 
-                  className="h-10 w-auto brightness-0 invert" 
+                  src={logoDark} 
+                  alt="DoQuality - Smart, Fast, Reliable" 
+                  className="h-10 w-auto" 
                   width="125"
                   height="40"
                   loading="lazy"
