@@ -115,21 +115,17 @@ const HeroNew = () => {
   // Button enabled state: service must be selected/typed AND zip must be valid US zip code
   const isButtonEnabled = (serviceValue.length > 0) && isZipValid;
 
-  // Sequential highlight logic: Glow zip code when service is selected
+  // Sequential highlight logic: Glow zip code when service is selected (only when a service is actually selected, not while typing)
   useEffect(() => {
-    if (serviceInputValue && serviceInputValue.length > 0 && !zipCodeFocused) {
+    // Only focus zip code when a service is actually selected from dropdown, not while user is typing
+    if (selectedService && selectedService.length > 0 && !zipCodeFocused) {
       setZipCodeFocused(true);
-      if (isMobile && zipInputRef.current) {
-        setTimeout(() => {
-          zipInputRef.current?.focus();
-        }, 100);
-      }
       const timer = setTimeout(() => {
         setZipCodeFocused(false);
       }, 3000);
       return () => clearTimeout(timer);
     }
-  }, [serviceInputValue, isMobile]);
+  }, [selectedService, zipCodeFocused]);
 
   // Close dropdown when clicking outside
   useEffect(() => {
@@ -418,6 +414,12 @@ const HeroNew = () => {
                               setCustomServiceText(serviceInputValue);
                               setIsServiceDropdownOpen(false);
                               setZipCodeFocused(true);
+                              // Only auto-focus zip code on mobile when "Use" button is clicked
+                              if (isMobile && zipInputRef.current) {
+                                setTimeout(() => {
+                                  zipInputRef.current?.focus();
+                                }, 100);
+                              }
                               setTimeout(() => {
                                 setZipCodeFocused(false);
                               }, 3000);

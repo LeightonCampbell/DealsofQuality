@@ -34,7 +34,7 @@ const MobileBookingFooter = () => {
         <div className="flex gap-3">
           <a
             href="tel:+18185847389"
-            className="flex-1 flex items-center justify-center gap-2 min-h-[48px] rounded-lg border border-border bg-background text-foreground font-semibold"
+            className="flex-1 flex items-center justify-center gap-2 h-12 rounded-lg border border-border bg-background text-foreground font-semibold text-sm"
             aria-label="Call us at (818) 584-7389"
           >
             <Phone className="w-4 h-4" aria-hidden="true" />
@@ -42,7 +42,7 @@ const MobileBookingFooter = () => {
           </a>
           <Button
             onClick={() => setIsModalOpen(true)}
-            className="flex-1 min-h-[48px] bg-accent hover:bg-accent/90 text-accent-foreground font-semibold"
+            className="flex-1 h-12 bg-accent hover:bg-accent/90 text-accent-foreground font-semibold text-sm"
             aria-label="Get a free quote for your project"
           >
             Get Free Quote
