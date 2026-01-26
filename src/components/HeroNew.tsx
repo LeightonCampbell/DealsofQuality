@@ -115,17 +115,21 @@ const HeroNew = () => {
   // Button enabled state: service must be selected/typed AND zip must be valid US zip code
   const isButtonEnabled = (serviceValue.length > 0) && isZipValid;
 
-  // Sequential highlight logic: Glow zip code when service is selected (only when a service is actually selected, not while typing)
+  // Track if service was selected via click (not typing)
+  const [serviceSelectedViaClick, setServiceSelectedViaClick] = useState(false);
+
+  // Sequential highlight logic: Glow zip code when service is selected (only when a service is actually selected via click, not while typing)
   useEffect(() => {
-    // Only focus zip code when a service is actually selected from dropdown, not while user is typing
-    if (selectedService && selectedService.length > 0 && !zipCodeFocused) {
+    // Only highlight zip code when a service is actually selected from dropdown via click, not while user is typing
+    if (serviceSelectedViaClick && selectedService && selectedService.length > 0 && !zipCodeFocused) {
       setZipCodeFocused(true);
       const timer = setTimeout(() => {
         setZipCodeFocused(false);
+        setServiceSelectedViaClick(false); // Reset flag after highlighting
       }, 3000);
       return () => clearTimeout(timer);
     }
-  }, [selectedService, zipCodeFocused]);
+  }, [serviceSelectedViaClick, selectedService, zipCodeFocused]);
 
   // Close dropdown when clicking outside
   useEffect(() => {
@@ -146,13 +150,15 @@ const HeroNew = () => {
     }
   }, [isServiceDropdownOpen]);
 
-  // Handle service selection from autosuggest
+  // Handle service selection from autosuggest (only called when user clicks a suggestion)
   const handleServiceSelect = (service: typeof allServices[0]) => {
     setServiceInputValue(service.label);
     setSelectedService(service.value);
     setCustomServiceText("");
     setIsServiceDropdownOpen(false);
+    setServiceSelectedViaClick(true); // Mark that this was a click selection
     setZipCodeFocused(true);
+    // Only auto-focus zip code on mobile when a service is explicitly selected from dropdown
     if (isMobile && zipInputRef.current) {
       setTimeout(() => {
         zipInputRef.current?.focus();
@@ -173,9 +179,11 @@ const HeroNew = () => {
   }, [serviceInputValue]);
 
   // Handle service input change with autosuggest
+  // IMPORTANT: This function should NEVER trigger focus changes - only typing logic
   const handleServiceInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const value = e.target.value;
     setServiceInputValue(value);
+    setServiceSelectedViaClick(false); // Reset click flag when user types
     
     if (value.length > 0) {
       setIsServiceDropdownOpen(true);
@@ -186,6 +194,7 @@ const HeroNew = () => {
       return;
     }
     
+    // Find exact match for autocomplete, but don't trigger focus
     const exactMatch = allServices.find(s => s.label.toLowerCase() === value.toLowerCase().trim());
     if (exactMatch) {
       setSelectedService(exactMatch.value);
@@ -413,6 +422,7 @@ const HeroNew = () => {
                               setSelectedService("other");
                               setCustomServiceText(serviceInputValue);
                               setIsServiceDropdownOpen(false);
+                              setServiceSelectedViaClick(true); // Mark that this was a click selection
                               setZipCodeFocused(true);
                               // Only auto-focus zip code on mobile when "Use" button is clicked
                               if (isMobile && zipInputRef.current) {
