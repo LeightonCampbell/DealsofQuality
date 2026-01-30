@@ -357,8 +357,8 @@ const HeroNew = () => {
               <span className="block text-cta mt-1 whitespace-nowrap">Get a Quote in Minutes</span>
             </h1>
 
-            {/* Subtext - 15px */}
-            <p className="text-[15px] text-white/80 mb-6 max-w-md mx-auto lg:mx-0 animate-fade-in-up animation-delay-200 text-center lg:text-left">
+            {/* Subtext - 17px */}
+            <p className="text-[17px] text-white/80 mb-6 max-w-md mx-auto lg:mx-0 animate-fade-in-up animation-delay-200 text-center lg:text-left">
               Fast, reliable, and vetted professionals for essential home and business services.
             </p>
 
@@ -530,7 +530,7 @@ const HeroNew = () => {
               </div>
               <div className="flex items-center gap-2 text-xs md:text-sm">
                 <Clock className="w-3 h-3 md:w-4 md:h-4 text-cta flex-shrink-0" />
-                <span className="text-white/90 font-medium whitespace-nowrap">Same-Day Available</span>
+                <span className="text-white/90 font-medium whitespace-nowrap">Same-Day Service Available</span>
               </div>
             </div>
           </div>

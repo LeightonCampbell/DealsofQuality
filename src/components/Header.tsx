@@ -4,6 +4,7 @@ import { Phone, Menu, X } from "lucide-react";
 import { Link, useLocation } from "react-router-dom";
 import logo from "@/assets/logo.png";
 import logoDark from "@/assets/logo-dark.png";
+import logoBlue from "@/assets/logo-blue.png";
 import BookingModal from "@/components/BookingModal";
 import ServicesMegaMenu from "@/components/ServicesMegaMenu";
 import { useIsMobile } from "@/hooks/use-mobile";
@@ -55,19 +56,19 @@ const Header = () => {
       </a>
       
       <header
-        className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
+        className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 px-4 md:px-8 lg:px-16 ${
           isTransparent
             ? "bg-transparent border-b border-transparent"
             : "bg-background/95 backdrop-blur-md border-b border-border"
         }`}
         role="banner"
       >
-        <div className="container-max section-padding !py-4">
+        <div className="container-max !py-4">
         <div className="flex items-center justify-between">
-          {/* Logo */}
+          {/* Logo - transparent: dark/white logo; sticky: blue logo #04548C */}
           <Link to="/" className="flex items-center" aria-label="Go to homepage">
             <img 
-              src={isTransparent ? logoDark : logo} 
+              src={isTransparent ? logoDark : logoBlue} 
               alt="Deals Of Quality - Premium Home Services" 
               className="h-10 md:h-12 w-auto" 
               width="150" 
@@ -113,18 +114,27 @@ const Header = () => {
             })}
           </nav>
 
-          {/* Desktop CTA */}
+          {/* Desktop CTA - transparent: white border/text + white phone; sticky: DoQ blue #04548C */}
           <div className="hidden lg:flex items-center gap-4">
             <a
               href="tel:+18185847389"
               className={`flex items-center gap-2 font-semibold transition-colors ${
-                isTransparent ? "text-white/90 hover:text-white" : "text-foreground hover:text-primary"
+                isTransparent ? "text-white hover:text-white" : "text-foreground hover:opacity-90"
               }`}
+              style={!isTransparent ? { color: '#04548C' } : undefined}
             >
-              <Phone className={`w-5 h-5 ${isTransparent ? "text-cta" : "text-accent"}`} />
+              <Phone className={`w-5 h-5 ${isTransparent ? "text-white" : ""}`} style={!isTransparent ? { color: '#04548C' } : undefined} />
               (818) 584-7389
             </a>
-            <Button onClick={() => setIsBookingModalOpen(true)} size="default" className="bg-cta hover:bg-cta/90 text-cta-foreground">
+            <Button
+              onClick={() => setIsBookingModalOpen(true)}
+              size="default"
+              className={isTransparent
+                ? "bg-transparent border-2 border-white text-white hover:bg-white/10 hover:text-white"
+                : "text-white hover:opacity-90"
+              }
+              style={!isTransparent ? { backgroundColor: '#04548C' } : undefined}
+            >
               Find a Pro
             </Button>
           </div>
@@ -171,7 +181,12 @@ const Header = () => {
                 <Phone className="w-5 h-5 text-accent" />
                 (818) 584-7389
               </a>
-              <Button onClick={() => setIsBookingModalOpen(true)} size="default" className="w-full bg-cta hover:bg-cta/90 text-cta-foreground">
+              <Button
+                onClick={() => setIsBookingModalOpen(true)}
+                size="default"
+                className={`w-full ${isTransparent ? "bg-transparent border-2 border-white text-white hover:bg-white/10" : "text-white"}`}
+                style={!isTransparent ? { backgroundColor: '#04548C' } : undefined}
+              >
                 Find a Pro
               </Button>
             </div>

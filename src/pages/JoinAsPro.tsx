@@ -7,7 +7,7 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
-import { Check, Users, DollarSign, Calendar, MapPin, Shield, Star, Send } from "lucide-react";
+import { Check, Users, DollarSign, Calendar, MapPin, Shield, Star, Send, ChevronLeft } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
 import { supabase } from "@/integrations/supabase/client";
 
@@ -18,6 +18,313 @@ import {
   DialogHeader,
   DialogTitle,
 } from "@/components/ui/dialog";
+
+const LEADS_MONTHLY_OPTIONS = [
+  { value: "1-5", label: "1-5 jobs" },
+  { value: "5-10", label: "5-10 jobs" },
+  { value: "10+", label: "10+ jobs" },
+] as const;
+
+type ProLeadFormData = {
+  businessName: string;
+  primaryService: string;
+  leadsMonthly: string;
+  mainServiceZipCode: string;
+  bestCellPhone: string;
+  businessEmail: string;
+};
+
+const initialProLeadForm: ProLeadFormData = {
+  businessName: "",
+  primaryService: "",
+  leadsMonthly: "",
+  mainServiceZipCode: "",
+  bestCellPhone: "",
+  businessEmail: "",
+};
+
+interface ProLeadModalProps {
+  open: boolean;
+  onOpenChange: (open: boolean) => void;
+}
+
+type ProLeadFieldKey = keyof ProLeadFormData;
+
+const ProLeadModal = ({ open, onOpenChange }: ProLeadModalProps) => {
+  const { toast } = useToast();
+  const [step, setStep] = useState<1 | 2>(1);
+  const [showThankYou, setShowThankYou] = useState(false);
+  const [formData, setFormData] = useState<ProLeadFormData>(initialProLeadForm);
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [errors, setErrors] = useState<Partial<Record<ProLeadFieldKey, string>>>({});
+
+  const handleClose = (isOpen: boolean) => {
+    if (!isOpen) {
+      setStep(1);
+      setFormData(initialProLeadForm);
+      setErrors({});
+      setShowThankYou(false);
+    }
+    onOpenChange(isOpen);
+  };
+
+  const clearError = (field: ProLeadFieldKey) => {
+    setErrors((prev) => {
+      const next = { ...prev };
+      delete next[field];
+      return next;
+    });
+  };
+
+  const validateStep1 = (): boolean => {
+    const next: Partial<Record<ProLeadFieldKey, string>> = {};
+    if (!formData.businessName.trim()) next.businessName = "Business name is required.";
+    if (!formData.primaryService.trim()) next.primaryService = "Primary service is required.";
+    if (!formData.leadsMonthly) next.leadsMonthly = "Please select how many leads you can handle monthly.";
+    setErrors(next);
+    return Object.keys(next).length === 0;
+  };
+
+  const validateStep2 = (): boolean => {
+    const next: Partial<Record<ProLeadFieldKey, string>> = {};
+    if (!formData.mainServiceZipCode.trim()) next.mainServiceZipCode = "Main service zip code is required.";
+    if (!formData.bestCellPhone.trim()) next.bestCellPhone = "Best cell phone for leads is required.";
+    if (!formData.businessEmail.trim()) next.businessEmail = "Business email is required.";
+    setErrors(next);
+    return Object.keys(next).length === 0;
+  };
+
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    if (step === 1) {
+      if (!validateStep1()) return;
+      setStep(2);
+      setErrors({});
+      return;
+    }
+    if (!validateStep2()) return;
+    setIsSubmitting(true);
+    try {
+      await supabase.from("form_submissions").insert({
+        form_type: "application",
+        name: formData.businessName,
+        email: formData.businessEmail,
+        phone: formData.bestCellPhone,
+        zip: formData.mainServiceZipCode,
+        service_category: formData.primaryService.slice(0, 200),
+        message: `Primary service: ${formData.primaryService}\nLeads per month: ${formData.leadsMonthly}`,
+      });
+      const { error } = await supabase.functions.invoke("send-form-email", {
+        body: {
+          formType: "application",
+          customerEmail: formData.businessEmail,
+          customerName: formData.businessName,
+          formData: {
+            businessName: formData.businessName,
+            primaryService: formData.primaryService,
+            leadsMonthly: formData.leadsMonthly,
+            mainServiceZipCode: formData.mainServiceZipCode,
+            bestCellPhone: formData.bestCellPhone,
+            businessEmail: formData.businessEmail,
+          },
+        },
+      });
+      if (error && import.meta.env.DEV) console.error("Email error:", error);
+      setShowThankYou(true);
+    } catch (err) {
+      if (import.meta.env.DEV) console.error("Submit error:", err);
+      toast({ title: "Something went wrong. Please try again.", variant: "destructive" });
+    }
+    setIsSubmitting(false);
+  };
+
+  return (
+    <>
+      <Dialog open={open} onOpenChange={handleClose}>
+        <DialogContent className="sm:max-w-md p-0 gap-0 overflow-hidden">
+          {showThankYou ? (
+            <div className="p-6 text-center">
+              <div className="mx-auto w-16 h-16 rounded-full bg-success/10 flex items-center justify-center mb-4">
+                <Check className="w-8 h-8 text-success" aria-hidden="true" />
+              </div>
+              <DialogTitle className="text-2xl font-display">Thank You!</DialogTitle>
+              <DialogDescription className="text-base mt-2">
+                Your application has been submitted. A DoQuality Agent will review and contact you within 24-48 hours.
+              </DialogDescription>
+              <Button onClick={() => handleClose(false)} className="mt-6">
+                Close
+              </Button>
+            </div>
+          ) : (
+            <>
+              <DialogHeader className="px-6 pt-6 pb-2 text-center space-y-1">
+                <DialogTitle className="text-xl font-semibold">
+                  Start Securing Your Exclusive Leads
+                </DialogTitle>
+                <DialogDescription>
+                  Takes less than 60 seconds.
+                </DialogDescription>
+              </DialogHeader>
+              <form onSubmit={handleSubmit} className="px-6 pb-6 space-y-4">
+                {step === 1 && (
+                  <>
+                    <div className="space-y-2">
+                      <Label htmlFor="businessName">
+                        Business Name <span className="text-destructive">*</span>
+                      </Label>
+                      <Input
+                        id="businessName"
+                        value={formData.businessName}
+                        onChange={(e) => {
+                          setFormData({ ...formData, businessName: e.target.value });
+                          clearError("businessName");
+                        }}
+                        placeholder="e.g., Smith & Co. Plumbing"
+                        className={errors.businessName ? "border-destructive" : ""}
+                      />
+                      {errors.businessName && (
+                        <p className="text-sm text-destructive">{errors.businessName}</p>
+                      )}
+                    </div>
+                    <div className="space-y-2">
+                      <Label htmlFor="primaryService">
+                        Primary Service You Offer? <span className="text-destructive">*</span>
+                      </Label>
+                      <Textarea
+                        id="primaryService"
+                        value={formData.primaryService}
+                        onChange={(e) => {
+                          setFormData({ ...formData, primaryService: e.target.value });
+                          clearError("primaryService");
+                        }}
+                        placeholder="I'm a licensed or certified pro at…"
+                        rows={3}
+                        className={`resize-none ${errors.primaryService ? "border-destructive" : ""}`}
+                      />
+                      {errors.primaryService && (
+                        <p className="text-sm text-destructive">{errors.primaryService}</p>
+                      )}
+                    </div>
+                    <div className="space-y-2">
+                      <Label htmlFor="leadsMonthly">
+                        How Many Leads Can You Handle Monthly? <span className="text-destructive">*</span>
+                      </Label>
+                      <Select
+                        value={formData.leadsMonthly}
+                        onValueChange={(v) => {
+                          setFormData({ ...formData, leadsMonthly: v });
+                          clearError("leadsMonthly");
+                        }}
+                      >
+                        <SelectTrigger id="leadsMonthly" className={errors.leadsMonthly ? "border-destructive" : ""}>
+                          <SelectValue placeholder="Select capacity" />
+                        </SelectTrigger>
+                        <SelectContent>
+                          {LEADS_MONTHLY_OPTIONS.map((o) => (
+                            <SelectItem key={o.value} value={o.value}>
+                              {o.label}
+                            </SelectItem>
+                          ))}
+                        </SelectContent>
+                      </Select>
+                      {errors.leadsMonthly && (
+                        <p className="text-sm text-destructive">{errors.leadsMonthly}</p>
+                      )}
+                    </div>
+                  </>
+                )}
+                {step === 2 && (
+                  <>
+                    <div className="space-y-2">
+                      <Label htmlFor="mainServiceZipCode">
+                        Main Service Zip Code <span className="text-destructive">*</span>
+                      </Label>
+                      <Input
+                        id="mainServiceZipCode"
+                        value={formData.mainServiceZipCode}
+                        onChange={(e) => {
+                          setFormData({ ...formData, mainServiceZipCode: e.target.value });
+                          clearError("mainServiceZipCode");
+                        }}
+                        placeholder="12345"
+                        className={errors.mainServiceZipCode ? "border-destructive" : ""}
+                      />
+                      {errors.mainServiceZipCode && (
+                        <p className="text-sm text-destructive">{errors.mainServiceZipCode}</p>
+                      )}
+                    </div>
+                    <div className="space-y-2">
+                      <Label htmlFor="bestCellPhone">
+                        Best Cell Phone for Leads <span className="text-destructive">*</span>
+                      </Label>
+                      <Input
+                        id="bestCellPhone"
+                        type="tel"
+                        value={formData.bestCellPhone}
+                        onChange={(e) => {
+                          setFormData({ ...formData, bestCellPhone: e.target.value });
+                          clearError("bestCellPhone");
+                        }}
+                        placeholder="(555) 000-0000"
+                        className={errors.bestCellPhone ? "border-destructive" : ""}
+                      />
+                      {errors.bestCellPhone && (
+                        <p className="text-sm text-destructive">{errors.bestCellPhone}</p>
+                      )}
+                    </div>
+                    <div className="space-y-2">
+                      <Label htmlFor="businessEmail">
+                        Business Email <span className="text-destructive">*</span>
+                      </Label>
+                      <Input
+                        id="businessEmail"
+                        type="email"
+                        value={formData.businessEmail}
+                        onChange={(e) => {
+                          setFormData({ ...formData, businessEmail: e.target.value });
+                          clearError("businessEmail");
+                        }}
+                        placeholder="email@company.com"
+                        className={errors.businessEmail ? "border-destructive" : ""}
+                      />
+                      {errors.businessEmail && (
+                        <p className="text-sm text-destructive">{errors.businessEmail}</p>
+                      )}
+                    </div>
+                  </>
+                )}
+                <div className="flex gap-3 pt-2">
+                  {step === 2 && (
+                    <Button
+                      type="button"
+                      variant="outline"
+                      onClick={() => setStep(1)}
+                      className="flex items-center gap-1"
+                    >
+                      <ChevronLeft className="w-4 h-4" />
+                      Back
+                    </Button>
+                  )}
+                  <Button
+                    type="submit"
+                    size="lg"
+                    className="flex-1 text-base font-semibold uppercase tracking-wide"
+                    disabled={isSubmitting}
+                  >
+                    {isSubmitting ? "Submitting..." : step === 1 ? "Next" : "Get My Exclusive Leads"}
+                  </Button>
+                </div>
+                <p className="text-xs text-muted-foreground text-center">
+                  We respect your privacy. No spam, just high-quality leads.
+                </p>
+              </form>
+            </>
+          )}
+        </DialogContent>
+      </Dialog>
+    </>
+  );
+};
 
 const ApplicationForm = () => {
   const { toast } = useToast();
@@ -244,6 +551,7 @@ const ApplicationForm = () => {
 };
 
 const JoinAsPro = () => {
+  const [showLeadModal, setShowLeadModal] = useState(false);
   return (
     <div className="min-h-screen bg-background">
       <SEO 
@@ -257,7 +565,7 @@ const JoinAsPro = () => {
       {/* Hero Section */}
       <section className="relative bg-gradient-to-br from-primary/5 via-background to-primary/10 pt-32 pb-20 overflow-hidden">
         <div className="absolute inset-0 bg-[url('data:image/svg+xml,%3Csvg%20width%3D%2260%22%20height%3D%2260%22%20viewBox%3D%220%200%2060%2060%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%3Cg%20fill%3D%22none%22%20fill-rule%3D%22evenodd%22%3E%3Cg%20fill%3D%22%230073E6%22%20fill-opacity%3D%220.03%22%3E%3Cpath%20d%3D%22M36%2034v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6%2034v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6%204V0H4v4H0v2h4v4h2V6h4V4H6z%22%2F%3E%3C%2Fg%3E%3C%2Fg%3E%3C%2Fsvg%3E')] opacity-50"></div>
-        <div className="container mx-auto px-4 relative">
+        <div className="container-max px-4 md:px-8 lg:px-16 relative">
           <div className="grid lg:grid-cols-2 gap-12 items-center">
             <div>
               <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold text-foreground leading-tight mb-6">
@@ -300,7 +608,7 @@ const JoinAsPro = () => {
           </p>
           <div className="grid grid-cols-2 md:grid-cols-4 gap-8 max-w-4xl mx-auto">
             <div className="text-center">
-              <div className="text-3xl md:text-4xl font-bold text-primary mb-2">85%+</div>
+              <div className="text-3xl md:text-4xl font-bold text-primary mb-2">100%</div>
               <div className="text-sm text-muted-foreground">Lead Conversion Rate</div>
             </div>
             <div className="text-center">
@@ -356,7 +664,7 @@ const JoinAsPro = () => {
                   </div>
                   <div>
                     <p className="font-semibold text-foreground">No Competition</p>
-                    <p className="text-muted-foreground text-sm">You're the only contractor they'll contact</p>
+                    <p className="text-muted-foreground text-sm">You're the only contractor who's selected for the job</p>
                   </div>
                 </div>
                 <div className="flex items-start gap-3">
@@ -365,7 +673,7 @@ const JoinAsPro = () => {
                   </div>
                   <div>
                     <p className="font-semibold text-foreground">Higher Conversion</p>
-                    <p className="text-muted-foreground text-sm">85%+ conversion rate vs. 10-15% on other platforms</p>
+                    <p className="text-muted-foreground text-sm">100% conversion rate vs. 10-15% on other platforms</p>
                   </div>
                 </div>
                 <div className="flex items-start gap-3">
@@ -374,7 +682,7 @@ const JoinAsPro = () => {
                   </div>
                   <div>
                     <p className="font-semibold text-foreground">Fast Payments</p>
-                    <p className="text-muted-foreground text-sm">Get paid within 48 hours of job completion</p>
+                    <p className="text-muted-foreground text-sm">Get paid within 48 hours of job completion for some projects</p>
                   </div>
                 </div>
               </div>
@@ -392,7 +700,7 @@ const JoinAsPro = () => {
               Everything You Need to Grow Your Business
             </h2>
             <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
-              Unlike Angi and Thumbtack, we don't sell your information to multiple contractors. You get exclusive, prequalified leads that are ready to hire.
+              Unlike Angi and Thumbtack, we don't sell the same lead to your competitors. You get exclusive, prequalified jobs, ensuring your marketing spend actually turns into revenue.
             </p>
           </div>
           
@@ -402,28 +710,28 @@ const JoinAsPro = () => {
                 <Users className="w-6 h-6 text-primary" aria-hidden="true" />
               </div>
               <h3 className="font-semibold text-foreground mb-2">Exclusive Leads</h3>
-              <p className="text-muted-foreground text-sm">You're the only contractor who receives each lead. No bidding wars.</p>
+              <p className="text-muted-foreground text-sm">Stop competing for the same customer. You are the only Pro assigned to each lead, eliminating bidding wars and maximizing your closing rate.</p>
             </div>
             <div className="bg-background rounded-xl p-6 shadow-sm border border-border hover:shadow-md transition-shadow">
               <div className="w-12 h-12 rounded-lg bg-primary/10 flex items-center justify-center mb-4">
                 <DollarSign className="w-6 h-6 text-primary" aria-hidden="true" />
               </div>
-              <h3 className="font-semibold text-foreground mb-2">Fair Pricing</h3>
-              <p className="text-muted-foreground text-sm">Transparent pricing with no hidden fees. You keep more of what you earn.</p>
+              <h3 className="font-semibold text-foreground mb-2">Transparent ROI</h3>
+              <p className="text-muted-foreground text-sm">No hidden fees or surprise "membership" costs. With our straightforward pricing, you know exactly what you're paying so you can keep your margins high.</p>
             </div>
             <div className="bg-background rounded-xl p-6 shadow-sm border border-border hover:shadow-md transition-shadow">
               <div className="w-12 h-12 rounded-lg bg-primary/10 flex items-center justify-center mb-4">
                 <Calendar className="w-6 h-6 text-primary" aria-hidden="true" />
               </div>
-              <h3 className="font-semibold text-foreground mb-2">Flexible Schedule</h3>
-              <p className="text-muted-foreground text-sm">Work when you want. Accept the jobs that fit your schedule.</p>
+              <h3 className="font-semibold text-foreground mb-2">Total Control</h3>
+              <p className="text-muted-foreground text-sm">You're the boss. Accept only the jobs that fit your expertise and availability, allowing you to grow your business on your own terms.</p>
             </div>
             <div className="bg-background rounded-xl p-6 shadow-sm border border-border hover:shadow-md transition-shadow">
               <div className="w-12 h-12 rounded-lg bg-primary/10 flex items-center justify-center mb-4">
                 <Shield className="w-6 h-6 text-primary" aria-hidden="true" />
               </div>
-              <h3 className="font-semibold text-foreground mb-2">Support & Protection</h3>
-              <p className="text-muted-foreground text-sm">We handle disputes and provide liability coverage for your peace of mind.</p>
+              <h3 className="font-semibold text-foreground mb-2">Prequalified Jobs</h3>
+              <p className="text-muted-foreground text-sm">We do the vetting for you. Every lead is verified and ready to hire, so you spend less time chasing dead ends and more time on the job site.</p>
             </div>
           </div>
         </div>
@@ -471,21 +779,21 @@ const JoinAsPro = () => {
             </h2>
           </div>
           
-          <div className="grid md:grid-cols-3 gap-8 max-w-5xl mx-auto">
+          <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-8 max-w-6xl mx-auto">
             <div className="bg-background rounded-xl p-6 shadow-sm border border-border">
               <div className="flex gap-1 mb-4">
                 {[...Array(5)].map((_, i) => (
                   <Star key={i} className="w-5 h-5 fill-yellow-400 text-yellow-400" aria-hidden="true" />
                 ))}
               </div>
-              <p className="text-muted-foreground mb-4">"Finally, a lead service that actually works. I've tripled my monthly bookings since joining DoQuality."</p>
+              <p className="text-muted-foreground mb-4">"The lead quality is night and day compared to other platforms. Every lead I get is serious and ready to hire. My close rate has never been higher."</p>
               <div className="flex items-center gap-3">
                 <div className="w-10 h-10 rounded-full bg-primary/10 flex items-center justify-center">
-                  <span className="text-primary font-semibold">MJ</span>
+                  <span className="text-primary font-semibold">VK</span>
                 </div>
                 <div>
-                  <p className="font-semibold text-foreground">Mike Johnson</p>
-                  <p className="text-sm text-muted-foreground">TV Installation Pro</p>
+                  <p className="font-semibold text-foreground">Vance K.</p>
+                  <p className="text-sm text-muted-foreground">Electrician</p>
                 </div>
               </div>
             </div>
@@ -495,14 +803,14 @@ const JoinAsPro = () => {
                   <Star key={i} className="w-5 h-5 fill-yellow-400 text-yellow-400" aria-hidden="true" />
                 ))}
               </div>
-              <p className="text-muted-foreground mb-4">"The leads are actually ready to book. No more wasting time on tire-kickers or competing with 5 other contractors."</p>
+              <p className="text-muted-foreground mb-4">"I was skeptical at first, but these leads actually show up and want the work done. No more no-shows or price-shoppers. Worth every penny."</p>
               <div className="flex items-center gap-3">
                 <div className="w-10 h-10 rounded-full bg-primary/10 flex items-center justify-center">
-                  <span className="text-primary font-semibold">SR</span>
+                  <span className="text-primary font-semibold">ER</span>
                 </div>
                 <div>
-                  <p className="font-semibold text-foreground">Sarah Rodriguez</p>
-                  <p className="text-sm text-muted-foreground">Smart Home Specialist</p>
+                  <p className="font-semibold text-foreground">Eloi R.</p>
+                  <p className="text-sm text-muted-foreground">Handyman</p>
                 </div>
               </div>
             </div>
@@ -512,14 +820,31 @@ const JoinAsPro = () => {
                   <Star key={i} className="w-5 h-5 fill-yellow-400 text-yellow-400" aria-hidden="true" />
                 ))}
               </div>
-              <p className="text-muted-foreground mb-4">"Best decision I made for my business. The support team is great and payments are always on time."</p>
+              <p className="text-muted-foreground mb-4">"I get steady, prequalified cleaning jobs that fit my schedule. The customers are respectful and the pay is fair. Best lead source I've used."</p>
               <div className="flex items-center gap-3">
                 <div className="w-10 h-10 rounded-full bg-primary/10 flex items-center justify-center">
-                  <span className="text-primary font-semibold">DC</span>
+                  <span className="text-primary font-semibold">JT</span>
                 </div>
                 <div>
-                  <p className="font-semibold text-foreground">David Chen</p>
-                  <p className="text-sm text-muted-foreground">Network Technician</p>
+                  <p className="font-semibold text-foreground">Jennifer T.</p>
+                  <p className="text-sm text-muted-foreground">House Cleaner</p>
+                </div>
+              </div>
+            </div>
+            <div className="bg-background rounded-xl p-6 shadow-sm border border-border">
+              <div className="flex gap-1 mb-4">
+                {[...Array(5)].map((_, i) => (
+                  <Star key={i} className="w-5 h-5 fill-yellow-400 text-yellow-400" aria-hidden="true" />
+                ))}
+              </div>
+              <p className="text-muted-foreground mb-4">"I made $50,000 per month for all of 2025 with just 5 of their leads. This is by far the best $2500 that I have ever spent. I highly recommend this service."</p>
+              <div className="flex items-center gap-3">
+                <div className="w-10 h-10 rounded-full bg-primary/10 flex items-center justify-center">
+                  <span className="text-primary font-semibold">AA</span>
+                </div>
+                <div>
+                  <p className="font-semibold text-foreground">Anthony A.</p>
+                  <p className="text-sm text-muted-foreground">General Contractor</p>
                 </div>
               </div>
             </div>
@@ -527,20 +852,27 @@ const JoinAsPro = () => {
         </div>
       </section>
 
-      {/* Application Form Section */}
-      <section id="apply-form" className="py-20 scroll-mt-20">
+      {/* Application Form Section - CTA with same background as Find a Pro button (#04548C) */}
+      <section id="apply-form" className="py-20 scroll-mt-20 text-white" style={{ backgroundColor: '#04548C' }}>
         <div className="container mx-auto px-4">
-          <div className="max-w-2xl mx-auto">
-            <div className="text-center mb-12">
-              <h2 className="text-3xl md:text-4xl font-bold text-foreground mb-4">
-                Ready to Grow Your Business?
-              </h2>
-              <p className="text-lg text-muted-foreground">
-                Fill out the form below and we'll contact you within 24-48 hours.
-              </p>
-            </div>
-            
-            <ApplicationForm />
+          <div className="max-w-2xl mx-auto text-center">
+            <h2 className="text-3xl md:text-4xl font-bold mb-4">
+              Claim Your Territory Today
+            </h2>
+            <p className="text-lg text-white/90 mb-8">
+              Join our network of elite Pros and start receiving exclusive leads in your service area. —Most Pros are approved within 24 hours.
+            </p>
+            <Button
+              size="lg"
+              className="text-lg px-8 bg-white text-[#04548C] hover:bg-white/90"
+              onClick={() => setShowLeadModal(true)}
+            >
+              Get My Exclusive Leads
+            </Button>
+            <p className="text-sm text-white/80 mt-4">
+              No credit card required to join.
+            </p>
+      <ProLeadModal open={showLeadModal} onOpenChange={setShowLeadModal} />
           </div>
         </div>
       </section>

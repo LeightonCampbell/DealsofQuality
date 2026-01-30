@@ -24,8 +24,12 @@ import {
   TableRow,
 } from "@/components/ui/table";
 import ScheduleServiceDialog from "@/components/ScheduleServiceDialog";
+import BookingModal from "@/components/BookingModal";
+import { useState } from "react";
 
 const TVMountingLosAngeles = () => {
+  const [isTVQuoteModalOpen, setIsTVQuoteModalOpen] = useState(false);
+  const [tvQuoteInitialService, setTVQuoteInitialService] = useState("");
   const jsonLd = {
     "@context": "https://schema.org",
     "@type": "Service",
@@ -95,13 +99,14 @@ const TVMountingLosAngeles = () => {
               </p>
 
               <div className="flex flex-col sm:flex-row gap-4">
-                <ScheduleServiceDialog 
-                  triggerText="Get a Free Quote"
-                  defaultCategory="TV Mounting & Home Theater"
-                  initialService={'TV Wall Mounting - Large (56" - 75")'}
-                  triggerVariant="default"
-                  triggerSize="lg"
-                />
+                <Button
+                  variant="default"
+                  size="lg"
+                  className="w-full sm:w-auto bg-cta hover:bg-cta/90"
+                  onClick={() => { setTVQuoteInitialService(""); setIsTVQuoteModalOpen(true); }}
+                >
+                  Get a Free Quote
+                </Button>
                 <a href="tel:8185847389">
                   <Button variant="outline" size="lg" className="w-full sm:w-auto">
                     <Phone className="w-4 h-4 mr-2" />
@@ -187,7 +192,7 @@ const TVMountingLosAngeles = () => {
                       <TableHead className="font-semibold text-foreground">TV Size</TableHead>
                       <TableHead className="font-semibold text-foreground">Basic Mount</TableHead>
                       <TableHead className="font-semibold text-foreground">With Cable Concealment</TableHead>
-                      <TableHead className="text-right font-semibold text-foreground">Book Now</TableHead>
+                      <TableHead className="text-right font-semibold text-foreground">Get a Free Quote</TableHead>
                     </TableRow>
                   </TableHeader>
                   <TableBody>
@@ -201,13 +206,13 @@ const TVMountingLosAngeles = () => {
                       <TableCell className="text-foreground font-semibold">$95</TableCell>
                       <TableCell className="text-foreground font-semibold">$145</TableCell>
                       <TableCell className="text-right">
-                        <ScheduleServiceDialog 
-                          triggerText="Get Quote"
-                          defaultCategory="TV Mounting & Home Theater"
-                          initialService={'TV Wall Mounting - Standard (up to 55")'}
-                          triggerVariant="outline"
-                          triggerSize="sm"
-                        />
+                        <Button
+                          variant="outline"
+                          size="sm"
+                          onClick={() => { setTVQuoteInitialService('TV Wall Mounting - Standard (up to 55")'); setIsTVQuoteModalOpen(true); }}
+                        >
+                          Get a Free Quote
+                        </Button>
                       </TableCell>
                     </TableRow>
                     <TableRow className="bg-accent/5">
@@ -220,13 +225,13 @@ const TVMountingLosAngeles = () => {
                       <TableCell className="text-foreground font-semibold">$120</TableCell>
                       <TableCell className="text-foreground font-semibold">$175</TableCell>
                       <TableCell className="text-right">
-                        <ScheduleServiceDialog 
-                          triggerText="Get Quote"
-                          defaultCategory="TV Mounting & Home Theater"
-                          initialService={'TV Wall Mounting - Large (56" - 75")'}
-                          triggerVariant="outline"
-                          triggerSize="sm"
-                        />
+                        <Button
+                          variant="outline"
+                          size="sm"
+                          onClick={() => { setTVQuoteInitialService('TV Wall Mounting - Large (56" - 75")'); setIsTVQuoteModalOpen(true); }}
+                        >
+                          Get a Free Quote
+                        </Button>
                       </TableCell>
                     </TableRow>
                     <TableRow>
@@ -239,13 +244,13 @@ const TVMountingLosAngeles = () => {
                       <TableCell className="text-foreground font-semibold">$180</TableCell>
                       <TableCell className="text-foreground font-semibold">$250</TableCell>
                       <TableCell className="text-right">
-                        <ScheduleServiceDialog 
-                          triggerText="Get Quote"
-                          defaultCategory="TV Mounting & Home Theater"
-                          initialService={'TV Wall Mounting - Extra Large (76"+)'}
-                          triggerVariant="outline"
-                          triggerSize="sm"
-                        />
+                        <Button
+                          variant="outline"
+                          size="sm"
+                          onClick={() => { setTVQuoteInitialService('TV Wall Mounting - Extra Large (76"+)'); setIsTVQuoteModalOpen(true); }}
+                        >
+                          Get a Free Quote
+                        </Button>
                       </TableCell>
                     </TableRow>
                   </TableBody>
@@ -394,31 +399,30 @@ const TVMountingLosAngeles = () => {
           </div>
         </section>
 
-        {/* Strong CTA Section */}
-        <section className="py-16 md:py-20 bg-accent text-accent-foreground">
+        {/* Strong CTA Section - Blue Logo Color #04548C */}
+        <section className="py-16 md:py-20 text-white" style={{ backgroundColor: '#04548C' }}>
           <div className="container-max px-4 md:px-8 lg:px-16">
             <div className="max-w-3xl mx-auto text-center">
               <h2 className="font-display text-2xl md:text-3xl font-bold mb-4">
                 Ready to Get Your TV on the Wall?
               </h2>
-              <p className="text-accent-foreground/90 text-lg mb-8">
-                Stop procrastinating. Book your Los Angeles TV mounting today and 
-                enjoy your new setup by tonight.
+              <p className="text-white/90 text-lg mb-8">
+                Book your TV mounting today and enjoy your new setup by tonight.
               </p>
 
               <div className="flex flex-col sm:flex-row gap-4 justify-center mb-6">
-                <ScheduleServiceDialog 
-                  triggerText="Book Your Installation"
-                  defaultCategory="TV Mounting & Home Theater"
-                  initialService={'TV Wall Mounting - Large (56" - 75")'}
-                  triggerVariant="outline"
-                  triggerSize="lg"
-                />
+                <Button
+                  size="lg"
+                  className="w-full sm:w-auto bg-[#1a1a1a] hover:bg-[#2d2d2d] text-white border-0"
+                  onClick={() => { setTVQuoteInitialService(""); setIsTVQuoteModalOpen(true); }}
+                >
+                  Book Your Installation
+                </Button>
                 <a href="tel:8185847389">
                   <Button 
-                    variant="outline" 
+                    variant="outline"
                     size="lg" 
-                    className="w-full sm:w-auto bg-transparent border-accent-foreground text-accent-foreground hover:bg-accent-foreground hover:text-accent"
+                    className="w-full sm:w-auto bg-transparent border-white text-white hover:bg-white/10"
                   >
                     <Phone className="w-4 h-4 mr-2" />
                     Call (818) 584-7389
@@ -426,7 +430,7 @@ const TVMountingLosAngeles = () => {
                 </a>
               </div>
 
-              <p className="text-sm text-accent-foreground/80">
+              <p className="text-sm text-white/80">
                 Same-day appointments available • Free quotes • Satisfaction guaranteed
               </p>
             </div>
@@ -491,6 +495,14 @@ const TVMountingLosAngeles = () => {
           </div>
         </section>
       </main>
+
+      <BookingModal
+        isOpen={isTVQuoteModalOpen}
+        onClose={() => setIsTVQuoteModalOpen(false)}
+        initialService={tvQuoteInitialService}
+        mode="quote"
+        isTVMountingQuote
+      />
 
       <Footer />
     </>

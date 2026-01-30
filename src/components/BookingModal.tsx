@@ -39,20 +39,31 @@ const services = [
   { value: "other", label: "Other" },
 ];
 
+// TV Mounting flow: detect from initialService label
+const isTVMountingService = (s: string) => /TV Wall Mounting|TV Mounting/i.test(s || "");
+
+const TV_SIZE_OPTIONS = [
+  { value: 'TV Wall Mounting - Standard (up to 55")', label: 'Up to 55"' },
+  { value: 'TV Wall Mounting - Large (56" - 75")', label: '56" - 75"' },
+  { value: 'TV Wall Mounting - Extra Large (76"+)', label: '76" and above' },
+];
+
 interface BookingModalProps {
   isOpen: boolean;
   onClose: () => void;
   initialService?: string;
   initialZip?: string;
   customServiceText?: string; // For "Other" service custom text
-  initialStep?: number; // Optional: start at a specific step (1-4)
+  initialStep?: number; // Optional: start at a specific step (1-4 or 1-5 for TV Mounting)
   skipToProjectDetails?: boolean; // Skip steps 1-2 and go directly to step 3
   mode?: 'quote' | 'booking'; // Dual-mode: 'quote' for quotes, 'booking' for appointments
+  isTVMountingQuote?: boolean; // When true, use 5-step TV Mounting quote flow (Zip → TV Size & Wall → Mount Details → Date/Time → Contact)
 }
 
-const BookingModal = ({ isOpen, onClose, initialService = "", initialZip = "", customServiceText = "", initialStep, skipToProjectDetails = false, mode = 'quote' }: BookingModalProps) => {
+const BookingModal = ({ isOpen, onClose, initialService = "", initialZip = "", customServiceText = "", initialStep, skipToProjectDetails = false, mode = 'quote', isTVMountingQuote: isTVMountingQuoteProp = false }: BookingModalProps) => {
   const navigate = useNavigate();
-  const [step, setStep] = useState(initialStep || 1);
+  const isTVMountingFlow = isTVMountingQuoteProp || (mode === 'quote' && isTVMountingService(initialService));
+  const [step, setStep] = useState(initialStep ?? (isTVMountingFlow ? 1 : 1));
   const [isSearching, setIsSearching] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [prosFound, setProsFound] = useState(0);
@@ -63,12 +74,18 @@ const BookingModal = ({ isOpen, onClose, initialService = "", initialZip = "", c
   const [zipCode, setZipCode] = useState(initialZip);
   const [zipCodeError, setZipCodeError] = useState("");
   const [projectDetails, setProjectDetails] = useState("");
-  const [urgency, setUrgency] = useState<"asap" | "week" | "flexible">("week"); // Default to "Within a week"
+  const [urgency, setUrgency] = useState<"asap" | "week" | "flexible">("week");
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [phone, setPhone] = useState("");
   const [otherServiceDescription, setOtherServiceDescription] = useState("");
   const [submitError, setSubmitError] = useState("");
+  // TV Mounting–specific state
+  const [wallType, setWallType] = useState("");
+  const [hasMount, setHasMount] = useState<"yes" | "no" | "">("");
+  const [mountType, setMountType] = useState("");
+  const [preferredDate, setPreferredDate] = useState("");
+  const [preferredTime, setPreferredTime] = useState("");
 
   const simulateSearch = () => {
     setIsSearching(true);
@@ -140,13 +157,20 @@ const BookingModal = ({ isOpen, onClose, initialService = "", initialZip = "", c
         // Start at step 3 (Project Details)
         setStep(3);
       } else {
-        setStep(initialStep || 1);
+        const startStep = isTVMountingFlow ? 1 : (initialStep || 1);
+        setStep(startStep);
         setService(initialService);
         setZipCode(initialZip);
-        // If custom service text was provided, populate otherServiceDescription and projectDetails
         if (customServiceText) {
           setOtherServiceDescription(customServiceText);
           setProjectDetails(customServiceText);
+        }
+        if (isTVMountingFlow) {
+          setWallType("");
+          setHasMount("");
+          setMountType("");
+          setPreferredDate("");
+          setPreferredTime("");
         }
         setIsSearching(false);
       }
@@ -154,7 +178,7 @@ const BookingModal = ({ isOpen, onClose, initialService = "", initialZip = "", c
       // Reset personalizing state when modal closes
       setIsPersonalizing(false);
     }
-  }, [isOpen, initialService, initialZip, customServiceText, initialStep, skipToProjectDetails]);
+  }, [isOpen, initialService, initialZip, customServiceText, initialStep, skipToProjectDetails, isTVMountingFlow]);
 
   const handleStep1Next = () => {
     if (!service) {
@@ -212,11 +236,16 @@ const BookingModal = ({ isOpen, onClose, initialService = "", initialZip = "", c
         : (services.find(s => s.value === service)?.label || service);
       
       // For "Other" services, use otherServiceDescription in projectDetails if not already there
-      const finalProjectDetails = isOtherService && otherServiceDescription && !projectDetails.trim()
+      let finalProjectDetails: string = isOtherService && otherServiceDescription && !projectDetails.trim()
         ? otherServiceDescription
         : (isOtherService && otherServiceDescription && projectDetails && !projectDetails.includes(otherServiceDescription)
           ? `${otherServiceDescription}${projectDetails ? ` - ${projectDetails}` : ''}`
           : projectDetails);
+      // TV Mounting flow: append wall type, mount details, preferred date/time
+      if (isTVMountingFlow) {
+        const parts = [finalProjectDetails, wallType && `Wall: ${wallType}`, hasMount && `Has mount: ${hasMount}`, mountType && `Mount type: ${mountType}`, (preferredDate || preferredTime) && `Preferred: ${[preferredDate, preferredTime].filter(Boolean).join(' ')}`].filter(Boolean);
+        finalProjectDetails = parts.length ? parts.join('. ') : (service ? `TV Mounting: ${service}` : 'TV Mounting quote');
+      }
 
       // Map urgency values to readable text
       const urgencyText = urgency === "asap" 
@@ -314,14 +343,9 @@ const BookingModal = ({ isOpen, onClose, initialService = "", initialZip = "", c
     }
   };
 
-  // Adjust progress calculation - now we have 4 steps (1, 2, 3, 4)
-  const progressValue = step === 1 
-    ? 25 // Step 1 of 4
-    : step === 2
-    ? 50 // Step 2 of 4
-    : step === 3
-    ? 75 // Step 3 of 4
-    : 100; // Step 4 (final step)
+  const progressValue = isTVMountingFlow
+    ? (step === 1 ? 20 : step === 2 ? 40 : step === 3 ? 60 : step === 4 ? 80 : 100)
+    : (step === 1 ? 25 : step === 2 ? 50 : step === 3 ? 75 : 100);
 
   return (
     <>
@@ -344,8 +368,14 @@ const BookingModal = ({ isOpen, onClose, initialService = "", initialZip = "", c
         </div>
 
         <div className="p-6">
-          {/* Step 1: Service Selection */}
-          {step === 1 && (
+          {/* TV Mounting Quote Flow: Title */}
+          {isTVMountingFlow && (
+            <h2 className="font-display text-xl font-bold text-foreground mb-4 text-center">
+              Get a Free TV Mounting Quote
+            </h2>
+          )}
+          {/* Step 1: Service Selection (standard flow only) */}
+          {!isTVMountingFlow && step === 1 && (
             <div className="space-y-6 animate-fade-in">
               <div className="text-center">
                 <h3 className="font-display text-2xl font-bold text-foreground mb-2">
@@ -401,8 +431,39 @@ const BookingModal = ({ isOpen, onClose, initialService = "", initialZip = "", c
             </div>
           )}
 
-          {/* Step 2: Location */}
-          {step === 2 && (
+          {/* TV Step 1: Zip Code */}
+          {isTVMountingFlow && step === 1 && (
+            <div className="space-y-6 animate-fade-in">
+              <div className="text-center">
+                <h3 className="font-display text-xl font-bold text-foreground mb-2">Where is the installation?</h3>
+                <p className="text-muted-foreground text-sm">Enter your ZIP code</p>
+              </div>
+              <div className="space-y-2">
+                <div className="relative">
+                  <MapPin className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-muted-foreground" />
+                  <Input
+                    type="text"
+                    placeholder="ZIP code"
+                    value={zipCode}
+                    onChange={(e) => {
+                      const value = e.target.value.replace(/\D/g, '').slice(0, 5);
+                      setZipCode(value);
+                      if (value.length === 5) setZipCodeError(isValidUSZipCode(value) ? "" : "Please enter a valid US ZIP code (00501-99950)");
+                      else setZipCodeError("");
+                    }}
+                    className={`h-12 pl-12 ${zipCodeError ? "border-red-500" : ""}`}
+                    maxLength={5}
+                  />
+                </div>
+                {zipCodeError && <p className="text-sm text-red-500">{zipCodeError}</p>}
+              </div>
+              <Button onClick={() => { if (zipCode.length === 5 && isValidUSZipCode(zipCode)) { setZipCodeError(""); setStep(2); } else { setZipCodeError("Please enter a valid 5-digit ZIP code"); toast({ title: "Invalid ZIP", variant: "destructive" }); } }} className="w-full h-12 bg-cta hover:bg-cta/90">
+                Continue <ArrowRight className="w-4 h-4 ml-2" />
+              </Button>
+            </div>
+          )}
+          {/* Step 2: Location (standard flow only) */}
+          {!isTVMountingFlow && step === 2 && (
             <div className="space-y-6 animate-fade-in">
               <div className="text-center">
                 <h3 className="font-display text-2xl font-bold text-foreground mb-2">
@@ -459,8 +520,122 @@ const BookingModal = ({ isOpen, onClose, initialService = "", initialZip = "", c
             </div>
           )}
 
-          {/* Step 3: Project Details & Urgency */}
-          {step === 3 && (
+          {/* TV Step 2: TV Size & Wall Type */}
+          {isTVMountingFlow && step === 2 && (
+            <div className="space-y-6 animate-fade-in">
+              <div className="text-center">
+                <h3 className="font-display text-xl font-bold text-foreground mb-2">TV Size & Wall Type</h3>
+                <p className="text-muted-foreground text-sm">
+                  {service ? "Confirm your TV size and wall type" : "Choose your TV size and wall type"}
+                </p>
+              </div>
+              {service ? (
+                <div className="rounded-lg bg-muted/50 p-4">
+                  <p className="text-sm text-muted-foreground">TV Size</p>
+                  <p className="font-semibold text-foreground">{service}</p>
+                </div>
+              ) : (
+                <div className="space-y-2">
+                  <label className="text-sm font-medium text-foreground">TV size</label>
+                  <Select value={service} onValueChange={setService}>
+                    <SelectTrigger className="h-12"><SelectValue placeholder="Select TV size" /></SelectTrigger>
+                    <SelectContent>
+                      {TV_SIZE_OPTIONS.map((opt) => (
+                        <SelectItem key={opt.value} value={opt.value}>{opt.label}</SelectItem>
+                      ))}
+                    </SelectContent>
+                  </Select>
+                </div>
+              )}
+              <div className="space-y-2">
+                <label className="text-sm font-medium text-foreground">Wall type</label>
+                <Select value={wallType} onValueChange={setWallType}>
+                  <SelectTrigger className="h-12"><SelectValue placeholder="Select wall type" /></SelectTrigger>
+                  <SelectContent>
+                    <SelectItem value="drywall">Drywall</SelectItem>
+                    <SelectItem value="brick">Brick / Concrete</SelectItem>
+                    <SelectItem value="plaster">Plaster</SelectItem>
+                    <SelectItem value="fireplace">Above Fireplace</SelectItem>
+                    <SelectItem value="other">Other</SelectItem>
+                  </SelectContent>
+                </Select>
+              </div>
+              <div className="flex gap-3">
+                <Button variant="outline" onClick={() => setStep(1)} className="flex-1 h-12"><ArrowLeft className="w-4 h-4 mr-2" /> Back</Button>
+                <Button
+                  onClick={() => {
+                    if (!service) { toast({ title: "Please select TV size", variant: "destructive" }); return; }
+                    if (!wallType) { toast({ title: "Please select wall type", variant: "destructive" }); return; }
+                    setStep(3);
+                  }}
+                  className="flex-1 h-12 bg-cta hover:bg-cta/90"
+                >
+                  Continue <ArrowRight className="w-4 h-4 ml-2" />
+                </Button>
+              </div>
+            </div>
+          )}
+          {/* TV Step 3: Mount Details */}
+          {isTVMountingFlow && step === 3 && (
+            <div className="space-y-6 animate-fade-in">
+              <div className="text-center">
+                <h3 className="font-display text-xl font-bold text-foreground mb-2">Mount details</h3>
+                <p className="text-muted-foreground text-sm">Do you already have a mount?</p>
+              </div>
+              <div className="flex gap-3">
+                <button type="button" onClick={() => { setHasMount("yes"); setMountType(""); }} className={`flex-1 py-3 rounded-lg border-2 font-medium ${hasMount === "yes" ? "border-accent bg-accent/10 text-accent" : "border-border"}`}>Yes</button>
+                <button type="button" onClick={() => { setHasMount("no"); setMountType(""); }} className={`flex-1 py-3 rounded-lg border-2 font-medium ${hasMount === "no" ? "border-accent bg-accent/10 text-accent" : "border-border"}`}>No</button>
+              </div>
+              {hasMount === "yes" && (
+                <div className="space-y-2">
+                  <label className="text-sm font-medium text-foreground">What type?</label>
+                  <Select value={mountType} onValueChange={setMountType}>
+                    <SelectTrigger className="h-12"><SelectValue placeholder="Select mount type" /></SelectTrigger>
+                    <SelectContent>
+                      <SelectItem value="fixed">Fixed / Flat</SelectItem>
+                      <SelectItem value="tilting">Tilting</SelectItem>
+                      <SelectItem value="full-motion">Full-motion / Articulating</SelectItem>
+                      <SelectItem value="unknown">Not sure</SelectItem>
+                    </SelectContent>
+                  </Select>
+                </div>
+              )}
+              <div className="flex gap-3">
+                <Button variant="outline" onClick={() => setStep(2)} className="flex-1 h-12"><ArrowLeft className="w-4 h-4 mr-2" /> Back</Button>
+                <Button onClick={() => setStep(4)} className="flex-1 h-12 bg-cta hover:bg-cta/90">Continue <ArrowRight className="w-4 h-4 ml-2" /></Button>
+              </div>
+            </div>
+          )}
+          {/* TV Step 4: Preferred Date & Time */}
+          {isTVMountingFlow && step === 4 && (
+            <div className="space-y-6 animate-fade-in">
+              <div className="text-center">
+                <h3 className="font-display text-xl font-bold text-foreground mb-2">When do you need this done?</h3>
+                <p className="text-muted-foreground text-sm">Preferred date and time</p>
+              </div>
+              <div className="flex gap-3 flex-wrap">
+                <button type="button" onClick={() => setUrgency("asap")} className={`flex-1 min-w-[100px] py-3 rounded-lg border-2 ${urgency === "asap" ? "border-red-500 bg-red-50 text-red-700 font-semibold" : "border-border"}`}><Zap className="w-4 h-4 mx-auto mb-1" /> ASAP</button>
+                <button type="button" onClick={() => setUrgency("week")} className={`flex-1 min-w-[100px] py-3 rounded-lg border-2 ${urgency === "week" ? "border-accent bg-accent/10 text-accent font-semibold" : "border-border"}`}><Calendar className="w-4 h-4 mx-auto mb-1" /> Within a week</button>
+                <button type="button" onClick={() => setUrgency("flexible")} className={`flex-1 min-w-[100px] py-3 rounded-lg border-2 ${urgency === "flexible" ? "border-accent bg-accent/10 text-accent font-semibold" : "border-border"}`}><Coffee className="w-4 h-4 mx-auto mb-1" /> Flexible</button>
+              </div>
+              <div className="grid grid-cols-2 gap-3">
+                <div className="space-y-1">
+                  <label className="text-sm font-medium text-foreground">Preferred date</label>
+                  <Input type="text" placeholder="e.g. Tomorrow" value={preferredDate} onChange={(e) => setPreferredDate(e.target.value)} className="h-12" />
+                </div>
+                <div className="space-y-1">
+                  <label className="text-sm font-medium text-foreground">Preferred time</label>
+                  <Input type="text" placeholder="e.g. Morning" value={preferredTime} onChange={(e) => setPreferredTime(e.target.value)} className="h-12" />
+                </div>
+              </div>
+              <div className="flex gap-3">
+                <Button variant="outline" onClick={() => setStep(3)} className="flex-1 h-12"><ArrowLeft className="w-4 h-4 mr-2" /> Back</Button>
+                <Button onClick={() => { setProsFound(12); setStep(5); }} className="flex-1 h-12 bg-cta hover:bg-cta/90">Continue <ArrowRight className="w-4 h-4 ml-2" /></Button>
+              </div>
+            </div>
+          )}
+          {/* Step 3: Project Details & Urgency (standard flow only) */}
+          {!isTVMountingFlow && step === 3 && (
             <div className="space-y-6 animate-fade-in">
               <div className="text-center">
                 <h3 className="font-display text-2xl font-bold text-foreground mb-2">
@@ -543,21 +718,21 @@ const BookingModal = ({ isOpen, onClose, initialService = "", initialZip = "", c
             </div>
           )}
 
-          {/* Step 4: Contact Info */}
-          {step === 4 && (
+          {/* Step 4: Contact Info (standard) or TV Step 5: Contact */}
+          {((!isTVMountingFlow && step === 4) || (isTVMountingFlow && step === 5)) && (
             <div className="space-y-6 animate-fade-in">
               <div className="text-center">
                 <div className="w-12 h-12 mx-auto mb-3 rounded-full bg-success/10 flex items-center justify-center">
                   <CheckCircle2 className="w-6 h-6 text-success" />
                 </div>
                 <h3 className="font-display text-2xl font-bold text-foreground mb-2">
-                  {mode === 'quote' 
+                  {isTVMountingFlow ? `Great News! We found ${prosFound || 12}+ Pros.` : mode === 'quote' 
                     ? `Great News! We found ${prosFound}+ Pros.`
                     : `Great News! There are ${prosFound}+ Pros available.`
                   }
                 </h3>
                 <p className="text-muted-foreground">
-                  {mode === 'quote' 
+                  {isTVMountingFlow ? 'Complete your details to get your quote' : mode === 'quote' 
                     ? 'Complete your details to get a quote'
                     : 'Complete your details to book your appointment'
                   }
@@ -601,7 +776,7 @@ const BookingModal = ({ isOpen, onClose, initialService = "", initialZip = "", c
               <div className="flex gap-3">
                 <Button 
                   variant="outline" 
-                  onClick={() => setStep(3)} 
+                  onClick={() => isTVMountingFlow ? setStep(4) : setStep(3)} 
                   disabled={isSubmitting}
                   className="flex-1 h-12"
                 >
@@ -622,9 +797,8 @@ const BookingModal = ({ isOpen, onClose, initialService = "", initialZip = "", c
                       <Loader2 className="w-4 h-4 mr-2 animate-spin" />
                       Sending...
                     </>
-                  ) : (
-                    mode === 'quote' ? "Get My Free Quote" : "Request Appointment"
-                  )}
+                  ) : isTVMountingFlow ? "Get Quote" : (mode === 'quote' ? "Get My Free Quote" : "Request Appointment")
+                  }
                 </Button>
               </div>
 

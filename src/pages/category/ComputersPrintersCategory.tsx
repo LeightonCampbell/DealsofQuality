@@ -2,7 +2,7 @@ import SEO from "@/components/SEO";
 import { Link } from "react-router-dom";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
-import { Monitor, Wrench, ShieldAlert, Printer, HardDrive } from "lucide-react";
+import { Wrench, ShieldAlert, Printer, HardDrive } from "lucide-react";
 
 const services = [
   {
@@ -57,9 +57,13 @@ const ComputersPrintersCategory = () => {
               </p>
             </div>
             
-            <div className="relative">
-              <div className="w-80 h-52 bg-gradient-to-br from-accent/20 to-accent/5 rounded-2xl flex items-center justify-center">
-                <Monitor className="w-32 h-32 text-accent" />
+            <div className="relative flex-shrink-0">
+              <div className="w-80 rounded-2xl overflow-hidden bg-gradient-to-br from-accent/10 to-accent/5">
+                <img
+                  src="/computers-printers-hero.png"
+                  alt="Computer and printer repair and support"
+                  className="w-full h-auto object-contain"
+                />
               </div>
             </div>
           </div>

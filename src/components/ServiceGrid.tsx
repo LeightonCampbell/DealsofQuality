@@ -44,7 +44,7 @@ const services = [
     icon: Tv,
     title: "TV Mounting",
     description: "Professional wall mounting for any TV size",
-    href: "/tv-mounting-up-to-50",
+    href: "/services/tv-mounting",
     popular: true,
   },
   {

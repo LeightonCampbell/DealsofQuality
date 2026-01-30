@@ -52,6 +52,9 @@
     --cta: 25 95% 53%;
     --cta-foreground: 0 0% 100%;
 
+    /* DoQ Blue Logo - #04548C for sticky header & CTAs */
+    --doq-blue: 202 95% 28%;
+
     --destructive: 0 84.2% 60.2%;
     --destructive-foreground: 0 0% 100%;
 
