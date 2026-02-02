@@ -184,6 +184,36 @@ const Blog = () => {
                 </div>
               </article>
             </Link>
+
+            <Link
+              to="/blog/handyman-services-los-angeles"
+              className="group block"
+            >
+              <article className="bg-card border border-border rounded-2xl overflow-hidden hover:shadow-lg transition-shadow h-full flex flex-col">
+                <div className="p-6 flex-1 flex flex-col">
+                  <div className="flex items-center gap-4 text-sm text-muted-foreground mb-3">
+                    <div className="flex items-center gap-2">
+                      <Calendar className="w-4 h-4" aria-hidden="true" />
+                      <span>Jan 2026</span>
+                    </div>
+                    <div className="flex items-center gap-2">
+                      <Clock className="w-4 h-4" aria-hidden="true" />
+                      <span>12 min</span>
+                    </div>
+                  </div>
+                  <h2 className="font-display text-xl md:text-2xl font-bold text-foreground mb-3 group-hover:text-accent transition-colors flex-1">
+                    Vetted Handyman Services Los Angeles: Your Guide to Stress-Free Home Repairs
+                  </h2>
+                  <p className="text-sm text-muted-foreground mb-4 line-clamp-3">
+                    Finding vetted handyman services in Los Angeles. Pre-qualified pros, the $1,000 rule, and the Deals of Quality touch.
+                  </p>
+                  <div className="flex items-center gap-2 text-accent font-semibold text-sm mt-auto">
+                    Read Article
+                    <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" aria-hidden="true" />
+                  </div>
+                </div>
+              </article>
+            </Link>
           </div>
         </div>
       </section>

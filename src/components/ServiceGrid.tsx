@@ -77,7 +77,7 @@ const ServiceGrid = () => {
         {/* Section Header */}
         <div className="flex flex-col md:flex-row md:items-end md:justify-between mb-10">
           <div className="text-center md:text-left">
-            <h2 id="popular-services-heading" className="font-display text-[30px] font-bold text-foreground mb-2">
+            <h2 id="popular-services-heading" className="font-display text-[35px] font-bold text-foreground mb-2">
               Popular Services
             </h2>
             <p className="text-muted-foreground">

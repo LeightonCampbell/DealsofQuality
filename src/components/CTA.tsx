@@ -16,7 +16,7 @@ const CTA = () => {
 
       <div className="container-max relative z-10">
         <div className="max-w-3xl mx-auto text-center">
-          <h2 className="font-display text-[30px] font-bold text-primary-foreground mb-6">
+          <h2 className="font-display text-[35px] font-bold text-primary-foreground mb-6">
             Ready to Transform Your Home?
           </h2>
           <p className="text-xl text-primary-foreground/80 mb-10 leading-relaxed">

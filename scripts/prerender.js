@@ -49,6 +49,7 @@ const routes = [
   '/blog/tv-mounting-done-right-why-professional-installation-matters',
   '/blog/top-5-mistakes-to-avoid-when-mounting-your-tv',
   '/blog/tv-mounting-services-los-angeles',
+  '/blog/handyman-services-los-angeles',
   // Home services (root-level)
   '/handyman-services',
   '/painting',

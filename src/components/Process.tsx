@@ -20,7 +20,7 @@ const Process = () => {
       <div className="container-max">
         {/* Section Header */}
         <div className="text-center max-w-3xl mx-auto mb-16">
-          <h2 className="font-display text-[30px] font-bold text-foreground mb-4">
+          <h2 className="font-display text-[35px] font-bold text-foreground mb-4">
             Simple, Hassle-Free Process
           </h2>
           <p className="text-lg text-muted-foreground">Getting expert home improvement has never been easier</p>

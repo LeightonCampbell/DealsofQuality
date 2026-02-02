@@ -259,7 +259,7 @@ const VerifiedReviews = () => {
       <div className="container-max">
         {/* Section Header */}
         <div className="text-center max-w-3xl mx-auto mb-16">
-          <h2 className="text-[30px] font-bold text-[#1a1a1a] mb-3">
+          <h2 className="text-[35px] font-bold text-[#1a1a1a] mb-3">
             Trusted by Thousands of Homeowners
           </h2>
           <p className="text-lg text-[#6b7280] font-normal">

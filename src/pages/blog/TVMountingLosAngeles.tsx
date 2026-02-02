@@ -103,7 +103,7 @@ const TVMountingLosAngeles = () => {
                   variant="default"
                   size="lg"
                   className="w-full sm:w-auto bg-cta hover:bg-cta/90"
-                  onClick={() => { setTVQuoteInitialService(""); setIsTVQuoteModalOpen(true); }}
+                  onClick={() => { setTVQuoteInitialService('TV Wall Mounting - Standard (up to 55")'); setIsTVQuoteModalOpen(true); }}
                 >
                   Get a Free Quote
                 </Button>
@@ -414,7 +414,7 @@ const TVMountingLosAngeles = () => {
                 <Button
                   size="lg"
                   className="w-full sm:w-auto bg-[#1a1a1a] hover:bg-[#2d2d2d] text-white border-0"
-                  onClick={() => { setTVQuoteInitialService(""); setIsTVQuoteModalOpen(true); }}
+                  onClick={() => { setTVQuoteInitialService('TV Wall Mounting - Standard (up to 55")'); setIsTVQuoteModalOpen(true); }}
                 >
                   Book Your Installation
                 </Button>
