@@ -59,9 +59,18 @@ const Footer = () => {
       <div className="section-padding !py-16">
         <div className="container-max">
           <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-10 lg:gap-8">
-            {/* Brand Column */}
+            {/* Brand Column - scroll to top when on homepage */}
             <div className="lg:col-span-1 text-center md:text-left">
-              <Link to="/" className="inline-block mb-6">
+              <Link
+                to="/"
+                className="inline-block mb-6"
+                onClick={(e) => {
+                  if (location.pathname === "/") {
+                    e.preventDefault();
+                    window.scrollTo({ top: 0, behavior: "smooth" });
+                  }
+                }}
+              >
                 <img 
                   src={logoDark} 
                   alt="DoQuality - Smart, Fast, Reliable" 

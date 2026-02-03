@@ -14,7 +14,9 @@ const __dirname = dirname(__filename);
 const distDir = join(__dirname, '..', 'dist');
 const indexPath = join(distDir, 'index.html');
 
-// Routes to prerender – MUST match every route in src/App.tsx for Netlify SSG (no 404s)
+// Routes to prerender – MUST match every route in src/App.tsx for Netlify SSG (no 404s).
+// Service pages live at ROOT level (e.g. /plumbing, /electrical), not under /services/.
+// When adding a new route in App.tsx, add it here too or Netlify will 404.
 const routes = [
   // Core pages
   '/',
@@ -34,7 +36,7 @@ const routes = [
   // Admin (prerender for crawlers; auth still required at runtime)
   '/admin',
   '/admin/dashboard',
-  // Service category hubs
+  // Service category hubs (under /services/)
   '/services/home-services',
   '/services/tv-mounting',
   '/services/smart-home',
@@ -43,7 +45,7 @@ const routes = [
   '/services/home-security',
   '/services/computers-printers',
   '/services/business',
-  // Blog posts
+  // Blog posts – add any new blog route from App.tsx here
   '/blog/7-reasons-why-your-local-business-needs-modern-website-2026',
   '/blog/signs-your-computer-needs-professional-support',
   '/blog/tv-mounting-done-right-why-professional-installation-matters',

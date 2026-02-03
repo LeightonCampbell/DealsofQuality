@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import { Button } from "@/components/ui/button";
-import { Phone, Menu, X } from "lucide-react";
+import { Phone, Menu, X, ChevronDown } from "lucide-react";
 import { Link, useLocation } from "react-router-dom";
 import logo from "@/assets/logo.png";
 import logoDark from "@/assets/logo-dark.png";
@@ -20,6 +20,7 @@ const Header = () => {
   const location = useLocation();
   const isMobile = useIsMobile();
   const isHome = location.pathname === "/";
+  const isServicesPage = location.pathname === "/services";
   const isTransparent = isHome && !isScrolled;
 
   useEffect(() => {
@@ -65,8 +66,18 @@ const Header = () => {
       >
         <div className="container-max !py-4">
         <div className="flex items-center justify-between">
-          {/* Logo - transparent: dark/white logo; sticky: blue logo #04548C */}
-          <Link to="/" className="flex items-center" aria-label="Go to homepage">
+          {/* Logo - scroll to top when on current page (home); otherwise navigate to home */}
+          <Link
+            to="/"
+            className="flex items-center"
+            aria-label="Go to homepage"
+            onClick={(e) => {
+              if (location.pathname === "/") {
+                e.preventDefault();
+                window.scrollTo({ top: 0, behavior: "smooth" });
+              }
+            }}
+          >
             <img 
               src={isTransparent ? logoDark : logoBlue} 
               alt="Deals Of Quality - Premium Home Services" 
@@ -86,17 +97,29 @@ const Header = () => {
                   <div
                     key={link.label}
                     className="relative"
-                    onMouseEnter={() => setIsMegaMenuOpen(true)}
+                    onMouseEnter={() => !isServicesPage && setIsMegaMenuOpen(true)}
                   >
                     <Link
                       to={link.href}
-                      className={`font-medium transition-colors duration-200 ${
+                      className={`flex items-center gap-0.5 font-medium transition-colors duration-200 ${
                         isTransparent ? "text-white/90 hover:text-white" : "text-foreground/80 hover:text-primary"
                       }`}
+                      onClick={(e) => {
+                        if (location.pathname === link.href) {
+                          e.preventDefault();
+                          window.scrollTo({ top: 0, behavior: "smooth" });
+                        }
+                      }}
                     >
                       {link.label}
+                      <ChevronDown
+                        className={`w-4 h-4 transition-transform ${isMegaMenuOpen && !isServicesPage ? "rotate-180" : ""}`}
+                        aria-hidden
+                      />
                     </Link>
-                    <ServicesMegaMenu isOpen={isMegaMenuOpen} onClose={() => setIsMegaMenuOpen(false)} />
+                    {!isServicesPage && (
+                      <ServicesMegaMenu isOpen={isMegaMenuOpen} onClose={() => setIsMegaMenuOpen(false)} />
+                    )}
                   </div>
                 );
               }
@@ -107,6 +130,12 @@ const Header = () => {
                   className={`font-medium transition-colors duration-200 ${
                     isTransparent ? "text-white/90 hover:text-white" : "text-foreground/80 hover:text-primary"
                   }`}
+                  onClick={(e) => {
+                    if (location.pathname === link.href) {
+                      e.preventDefault();
+                      window.scrollTo({ top: 0, behavior: "smooth" });
+                    }
+                  }}
                 >
                   {link.label}
                 </Link>
@@ -156,21 +185,39 @@ const Header = () => {
               <Link
                 to="/services"
                 className={`font-medium transition-colors duration-200 py-2 ${isTransparent ? "text-white/90 hover:text-white" : "text-foreground/80 hover:text-primary"}`}
-                onClick={() => setIsMenuOpen(false)}
+                onClick={(e) => {
+                  if (location.pathname === "/services") {
+                    e.preventDefault();
+                    window.scrollTo({ top: 0, behavior: "smooth" });
+                  }
+                  setIsMenuOpen(false);
+                }}
               >
                 Services
               </Link>
               <Link
                 to="/faqs"
                 className={`font-medium transition-colors duration-200 py-2 ${isTransparent ? "text-white/90 hover:text-white" : "text-foreground/80 hover:text-primary"}`}
-                onClick={() => setIsMenuOpen(false)}
+                onClick={(e) => {
+                  if (location.pathname === "/faqs") {
+                    e.preventDefault();
+                    window.scrollTo({ top: 0, behavior: "smooth" });
+                  }
+                  setIsMenuOpen(false);
+                }}
               >
                 FAQs
               </Link>
               <Link
                 to="/join-as-pro"
                 className={`font-medium transition-colors duration-200 py-2 ${isTransparent ? "text-white/90 hover:text-white" : "text-foreground/80 hover:text-primary"}`}
-                onClick={() => setIsMenuOpen(false)}
+                onClick={(e) => {
+                  if (location.pathname === "/join-as-pro") {
+                    e.preventDefault();
+                    window.scrollTo({ top: 0, behavior: "smooth" });
+                  }
+                  setIsMenuOpen(false);
+                }}
               >
                 Join As A Pro
               </Link>
