@@ -50,6 +50,9 @@ const SEO = ({
 
   return (
     <Helmet>
+      {/* Favicon: explicit absolute URLs so Google always uses your icon (avoids old/cached third-party icons) */}
+      <link rel="icon" type="image/x-icon" href="https://www.dealsofquality.com/favicon.ico" />
+      <link rel="icon" type="image/png" sizes="48x48" href="https://www.dealsofquality.com/favicon.png" />
       {/* Primary Meta Tags */}
       <title>{title}</title>
       <meta name="description" content={description} />
