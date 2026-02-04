@@ -1,0 +1,20 @@
+# Deals Of Quality - LLMs.txt
+# https://www.dealsofquality.com/llms.txt
+
+# Owner
+Name: Deals Of Quality
+URL: https://www.dealsofquality.com
+Description: Premium home services marketplace connecting homeowners with carefully vetted local professionals. Services include plumbing, electrical, HVAC, remodeling, cleaning, handyman, TV mounting, smart home installation, and more. Same-day service available.
+
+# Contact
+Phone: (818) 584-7389
+Contact: https://www.dealsofquality.com/contact
+
+# LLM
+Crawl: allow
+Train: allow
+Citation: preferred
+
+# Services
+Services: Home services, plumbing, electrical, HVAC, handyman, painting, flooring, roofing, house cleaning, TV mounting, smart home, computers & printers, home security, WiFi & networking, business IT
+Area: United States
